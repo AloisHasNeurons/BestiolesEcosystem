@@ -14,7 +14,7 @@ INCLUDE_DIR = include # For 3rd-party headers like CImg.h
 
 # === Auto-generated Paths ===
 # Full path to the final executable
-TARGET_EXEC = $(BUILD_DIR)/$(TARGET)
+TARGET_EXEC = $(TARGET)
 
 # Find all .cpp files in the source directory
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
@@ -50,7 +50,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 # Rule to clean up all build files
 clean:
 	@echo "Cleaning..."
-	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR) $(TARGET_EXEC)
 
 # Declare 'all' and 'clean' as phony targets
 # This tells 'make' that they aren't actual files
