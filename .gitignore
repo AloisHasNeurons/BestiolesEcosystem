@@ -40,3 +40,10 @@ main
 
 # debug information files
 *.dwo
+
+# Dev environment
+.devcontainer/
+.vscode/
+
+# Linter
+.clang-format
