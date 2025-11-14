@@ -1,0 +1,44 @@
+name: C++ Build and Lint
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Build Environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ make libx11-dev libpthread-dev
+
+      - name: Build
+        run: make
+
+      - name: Clean Artifacts
+        run: make clean
+
+  lint:
+    name: Code Style Linting
+    runs-on: ubuntu-latest
+    
+    # This job is non-blocking. Failure here will not fail the workflow.
+    continue-on-error: true 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Cpplint
+        run: pip install cpplint
+
+      - name: Run Linter
+        run: |
+          cpplint --filter=-build/header_guard --recursive src/ include/
