@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <utility>
 
 #include "core/Environment.h"
 #include "interfaces/IBehavior.h"

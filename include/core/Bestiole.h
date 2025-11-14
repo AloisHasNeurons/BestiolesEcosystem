@@ -2,6 +2,7 @@
 #define BESTIOLE_H
 
 #include <memory>
+#include <utility>
 
 #include "../interfaces/IBestiole.h"
 #include "UImg.h"
