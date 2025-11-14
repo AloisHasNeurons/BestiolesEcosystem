@@ -6,8 +6,8 @@
 // Classe de base pour les décorateurs
 class Decorateur : public IBestiole {
  public:
-  Decorateur(IBestiole* bestiole) : m_bestiole(bestiole) {}
-  virtual ~Decorateur() { delete m_bestiole; }
+ explicit Decorateur(IBestiole* bestiole) : m_bestiole(bestiole) {}
+ virtual ~Decorateur() { delete m_bestiole; }
 
   // Implémentation par défaut : déléguer à la bestiole décorée
   void action(Milieu& milieu) override { m_bestiole->action(milieu); }

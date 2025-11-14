@@ -1,5 +1,8 @@
 #include "core/Aquarium.h"
 
+#include <iostream>
+#include <utility>
+
 #include "core/Milieu.h"
 
 Aquarium::Aquarium(int width, int height, int _delay)

@@ -6,8 +6,6 @@
 #include "../interfaces/IBestiole.h"
 #include "UImg.h"
 
-using namespace std;
-
 class Milieu;
 class IComportement;
 
