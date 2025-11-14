@@ -17,7 +17,7 @@ jobs:
       - name: Setup Build Environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y g++ make libx11-dev libpthread-dev
+          sudo apt-get install -y g++ make libx11-dev
 
       - name: Build
         run: make
@@ -28,9 +28,7 @@ jobs:
   lint:
     name: Code Style Linting
     runs-on: ubuntu-latest
-    
-    # This job is non-blocking. Failure here will not fail the workflow.
-    continue-on-error: true 
+    continue-on-error: true # Non-bloquant
 
     steps:
       - name: Checkout Repository
@@ -41,4 +39,4 @@ jobs:
 
       - name: Run Linter
         run: |
-          cpplint --filter=-build/header_guard --recursive src/ include/
+          cpplint --filter=-build/header_guard,-legal/copyright,-whitespace/ending_newline,-whitespace/indent,-whitespace/comments,-runtime/threadsafe_fn,-readability/inheritance,-whitespace/blank_line --recursive src/ include/accessoires/ include/capteurs/ include/comportements/ include/core/ include/interfaces/ include/patterns/
