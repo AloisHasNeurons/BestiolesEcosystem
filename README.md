@@ -22,9 +22,9 @@ A C++ simulation of a virtual 2D ecosystem inhabited by "Bestioles." This projec
 Before you begin, you will need:
 * A C++ compiler (like `g++` or `clang++`)
 * `make`
-* The **CImg** library. On Debian/Ubuntu, you can often get its dependencies with:
+* X11 to display the simulation, which you would get like that on Debian:
     ```bash
-    sudo apt-get install cimg-dev libx11-dev
+    sudo apt-get install libx11-dev
     ```
 
 ### Steps
