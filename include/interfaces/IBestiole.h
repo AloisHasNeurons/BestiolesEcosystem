@@ -2,10 +2,10 @@
 #define IBESTIOLE_H
 
 #include "IsKillable.h"
+#include "UImg.h"
 
 // Déclarations anticipées (Forward declarations)
 class Milieu;
-class UImg;
 
 class IBestiole : public IsKillable {
  public:
@@ -17,10 +17,13 @@ class IBestiole : public IsKillable {
   virtual void initCoords(int x, int y) = 0;
   virtual IBestiole* clone() = 0;
   virtual bool collision() = 0;
-  virtual bool jeTeVois(const Bestiole& b) const = 0;
+  virtual bool jeTeVois(const IBestiole& b) const = 0;
 
   // Méthode héritée de IsKillable
   virtual void kill(int delay) override = 0;
+
+  virtual int getX() const = 0;
+  virtual int getY() const = 0;
 };
 
 #endif  // IBESTIOLE_H

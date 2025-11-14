@@ -7,7 +7,7 @@ Aquarium::Aquarium(int width, int height, int _delay)
   int screenWidth = 1280;   // screen_width();
   int screenHeight = 1024;  // screen_height();
 
-  cout << "const Aquarium" << endl;
+  std::cout << "const Aquarium" << std::endl;
 
   flotte = new Milieu(width, height);
   assign(*flotte, "Simulation d'ecosysteme");
@@ -19,19 +19,19 @@ Aquarium::Aquarium(int width, int height, int _delay)
 Aquarium::~Aquarium(void) {
   delete flotte;
 
-  cout << "dest Aquarium" << endl;
+  std::cout << "dest Aquarium" << std::endl;
 }
 
 void Aquarium::run(void) {
-  cout << "running Aquarium" << endl;
+  std::cout << "running Aquarium" << std::endl;
 
   while (!is_closed()) {
-    // cout << "iteration de la simulation" << endl;
+    std::cout << "iteration de la simulation" << std::endl;
 
     if (is_key()) {
-      cout << "Vous avez presse la touche "
-           << static_cast<unsigned char>(key());
-      cout << " (" << key() << ")" << endl;
+      std::cout << "Vous avez presse la touche "
+                << static_cast<unsigned char>(key());
+      std::cout << " (" << key() << ")" << std::endl;
       if (is_keyESC()) close();
     }
 

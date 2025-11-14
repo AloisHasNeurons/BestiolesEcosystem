@@ -1,19 +1,15 @@
-#ifndef _AQUARIUM_H_
-#define _AQUARIUM_H_
+#ifndef AQUARIUM_H_
+#define AQUARIUM_H_
 
 #include <CImg.h>
 
 #include <iostream>
 
-using namespace std;
-using namespace cimg_library;
+#include "core/Milieu.h"
 
-class Milieu;
-
-class Aquarium : public CImgDisplay {
+class Aquarium : public cimg_library::CImgDisplay {
  private:
   Milieu* flotte;
-
   int delay;
 
  public:
@@ -21,7 +17,6 @@ class Aquarium : public CImgDisplay {
   ~Aquarium(void);
 
   Milieu& getMilieu(void) { return *flotte; }
-
   void run(void);
 };
 

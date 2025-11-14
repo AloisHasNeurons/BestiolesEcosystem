@@ -2,8 +2,11 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <cstring>
+#include <iostream>
 
 #include "core/Milieu.h"
+#include "interfaces/IComportement.h"
 
 const double Bestiole::AFF_SIZE = 8.;
 const double Bestiole::MAX_VITESSE = 10.;
@@ -14,14 +17,14 @@ int Bestiole::next = 0;
 Bestiole::Bestiole(void) {
   identite = ++next;
 
-  cout << "const Bestiole (" << identite << ") par defaut" << endl;
+  std::cout << "const Bestiole (" << identite << ") par defaut" << std::endl;
 
   x = y = 0;
   cumulX = cumulY = 0.;
   orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
   vitesse = static_cast<double>(rand()) / RAND_MAX * MAX_VITESSE;
 
-  couleur = new T[3];
+  couleur = new unsigned char[3];
   couleur[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
   couleur[1] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
   couleur[2] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
@@ -30,21 +33,23 @@ Bestiole::Bestiole(void) {
 Bestiole::Bestiole(const Bestiole& b) {
   identite = ++next;
 
-  cout << "const Bestiole (" << identite << ") par copie" << endl;
+  std::cout << "const Bestiole (" << identite << ") par copie" << std::endl;
 
   x = b.x;
   y = b.y;
   cumulX = cumulY = 0.;
   orientation = b.orientation;
   vitesse = b.vitesse;
-  couleur = new T[3];
-  memcpy(couleur, b.couleur, 3 * sizeof(T));
+
+  // CORRECTION: 'T' n'est pas défini
+  couleur = new unsigned char[3];
+  memcpy(couleur, b.couleur, 3 * sizeof(unsigned char));
 }
 
 Bestiole::~Bestiole(void) {
   delete[] couleur;
 
-  cout << "dest Bestiole" << endl;
+  std::cout << "dest Bestiole" << std::endl;
 }
 
 void Bestiole::initCoords(int xLim, int yLim) {
@@ -84,7 +89,7 @@ void Bestiole::bouge(int xLim, int yLim) {
 }
 
 void Bestiole::action(Milieu& monMilieu) {
-  bouge(monMilieu.getWidth(), monMilieu.getHeight());
+  bouge(monMilieu.width(), monMilieu.height());
 }
 
 void Bestiole::draw(UImg& support) {
@@ -100,9 +105,18 @@ bool operator==(const Bestiole& b1, const Bestiole& b2) {
   return (b1.identite == b2.identite);
 }
 
-bool Bestiole::jeTeVois(const Bestiole& b) const {
+bool Bestiole::jeTeVois(const IBestiole& b) const {
   double dist;
-
-  dist = std::sqrt((x - b.x) * (x - b.x) + (y - b.y) * (y - b.y));
+  dist = std::sqrt((x - b.getX()) * (x - b.getX()) +
+                   (y - b.getY()) * (y - b.getY()));
   return (dist <= LIMITE_VUE);
 }
+
+IBestiole* Bestiole::clone() { return new Bestiole(*this); }
+
+bool Bestiole::collision() { return false; }
+
+void Bestiole::kill(int delay) { this->dureeVie = 0; }
+
+int Bestiole::getX() const { return x; }
+int Bestiole::getY() const { return y; }

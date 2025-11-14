@@ -25,7 +25,7 @@ class Bestiole : public IBestiole {
   double orientation;
   double vitesse;
 
-  T* couleur;
+  unsigned char* couleur;
 
   double resistance;
   double opacite;
@@ -48,7 +48,11 @@ class Bestiole : public IBestiole {
   IBestiole* clone() override;
   bool collision() override;
   void kill(int delay) override;
-  bool jeTeVois(const Bestiole& b) const;
+
+  int getX() const override;
+  int getY() const override;
+
+  bool jeTeVois(const IBestiole& b) const override;
 
   friend bool operator==(const Bestiole& b1, const Bestiole& b2);
 };

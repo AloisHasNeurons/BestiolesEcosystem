@@ -1,35 +1,30 @@
-#ifndef _MILIEU_H_
-#define _MILIEU_H_
+#ifndef MILIEU_H_
+#define MILIEU_H_
 
 #include <iostream>
+#include <memory>
 #include <vector>
 
-#include "Bestiole.h"
-#include "UImg.h"
-
-using namespace std;
+#include "../UImg.h"
+#include "interfaces/IBestiole.h"
 
 class Milieu : public UImg {
  private:
   static const T white[];
 
-  int width, height;
-  std::vector<Bestiole> listeBestioles;
+  std::vector<IBestiole*> listeBestioles;
 
  public:
   Milieu(int _width, int _height);
   ~Milieu(void);
 
-  int getWidth(void) const { return width; };
-  int getHeight(void) const { return height; };
-
   void step(void);
 
-  void addMember(const Bestiole& b) {
+  void addMember(IBestiole* b) {
     listeBestioles.push_back(b);
-    listeBestioles.back().initCoords(width, height);
+    b->initCoords(this->width(), this->height());
   }
-  int nbVoisins(const Bestiole& b);
+  int nbVoisins(const IBestiole& b);
 };
 
 #endif
