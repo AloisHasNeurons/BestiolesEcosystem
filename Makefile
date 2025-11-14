@@ -11,7 +11,7 @@ INCLUDE_DIR = include
 
 # === Auto-generated Paths ===
 TARGET_EXEC = $(TARGET)
-SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
+SOURCES = $(shell find $(SRC_DIR) -name '*.cpp')
 OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 
 # It creates a list of dependency files (e.g., build/main.d, build/Bestiole.d)
@@ -30,7 +30,7 @@ $(TARGET_EXEC): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDLIBS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(BUILD_DIR)
+	@mkdir -p $(@D)
 	@echo "Compiling $<..."
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 

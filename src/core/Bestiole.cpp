@@ -1,9 +1,9 @@
-#include "Bestiole.h"
+#include "core/Bestiole.h"
 
 #include <cmath>
 #include <cstdlib>
 
-#include "Milieu.h"
+#include "core/Milieu.h"
 
 const double Bestiole::AFF_SIZE = 8.;
 const double Bestiole::MAX_VITESSE = 10.;

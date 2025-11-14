@@ -1,6 +1,6 @@
-#include "Aquarium.h"
+#include "core/Aquarium.h"
 
-#include "Milieu.h"
+#include "core/Milieu.h"
 
 Aquarium::Aquarium(int width, int height, int _delay)
     : CImgDisplay(), delay(_delay) {

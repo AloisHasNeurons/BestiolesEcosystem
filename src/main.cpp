@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "Aquarium.h"
-#include "Bestiole.h"
-#include "Milieu.h"
+#include "core/Aquarium.h"
+#include "core/Bestiole.h"
+#include "core/Milieu.h"
 
 using namespace std;
 
