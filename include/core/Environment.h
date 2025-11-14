@@ -1,5 +1,5 @@
-#ifndef MILIEU_H_
-#define MILIEU_H_
+#ifndef ENVIRONMENT_H_
+#define ENVIRONMENT_H_
 
 #include <iostream>
 #include <memory>
@@ -8,23 +8,24 @@
 #include "../UImg.h"
 #include "interfaces/IBestiole.h"
 
-class Milieu : public UImg {
+class Environment : public UImg {
  private:
   static const T white[];
 
-  std::vector<IBestiole*> listeBestioles;
+  std::vector<IBestiole*> bestiolesList;
 
  public:
-  Milieu(int _width, int _height);
-  ~Milieu(void);
+  Environment(int _width, int _height);
+  ~Environment(void);
 
   void step(void);
 
   void addMember(IBestiole* b) {
-    listeBestioles.push_back(b);
+    bestiolesList.push_back(b);
     b->initCoords(this->width(), this->height());
   }
-  int nbVoisins(const IBestiole& b);
+
+  int neighborCount(const IBestiole& b);
 };
 
 #endif

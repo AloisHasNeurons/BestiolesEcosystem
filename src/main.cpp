@@ -2,15 +2,15 @@
 
 #include "core/Aquarium.h"
 #include "core/Bestiole.h"
-#include "core/Milieu.h"
+#include "core/Environment.h"
 
 int main() {
-  Aquarium ecosysteme(640, 480, 30);
+  Aquarium ecosystem(640, 480, 30);
 
   for (int i = 1; i <= 20; ++i) {
-    ecosysteme.getMilieu().addMember(new Bestiole());
+    ecosystem.getEnvironment().addMember(new Bestiole());
   }
-  ecosysteme.run();
+  ecosystem.run();
 
   return 0;
 }

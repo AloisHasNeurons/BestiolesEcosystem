@@ -3,7 +3,7 @@
 #include <iostream>
 #include <utility>
 
-#include "core/Milieu.h"
+#include "core/Environment.h"
 
 Aquarium::Aquarium(int width, int height, int _delay)
     : CImgDisplay(), delay(_delay) {
@@ -12,15 +12,15 @@ Aquarium::Aquarium(int width, int height, int _delay)
 
   std::cout << "const Aquarium" << std::endl;
 
-  flotte = new Milieu(width, height);
-  assign(*flotte, "Simulation d'ecosysteme");
+  population = new Environment(width, height);
+  assign(*population, "Ecosystem Simulation");
 
   move(static_cast<int>((screenWidth - width) / 2),
        static_cast<int>((screenHeight - height) / 2));
 }
 
 Aquarium::~Aquarium(void) {
-  delete flotte;
+  delete population;
 
   std::cout << "dest Aquarium" << std::endl;
 }
@@ -29,17 +29,16 @@ void Aquarium::run(void) {
   std::cout << "running Aquarium" << std::endl;
 
   while (!is_closed()) {
-    std::cout << "iteration de la simulation" << std::endl;
+    std::cout << "simulation iteration" << std::endl;
 
     if (is_key()) {
-      std::cout << "Vous avez presse la touche "
-                << static_cast<unsigned char>(key());
+      std::cout << "You pressed key " << static_cast<unsigned char>(key());
       std::cout << " (" << key() << ")" << std::endl;
       if (is_keyESC()) close();
     }
 
-    flotte->step();
-    display(*flotte);
+    population->step();
+    display(*population);
 
     wait(delay);
 

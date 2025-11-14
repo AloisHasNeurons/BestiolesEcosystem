@@ -1,9 +1,9 @@
-#ifndef YEUX_H
-#define YEUX_H
+#ifndef EYES_H
+#define EYES_H
 
-#include "../interfaces/ICapteur.h"
+#include "../interfaces/ISensor.h"
 
-class Yeux : public ICapteur {
+class Eyes : public ISensor {
  public:
   bool Detect(IBestiole& b) override;
   void draw() override;
@@ -14,4 +14,4 @@ class Yeux : public ICapteur {
   double gamma;
 };
 
-#endif  // YEUX_H
+#endif  // EYES_H

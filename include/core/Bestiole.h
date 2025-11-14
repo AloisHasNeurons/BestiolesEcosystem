@@ -6,40 +6,40 @@
 #include "../interfaces/IBestiole.h"
 #include "UImg.h"
 
-class Milieu;
-class IComportement;
+class Environment;
+class IBehavior;
 
 class Bestiole : public IBestiole {
  private:
   static const double AFF_SIZE;
-  static const double MAX_VITESSE;
-  static const double LIMITE_VUE;
+  static const double MAX_SPEED;
+  static const double VIEW_LIMIT;
   static int next;
 
  private:
-  int identite;
+  int identity;
   int x, y;
-  double cumulX, cumulY;
+  double cumulativeX, cumulativeY;
   double orientation;
-  double vitesse;
+  double speed;
 
-  unsigned char* couleur;
+  unsigned char* color;
 
   double resistance;
-  double opacite;
-  int dureeVie;
+  double opacity;
+  int lifeSpan;
 
-  std::unique_ptr<IComportement> comportement;
+  std::unique_ptr<IBehavior> behavior;
 
  private:
-  void bouge(int xLim, int yLim);
+  void move(int xLim, int yLim);
 
  public:
-  Bestiole(void);               // Constructeur par defaut
-  Bestiole(const Bestiole& b);  // Constructeur de copies
-  ~Bestiole(void);              // Destructeur
+  Bestiole(void);
+  Bestiole(const Bestiole& b);
+  ~Bestiole(void);
 
-  void action(Milieu& monMilieu) override;
+  void action(Environment& myEnvironment) override;
   void draw(UImg& support) override;
   void initCoords(int xLim, int yLim) override;
 
@@ -50,7 +50,7 @@ class Bestiole : public IBestiole {
   int getX() const override;
   int getY() const override;
 
-  bool jeTeVois(const IBestiole& b) const override;
+  bool canSee(const IBestiole& b) const override;
 
   friend bool operator==(const Bestiole& b1, const Bestiole& b2);
 };

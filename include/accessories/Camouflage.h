@@ -1,11 +1,11 @@
 #ifndef CAMOUFLAGE_H
 #define CAMOUFLAGE_H
 
-#include "../interfaces/IAccessoire.h"
+#include "../interfaces/IAccessory.h"
 
-class Camouflage : public IAccessoire {
+class Camouflage : public IAccessory {
  public:
-  void changeParam() override;
+  void updateParameters() override;
   void draw() override;
 
  private:

@@ -4,22 +4,19 @@
 #include "IsKillable.h"
 #include "UImg.h"
 
-// Déclarations anticipées (Forward declarations)
-class Milieu;
+class Environment;
 
 class IBestiole : public IsKillable {
  public:
   virtual ~IBestiole() {}
 
-  // Méthodes de l'interface
-  virtual void action(Milieu& milieu) = 0;
+  virtual void action(Environment& environment) = 0;
   virtual void draw(UImg& img) = 0;
   virtual void initCoords(int x, int y) = 0;
   virtual IBestiole* clone() = 0;
   virtual bool collision() = 0;
-  virtual bool jeTeVois(const IBestiole& b) const = 0;
+  virtual bool canSee(const IBestiole& b) const = 0;
 
-  // Méthode héritée de IsKillable
   virtual void kill(int delay) override = 0;
 
   virtual int getX() const = 0;

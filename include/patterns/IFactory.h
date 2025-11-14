@@ -1,7 +1,7 @@
 #ifndef IFACTORY_H
 #define IFACTORY_H
 
-class IBestiole;  // Déclaration anticipée
+class IBestiole;  // Forward declaration
 
 class IFactory {
  public:

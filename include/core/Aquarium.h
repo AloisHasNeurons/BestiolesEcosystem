@@ -5,18 +5,18 @@
 
 #include <iostream>
 
-#include "core/Milieu.h"
+#include "core/Environment.h"
 
 class Aquarium : public cimg_library::CImgDisplay {
  private:
-  Milieu* flotte;
+  Environment* population;
   int delay;
 
  public:
   Aquarium(int width, int height, int _delay);
   ~Aquarium(void);
 
-  Milieu& getMilieu(void) { return *flotte; }
+  Environment& getEnvironment(void) { return *population; }
   void run(void);
 };
 
