@@ -7,7 +7,7 @@ class Bestiole;
 
 class Kamikaze : public IBehavior {
  public:
-  double& steer(double orientation) override;
+  double& steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
   Bestiole closestNeighbor();  // Note: returns by copy
 };
 

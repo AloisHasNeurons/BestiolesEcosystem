@@ -50,6 +50,7 @@ class Bestiole : public IBestiole {
 
   int getX() const override;
   int getY() const override;
+  double getOrientation() const override;
 
   bool canSee(const IBestiole& b) const override;
 
