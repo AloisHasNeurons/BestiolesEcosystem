@@ -123,3 +123,5 @@ void Bestiole::kill(int delay) { this->lifeSpan = 0; }
 int Bestiole::getX() const { return x; }
 int Bestiole::getY() const { return y; }
 double Bestiole::getOrientation() const { return orientation; }
+double Bestiole::getSpeed() const { return speed; }
+double Bestiole::getMaxSpeed() const { return MAX_SPEED; }

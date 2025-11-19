@@ -7,7 +7,8 @@ class IBestiole;
 
 class Anticipating : public IBehavior {
  public:
-  double& steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
+  double steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
+  double speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
 };
 
 #endif  // ANTICIPATING_H

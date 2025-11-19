@@ -22,6 +22,8 @@ class IBestiole : public IsKillable {
   virtual int getX() const = 0;
   virtual int getY() const = 0;
   virtual double getOrientation() const = 0;
+  virtual double getSpeed() const = 0;
+  virtual double getMaxSpeed() const = 0;
 };
 
 #endif  // IBESTIOLE_H

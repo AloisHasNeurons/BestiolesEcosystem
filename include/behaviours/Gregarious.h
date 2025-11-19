@@ -8,7 +8,8 @@ class IBestiole;
 
 class Gregarious : public IBehavior {
  public:
-  double& steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
+  double steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
+  double speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
 };
 
 #endif  // GREGARIOUS_H 
