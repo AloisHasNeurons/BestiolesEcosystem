@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <utility>
+#include <string>
 
 #include "../interfaces/IBestiole.h"
 #include "UImg.h"
@@ -30,6 +31,8 @@ class Bestiole : public IBestiole {
   double opacity;
   int lifeSpan;
 
+  std::string behaviorString;
+
   std::unique_ptr<IBehavior> behavior;
 
  private:
@@ -39,6 +42,7 @@ class Bestiole : public IBestiole {
   Bestiole(void);
   Bestiole(const Bestiole& b);
   Bestiole(std::unique_ptr<IBehavior> b); // Constructor with behavior (added by Lucie for Factory pattern)
+  Bestiole(Environment* env);
   ~Bestiole(void);
 
   void action(Environment& myEnvironment) override;
@@ -48,13 +52,18 @@ class Bestiole : public IBestiole {
   IBestiole* clone() override;
   bool collision() override;
   void kill(int delay) override;
+  void changeBehavior(std::unique_ptr<IBehavior> behavior) override;
 
   int getX() const override;
   int getY() const override;
   double getOrientation() const override;
   double getSpeed() const override;
   double getMaxSpeed() const override;
-  std::unique_ptr<IBehavior> getBehavior() const;
+  double getResistance() const override;
+  double getOpacity() const override;
+  int getLifeSpan() const override;
+  IBehavior* getBehavior() const override;
+  std::string getBehaviorString() const override;
 
   bool canSee(const IBestiole& b) const override;
 
