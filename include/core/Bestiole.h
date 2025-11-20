@@ -38,6 +38,7 @@ class Bestiole : public IBestiole {
  public:
   Bestiole(void);
   Bestiole(const Bestiole& b);
+  Bestiole(std::unique_ptr<IBehavior> b); // Constructor with behavior (added by Lucie for Factory pattern)
   ~Bestiole(void);
 
   void action(Environment& myEnvironment) override;
@@ -53,6 +54,7 @@ class Bestiole : public IBestiole {
   double getOrientation() const override;
   double getSpeed() const override;
   double getMaxSpeed() const override;
+  std::unique_ptr<IBehavior> getBehavior() const;
 
   bool canSee(const IBestiole& b) const override;
 
