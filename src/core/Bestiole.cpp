@@ -70,6 +70,26 @@ Bestiole::Bestiole(const Bestiole& b) {
     behavior = nullptr;
   }
 }
+Bestiole::Bestiole(std::unique_ptr<IBehavior> b) 
+    : behavior(std::move(b)) // Initialize behavior with the provided unique_ptr
+{
+  identity = ++next;
+
+  std::cout << "const Bestiole (" << identity << ") with behavior" << std::endl;
+
+  x = y = 0;
+  cumulativeX = cumulativeY = 0.;
+  orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
+  speed = static_cast<double>(rand()) / RAND_MAX * MAX_SPEED;
+
+  color = new unsigned char[3];
+  
+  color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
+  color[1] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
+  color[2] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
+  return;
+  } //We should find a way to indicate which behavior is assigned (e.g., via parameters)
+  
 
 // New constructor with environment to set behavior
 Bestiole::Bestiole(Environment* env) {

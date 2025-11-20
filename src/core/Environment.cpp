@@ -33,6 +33,7 @@ void Environment::step(void) {
 
     b->action(*this);
     b->draw(*this);
+    
   }
 }
 
