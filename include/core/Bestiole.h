@@ -16,6 +16,7 @@ class Bestiole : public IBestiole {
   static const double AFF_SIZE;
   static const double MAX_SPEED;
   static const double VIEW_LIMIT;
+  static const int MAX_LIFE_SPAN;
   static int next;
 
  private:

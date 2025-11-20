@@ -9,7 +9,7 @@
 #include "core/Environment.h"
 #include "interfaces/IBehavior.h"
 #include "behaviours/Anticipating.h"
-#include "behaviouers/Fearful.h"
+#include "behaviours/Fearful.h"
 #include "behaviours/Gregarious.h"
 #include "behaviours/Kamikaze.h"
 #include "behaviours/MultiPersonality.h"
@@ -33,7 +33,7 @@ Bestiole::Bestiole(void) {
   orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
   speed = static_cast<double>(rand()) / RAND_MAX * MAX_SPEED;
   lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
-  
+
   color = new unsigned char[3];
   color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
   color[1] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
@@ -82,7 +82,7 @@ Bestiole::Bestiole(Environment* env) {
   orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
   speed = static_cast<double>(rand()) / RAND_MAX * MAX_SPEED;
   lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
-  
+
   color = new unsigned char[3];
   color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
   color[1] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
@@ -93,7 +93,7 @@ Bestiole::Bestiole(Environment* env) {
 
   if (env) {
     const std::map<std::string, int>& config = env->getBehaviorConfig();
-    
+
     int totalWeight = 0;
         for (const auto& pair : config) totalWeight += pair.second;
 
@@ -105,17 +105,17 @@ Bestiole::Bestiole(Environment* env) {
                 currentSum += pair.second;
                 if (randomVal < currentSum) {
                     std::string type = pair.first;
-                    
+
                     // Instantiate the appropriate behavior based on the selected type
                     if (type == "Gregarious") {
                         behavior = std::unique_ptr<Gregarious>(new Gregarious());
-                    } 
+                    }
                     else if (type == "Fearful") {
                         behavior = std::unique_ptr<Fearful>(new Fearful());
-                    } 
+                    }
                     else if (type == "Kamikaze") {
                         behavior = std::unique_ptr<Kamikaze>(new Kamikaze());
-                    } 
+                    }
                     else if (type == "Anticipating") {
                         behavior = std::unique_ptr<Anticipating>(new Anticipating());
                     }
@@ -126,9 +126,9 @@ Bestiole::Bestiole(Environment* env) {
                         std::cerr << "Unknown behavior type: " << type << std::endl;
                         behavior = nullptr;
                     }
-                    
+
                     this->behaviorString = type;
-                    break; 
+                    break;
                 }
             }
         }
@@ -190,7 +190,7 @@ void Bestiole::action(Environment& myEnvironment) {
   if (lifeSpan <= 0) {
     return;
   }
-  
+
   if (behavior) {
     // C'est quoi le double en argument du diriger(double) dans le diagramme uml ?
     orientation = this->behavior->direct();
@@ -202,7 +202,7 @@ void Bestiole::action(Environment& myEnvironment) {
   } else if (speed < 0.) {
     speed = 0.;
   }
-  
+
   move(myEnvironment.width(), myEnvironment.height());
 }
 
@@ -238,7 +238,7 @@ bool Bestiole::canSee(const IBestiole& b) const {
   if (lifeSpan < 0) {
     return false;
   }
-  
+
   double dist;
   dist = std::sqrt((x - b.getX()) * (x - b.getX()) +
                    (y - b.getY()) * (y - b.getY()));
@@ -247,19 +247,19 @@ bool Bestiole::canSee(const IBestiole& b) const {
 
 // Our implementations
 
-IBestiole* Bestiole::clone() { 
-  return new Bestiole(*this); 
+IBestiole* Bestiole::clone() {
+  return new Bestiole(*this);
 }
 
 bool Bestiole::collision() {
     // Choose a random hazard level between 0 and 1
     double hazard = static_cast<double>(std::rand()) / RAND_MAX;
 
-    // Compare hazard with resistance to determine if the collision is fatal 
+    // Compare hazard with resistance to determine if the collision is fatal
     // If hazard exceeds resistance, the bestiole dies
     if (hazard > resistance) {
-        kill(0); 
-        return true; 
+        kill(0);
+        return true;
     }
 
     // Bestiole survives the collision
@@ -267,11 +267,11 @@ bool Bestiole::collision() {
 }
 
 // Implement kill with delay
-void Bestiole::kill(int delay) { 
+void Bestiole::kill(int delay) {
   if (delay <= 0) {
-    lifeSpan = -1; 
+    lifeSpan = -1;
   } else {
-    lifeSpan = delay; 
+    lifeSpan = delay;
   }
 }
 
