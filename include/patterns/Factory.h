@@ -5,12 +5,14 @@
 #include "Environment.h"
 
 class Factory : public IFactory {
+ private:
+  const Environment& env; // Reference to the Environment that may influence Bestiole creation
+  
  public:
   Factory(const Environment& env); // Constructor with Environment reference
   IBestiole* createBestiole() override; // Method to create a new Bestiole
 
- private:
-  const Environment& env; // Reference to the Environment that may influence Bestiole creation
+ 
 };
 
 #endif  // FACTORY_H

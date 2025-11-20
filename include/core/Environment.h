@@ -12,6 +12,9 @@
 class Environment : public UImg {
  private:
   static const T white[];
+  static double birthRate; // Birth rate of bestioles
+  static double cloneRate; // Clone rate of bestioles
+  static double deltaEyeMin, deltaEyeMax, alpha, gammaEyeMin, gammaEyeMMax; // Vision parameters
 
   std::map<std::string, double> behaviorDistribution = { // Adds up to 1.0
     {"Anticipating", 0.2},
@@ -20,7 +23,6 @@ class Environment : public UImg {
     {"Kamikaze", 0.25},
     {"MultiPersonality", 0.15}
   }; // Behavior distribution map for Factory pattern ((can be modified later))
-
 
   std::vector<IBestiole*> bestiolesList;
 
@@ -37,12 +39,33 @@ class Environment : public UImg {
 
   int neighborCount(const IBestiole& b);
 
+  // Getters in .h because they are simple and inline enough
   std::vector<double> getBehaviorDistribution() const { 
     std::vector<double> probs; // Vector to hold probabilities
     for (const auto& pair : behaviorDistribution) { // Iterate through the map
       probs.push_back(pair.second); // Add probability to vector
     }
     return probs;
+  }
+
+  // Setters
+  void setBehaviorDistribution(const std::map<std::string, double>& newDistribution) {
+    behaviorDistribution = newDistribution; // Update the behavior distribution map
+  }
+
+  void setBirthRate(double rate) {
+    birthRate = rate;
+  }
+  void setCloneRate(double rate) {
+    cloneRate = rate;
+  }
+
+  void setVisionParameters(double deltaMin, double deltaMax, double alphaVal, double gammaMin, double gammaMax) {
+    deltaEyeMin = deltaMin;
+    deltaEyeMax = deltaMax;
+    alpha = alphaVal;
+    gammaEyeMin = gammaMin;
+    gammaEyeMMax = gammaMax;
   }
 };
 

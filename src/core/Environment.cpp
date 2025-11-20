@@ -38,9 +38,9 @@ void Environment::step(void) {
 
 int Environment::neighborCount(const IBestiole& b) {
   int nb = 0;
-  for (std::vector<IBestiole*>::iterator it = bestiolesList.begin();
+  for (std::vector<IBestiole*>::iterator it = bestiolesList.begin(); // Iterate through bestioles list to count neighbors
        it != bestiolesList.end(); ++it) {
-    IBestiole* other = (*it);
+    IBestiole* other = (*it); // Get pointer to other bestiole
 
     // Do not count oneself (address comparison)
     if (&b == other) continue;
@@ -51,3 +51,4 @@ int Environment::neighborCount(const IBestiole& b) {
   }
   return nb;
 }
+
