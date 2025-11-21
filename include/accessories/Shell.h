@@ -4,13 +4,13 @@
 #include "../interfaces/IAccessory.h"
 
 class Shell : public IAccessory {
-public:
-    void updateParameters() override;
-    void draw() override;
+ public:
+  void updateParameters() override;
+  void draw() override;
 
-private:
-    double omega;
-    double teta;
+ private:
+  double omega;
+  double teta;
 };
 
-#endif // SHELL_H
+#endif  // SHELL_H

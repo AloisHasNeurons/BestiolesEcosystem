@@ -1,6 +1,8 @@
 #include "behaviors/Fearful.h"
-#include "interfaces/IBestiole.h"
+
 #include <cmath>
+
+#include "interfaces/IBestiole.h"
 
 double Fearful::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
   int count = 0;
@@ -10,13 +12,13 @@ double Fearful::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
     if (b.canSee(*autre) && &b != autre) {
       count++;
     }
-    }
-    if (count > max_neighbors) {
-      // If there are too many neighbors, steer away
-      double new_orientation = b.getOrientation() + M_PI;  // Turn around
-      return new_orientation;
-    }
-  return b.getOrientation(); // Maintain current orientation
+  }
+  if (count > max_neighbors) {
+    // If there are too many neighbors, steer away
+    double new_orientation = b.getOrientation() + M_PI;  // Turn around
+    return new_orientation;
+  }
+  return b.getOrientation();  // Maintain current orientation
 }
 
 double Fearful::speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) {

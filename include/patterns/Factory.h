@@ -11,8 +11,7 @@ class Factory : public IFactory {
 
  public:
   Factory();
-  void setEnvironment(
-      const Environment* env);
+  void setEnvironment(const Environment* env);
   IBestiole* createBestiole() override;
 };
 

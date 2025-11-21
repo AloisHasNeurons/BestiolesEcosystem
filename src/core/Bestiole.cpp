@@ -16,35 +16,11 @@
 #include "interfaces/IBehavior.h"
 
 const double Bestiole::AFF_SIZE = 8.;
-const double Bestiole::MAX_SPEED = 10.;
+const double Bestiole::MAX_SPEED = 50.;
 const double Bestiole::VIEW_LIMIT = 30.;
 const int Bestiole::MAX_LIFE_SPAN = 1000;
 
 int Bestiole::next = 0;
-
-// Constructor without defining behavior
-/*Bestiole::Bestiole(void) {
-  identity = ++next;
-
-  std::cout << "const Bestiole (" << identity << ") by default" << std::endl;
-
-  x = y = 0;
-  cumulativeX = cumulativeY = 0.;
-  orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
-  speed = static_cast<double>(rand()) / RAND_MAX * MAX_SPEED;
-  lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX *
-MAX_LIFE_SPAN);
-
-  color = new unsigned char[3];
-  color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
-  color[1] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
-  color[2] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
-
-  resistance = static_cast<double>(rand()) / RAND_MAX;
-  opacity = static_cast<double>(rand()) / RAND_MAX;
-
-  behavior = nullptr;
-}*/
 
 Bestiole::Bestiole(std::unique_ptr<IBehavior> b) : behavior(std::move(b)) {
   identity = ++next;

@@ -11,7 +11,7 @@
 
 // Define static members
 const unsigned char Environment::white[] = {255, 255, 255};
-double Environment::birthRate = 0.05;
+double Environment::birthRate = 0.1;
 double Environment::cloneRate = 0.001;
 double Environment::deltaEyeMin = 0.0;
 double Environment::deltaEyeMax = M_PI / 2;

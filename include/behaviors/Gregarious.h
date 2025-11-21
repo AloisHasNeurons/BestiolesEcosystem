@@ -1,8 +1,8 @@
 #ifndef GREGARIOUS_H
 #define GREGARIOUS_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "../interfaces/IBehavior.h"
 

@@ -1,7 +1,9 @@
 #include "behaviors/Kamikaze.h"
-#include "interfaces/IBestiole.h"
-#include <limits>
+
 #include <cmath>
+#include <limits>
+
+#include "interfaces/IBestiole.h"
 
 double Kamikaze::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
   double closest_distance = std::numeric_limits<double>::max();
@@ -11,8 +13,9 @@ double Kamikaze::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
        it != bestiolesList.end(); ++it) {
     IBestiole* autre = (*it);
     if (&b != autre && b.canSee(*autre)) {
-      double distance = std::sqrt((b.getX() - autre->getX()) * (b.getX() - autre->getX()) +
-                                  (b.getY() - autre->getY()) * (b.getY() - autre->getY()));
+      double distance =
+          std::sqrt((b.getX() - autre->getX()) * (b.getX() - autre->getX()) +
+                    (b.getY() - autre->getY()) * (b.getY() - autre->getY()));
       if (distance < closest_distance) {
         closest_distance = distance;
         closest_bestiole = autre;
@@ -21,8 +24,9 @@ double Kamikaze::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
   }
 
   if (closest_bestiole) {
-    double adjusted_orientation = std::atan2(-(closest_bestiole->getY() - b.getY()),
-                                             closest_bestiole->getX() - b.getX());
+    double adjusted_orientation =
+        std::atan2(-(closest_bestiole->getY() - b.getY()),
+                   closest_bestiole->getX() - b.getX());
     return adjusted_orientation;
   } else {
     return b.getOrientation();
@@ -31,5 +35,5 @@ double Kamikaze::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
 
 // [Fix] Implementation added to satisfy linker
 double Kamikaze::speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
-    return b.getSpeed();
+  return b.getSpeed();
 }
