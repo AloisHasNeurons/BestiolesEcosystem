@@ -82,7 +82,7 @@ class Bestiole : public IBestiole {
    * @param behavior A unique pointer to the initial IBehavior strategy (renamed
    * from 'b').
    */
-  Bestiole(std::unique_ptr<IBehavior> behavior);
+  explicit Bestiole(std::unique_ptr<IBehavior> behavior);
 
   /**
    * @brief Destructor.

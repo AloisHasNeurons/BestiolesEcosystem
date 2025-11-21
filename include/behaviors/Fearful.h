@@ -49,7 +49,7 @@ class Fearful : public IBehavior {
    * @param max_neighbors The maximum number of neighbors allowed (defaults to
    * 1).
    */
-  Fearful(int max_neighbors = 1) : m_maxNeighbors(max_neighbors) {}
+  explicit Fearful(int max_neighbors = 1) : m_maxNeighbors(max_neighbors) {}
 
   /**
    * @brief Copy constructor.

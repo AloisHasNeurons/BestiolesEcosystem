@@ -2,9 +2,9 @@ name: C++ Build and Lint
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "production" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "production" ]
 
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
   lint:
     name: Code Style Linting
     runs-on: ubuntu-latest
-    continue-on-error: true # Non-bloquant
+    continue-on-error: true
 
     steps:
       - name: Checkout Repository
@@ -39,4 +39,4 @@ jobs:
 
       - name: Run Linter
         run: |
-          cpplint --filter=-build/header_guard,-legal/copyright,-whitespace/ending_newline,-whitespace/indent,-whitespace/comments,-runtime/threadsafe_fn,-readability/inheritance,-whitespace/blank_line --recursive src/ include/accessoires/ include/capteurs/ include/comportements/ include/core/ include/interfaces/ include/patterns/
+          cpplint --filter=-build/header_guard,-legal/copyright,-whitespace/ending_newline,-whitespace/indent,-whitespace/comments,-runtime/threadsafe_fn,-readability/inheritance,-whitespace/blank_line --recursive src/ include/accessories/ include/sensors/ include/behaviors/ include/core/ include/interfaces/ include/patterns/

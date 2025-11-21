@@ -5,7 +5,7 @@
 
 #include "CImg.h"
 
-using namespace cimg_library;
+using cimg_library::CImgDisplay;
 
 // Forward declarations
 class Environment;

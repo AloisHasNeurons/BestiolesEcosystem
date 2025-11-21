@@ -1,6 +1,8 @@
 #include "patterns/Factory.h"
 
+#include <memory>
 #include <random>
+#include <utility>
 
 #include "behaviors/Anticipating.h"
 #include "behaviors/Fearful.h"
