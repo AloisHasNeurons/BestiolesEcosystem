@@ -13,7 +13,6 @@ class Environment : public UImg {
  private:
   static const T white[];
   static double birthRate;  // Birth rate of bestioles
-  static double cloneRate;  // Clone rate of bestioles
   static double deltaEyeMin, deltaEyeMax, alpha, gammaEyeMin,
       gammaEyeMMax;  // Vision parameters
 
@@ -59,7 +58,6 @@ class Environment : public UImg {
   }
 
   void setBirthRate(double rate) { birthRate = rate; }
-  void setCloneRate(double rate) { cloneRate = rate; }
 
   void setVisionParameters(double deltaMin, double deltaMax, double alphaVal,
                            double gammaMin, double gammaMax) {
