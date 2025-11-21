@@ -4,35 +4,75 @@
 
 #include "interfaces/IBestiole.h"
 
-double Fearful::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
-  int count = 0;
-  for (std::vector<IBestiole*>::const_iterator it = bestiolesList.begin();
-       it != bestiolesList.end(); ++it) {
+/**
+ * @brief Calculates the steering force/direction for the Fearful bestiole.
+ *
+ * If the number of visible neighbors exceeds the maximum tolerance limit
+ * (`m_maxNeighbors`), the bestiole turns 180 degrees to escape the crowd.
+ *
+ * @param currentBestiole The bestiole applying this behavior (renamed from
+ * 'b').
+ * @param otherBestioles A list of all other bestioles in the environment
+ * (renamed from 'bestiolesList').
+ * @return double The calculated steering adjustment (orientation in radians).
+ */
+double Fearful::steer(IBestiole& currentBestiole,
+                      std::vector<IBestiole*> otherBestioles) {
+  int visible_neighbor_count = 0;
+
+  // Count the number of visible neighbors.
+  for (std::vector<IBestiole*>::const_iterator it = otherBestioles.begin();
+       it != otherBestioles.end(); ++it) {
     IBestiole* other = (*it);
-    if (b.canSee(*other) && &b != other) {
-      count++;
+    // Only count visible, distinct bestioles.
+    if (currentBestiole.canSee(*other) && &currentBestiole != other) {
+      visible_neighbor_count++;
     }
   }
-  if (count > max_neighbors) {
-    // If there are too many neighbors, steer away
-    double new_orientation = b.getOrientation() + M_PI;  // Turn around
+
+  // Check against the maximum tolerated neighbors.
+  if (visible_neighbor_count > m_maxNeighbors) {
+    // If there are too many neighbors, steer away by turning 180 degrees
+    // (M_PI).
+    double new_orientation = currentBestiole.getOrientation() + M_PI;
     return new_orientation;
   }
-  return b.getOrientation();  // Maintain current orientation
+  // Otherwise, maintain current orientation.
+  return currentBestiole.getOrientation();
 }
 
-double Fearful::speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
-  int count = 0;
-  for (std::vector<IBestiole*>::const_iterator it = bestiolesList.begin();
-       it != bestiolesList.end(); ++it) {
+/**
+ * @brief Calculates the speed for the Fearful bestiole.
+ *
+ * If the number of visible neighbors exceeds the maximum tolerance limit
+ * (`m_maxNeighbors`), the bestiole increases its speed to the maximum possible
+ * value.
+ *
+ * @param currentBestiole The bestiole applying this behavior (renamed from
+ * 'b').
+ * @param otherBestioles A list of all other bestioles in the environment
+ * (renamed from 'bestiolesList').
+ * @return double The calculated speed value.
+ */
+double Fearful::speed(IBestiole& currentBestiole,
+                      std::vector<IBestiole*> otherBestioles) {
+  int visible_neighbor_count = 0;
+
+  // Count the number of visible neighbors.
+  for (std::vector<IBestiole*>::const_iterator it = otherBestioles.begin();
+       it != otherBestioles.end(); ++it) {
     IBestiole* other = (*it);
-    if (b.canSee(*other) && &b != other) {
-      count++;
+    // Only count visible, distinct bestioles.
+    if (currentBestiole.canSee(*other) && &currentBestiole != other) {
+      visible_neighbor_count++;
     }
   }
-  if (count > max_neighbors) {
-    // If there are too many neighbors, increase speed
-    return b.getMaxSpeed();
+
+  // Check against the maximum tolerated neighbors.
+  if (visible_neighbor_count > m_maxNeighbors) {
+    // If there are too many neighbors, increase speed to maximum.
+    return currentBestiole.getMaxSpeed();
   }
-  return b.getSpeed();  // Normal speed
+  // Otherwise, maintain normal speed.
+  return currentBestiole.getSpeed();
 }
