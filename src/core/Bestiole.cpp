@@ -64,14 +64,13 @@ Bestiole::Bestiole(const Bestiole& b) {
   color = new unsigned char[3];
   memcpy(color, b.color, 3 * sizeof(unsigned char));
 
-  // [Fix] clone() is not implemented in IBehavior yet.
+  // [Temporary Fix] clone() is not implemented in IBehavior yet.
   // Resetting behavior to nullptr to prevent compilation error.
   behavior = nullptr;
 }
 
 Bestiole::Bestiole(std::unique_ptr<IBehavior> b)
-    : behavior(
-          std::move(b))  // Initialize behavior with the provided unique_ptr
+    : behavior(std::move(b))
 {
   identity = ++next;
 
@@ -82,8 +81,11 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> b)
   orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
   speed = static_cast<double>(rand()) / RAND_MAX * MAX_SPEED;
 
-  color = new unsigned char[3];
+  lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
+  resistance = static_cast<double>(rand()) / RAND_MAX;
+  opacity = static_cast<double>(rand()) / RAND_MAX;
 
+  color = new unsigned char[3];
   color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
   color[1] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
   color[2] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
@@ -171,12 +173,10 @@ void Bestiole::action(Environment& myEnvironment) {
   }
 
   if (behavior) {
-    // [Fix] IBehavior uses steer/speed signatures requiring a list of
-    // neighbors. Passing an empty list for now to satisfy compilation
-    // (functionality will be limited).
-    std::vector<IBestiole*> dummyNeighbors;
-    orientation = this->behavior->steer(*this, dummyNeighbors);
-    speed = this->behavior->speed(*this, dummyNeighbors);
+    std::vector<IBestiole*> neighbors = myEnvironment.getBestiolesList();
+    // Pass the list to the behavior
+    orientation = this->behavior->steer(*this, neighbors);
+    speed = this->behavior->speed(*this, neighbors);
   }
 
   if (speed > MAX_SPEED) {
