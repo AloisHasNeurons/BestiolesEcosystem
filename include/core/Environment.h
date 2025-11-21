@@ -12,12 +12,22 @@
 #include "core/Bestiole.h"
 #include "patterns/IFactory.h"
 
+struct SensorConfig {
+    double deltaMin;   // 距离最小值
+    double deltaMax;   // 距离最大值
+    double alphaMin;   // 视场角最小值（度数或弧度，看你约定）
+    double alphaMax;   // 视场角最大值
+    double gammaMin;   // 检测能力 γ 下限
+    double gammaMax;   // 检测能力 γ 上限
+};
+
 class Environment : public UImg {
  private:
   static const T white[];
   static double birthRate; // Birth rate of bestioles
-  static double deltaEyeMin, deltaEyeMax, alpha, gammaEyeMin, gammaEyeMMax; // Vision parameters
-  
+  //static double deltaEyeMin, deltaEyeMax, alpha, gammaEyeMin, gammaEyeMMax; // Vision parameters
+  static SensorConfig eyeConfig; 
+  static SensorConfig earConfig;
 
   std::map<std::string, double> behaviorDistribution = { // Adds up to 1.0
     {"Anticipating", 0.2},
@@ -45,26 +55,6 @@ class Environment : public UImg {
   std::vector<double> getBehaviorDistribution() const;
   std::vector<IBestiole*> getBestiolesList() const;
 
-  double getDeltaEyeMin() const {
-    return deltaEyeMin;
-  }
-
-  double getDeltaEyeMax() const {
-    return deltaEyeMax;
-  }
-
-  double getAlpha() const {
-    return alpha;
-  }
-
-  double getGammaEyeMin() const {
-    return gammaEyeMin;
-  }
-
-  double getGammaEyeMMax() const {
-    return gammaEyeMMax;
-  }
-
   // Setters in .h because they are simple and inline enough
   void setBehaviorDistribution(const std::map<std::string, double>& newDistribution) {
     behaviorDistribution = newDistribution; // Update the behavior distribution map
@@ -74,12 +64,19 @@ class Environment : public UImg {
     birthRate = rate;
   }
 
-  void setVisionParameters(double deltaMin, double deltaMax, double alphaVal, double gammaMin, double gammaMax) {
-    deltaEyeMin = deltaMin;
-    deltaEyeMax = deltaMax;
-    alpha = alphaVal;
-    gammaEyeMin = gammaMin;
-    gammaEyeMMax = gammaMax;
+  static const SensorConfig& getEyeConfig() { return eyeConfig; }
+  static void setEyeConfig(const SensorConfig& cfg) { eyeConfig = cfg; }
+
+  static const SensorConfig& getEarConfig() { return earConfig; }
+  static void setEarConfig(const SensorConfig& cfg) { earConfig = cfg; }
+
+  //
+
+  void setVisionParameters(double deltaMin, double deltaMax,
+                           double alphaMin, double alphaMax,
+                           double gammaMin, double gammaMax) {
+    SensorConfig cfg { deltaMin, deltaMax, alphaMin, alphaMax, gammaMin, gammaMax };
+    setEyeConfig(cfg);
   }
 };
 
