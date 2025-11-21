@@ -21,6 +21,9 @@ class Gregarious : public IBehavior {
   std::string getName() const override { 
       return "Gregarious"; 
   }
+  unsigned char* getColor() const override {
+            return color;
+  }
 };
 
 #endif  // GREGARIOUS_H 

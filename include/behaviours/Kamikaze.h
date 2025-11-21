@@ -21,6 +21,9 @@ class Kamikaze : public IBehavior {
   std::string getName() const override { 
       return "Kamikaze"; 
   }
+  unsigned char* getColor() const override {
+        return color;
+ }
 };
 
 #endif  // KAMIKAZE_H

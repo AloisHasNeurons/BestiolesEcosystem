@@ -22,6 +22,9 @@ class Fearful : public IBehavior {
   std::string getName() const override { 
       return "Fearful"; 
   }
+  unsigned char* getColor() const override {
+        return color;
+    }
 };
 
 #endif  // FEARFUL_H

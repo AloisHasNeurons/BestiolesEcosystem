@@ -20,6 +20,9 @@ class Anticipating : public IBehavior {
   std::string getName() const override { 
       return "Anticipating"; 
   }
+  unsigned char* getColor() const override {
+            return color;
+    }
 };
 
 #endif  // ANTICIPATING_H
