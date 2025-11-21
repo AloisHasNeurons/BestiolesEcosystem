@@ -1,8 +1,8 @@
 #ifndef FEARFUL_H
 #define FEARFUL_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "../interfaces/IBehavior.h"
 
@@ -23,6 +23,7 @@ class Fearful : public IBehavior {
   }
   IBehavior* clone() const override { return new Fearful(*this); }
   std::string getName() const override { return "Fearful"; }
+  unsigned char* getColor() const override { return color; }
 };
 
 #endif  // FEARFUL_H

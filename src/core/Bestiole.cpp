@@ -32,7 +32,8 @@ int Bestiole::next = 0;
   cumulativeX = cumulativeY = 0.;
   orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
   speed = static_cast<double>(rand()) / RAND_MAX * MAX_SPEED;
-  lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
+  lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX *
+MAX_LIFE_SPAN);
 
   color = new unsigned char[3];
   color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
@@ -45,9 +46,7 @@ int Bestiole::next = 0;
   behavior = nullptr;
 }*/
 
-Bestiole::Bestiole(std::unique_ptr<IBehavior> b)
-    : behavior(std::move(b))
-{
+Bestiole::Bestiole(std::unique_ptr<IBehavior> b) : behavior(std::move(b)) {
   identity = ++next;
 
   std::cout << "const Bestiole (" << identity << ") with behavior" << std::endl;
@@ -57,14 +56,25 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> b)
   orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
   speed = static_cast<double>(rand()) / RAND_MAX * MAX_SPEED;
 
-  lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
+  lifeSpan =
+      static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
   resistance = static_cast<double>(rand()) / RAND_MAX;
   opacity = static_cast<double>(rand()) / RAND_MAX;
 
   color = new unsigned char[3];
-  color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
-  color[1] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
-  color[2] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
+  unsigned char* behaviorColor = behavior->getColor();
+
+  if (behaviorColor != nullptr) {
+    // Copy the values from the behavior's color attribute
+    color[0] = behaviorColor[0];
+    color[1] = behaviorColor[1];
+    color[2] = behaviorColor[2];
+  } else {
+    // Fallback: Generate a random color if the behavior returns nullptr
+    color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
+    color[1] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
+    color[2] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
+  }
 }
 
 // Copy constructor

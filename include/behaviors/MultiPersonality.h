@@ -26,6 +26,7 @@ class MultiPersonality : public IBehavior {
   IBehavior* clone() const override { return new MultiPersonality(*this); }
   void changeBehavior();
   std::string getName() const override { return "MultiPersonality"; }
+  unsigned char* getColor() const override { return new unsigned char[3]{0, 0, 0}; } // TEMPORARY: MultiPersonality is black
 };
 
 #endif  // MULTIPERSONALITY_H

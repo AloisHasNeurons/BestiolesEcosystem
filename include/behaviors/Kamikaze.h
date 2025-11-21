@@ -18,6 +18,7 @@ class Kamikaze : public IBehavior {
   Kamikaze(const Kamikaze& other) { color = other.color; }
   IBehavior* clone() const override { return new Kamikaze(*this); }
   std::string getName() const override { return "Kamikaze"; }
+  unsigned char* getColor() const override { return color; }
 };
 
 #endif  // KAMIKAZE_H
