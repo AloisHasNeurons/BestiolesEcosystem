@@ -8,8 +8,8 @@ double Fearful::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
   int count = 0;
   for (std::vector<IBestiole*>::const_iterator it = bestiolesList.begin();
        it != bestiolesList.end(); ++it) {
-    IBestiole* autre = (*it);
-    if (b.canSee(*autre) && &b != autre) {
+    IBestiole* other = (*it);
+    if (b.canSee(*other) && &b != other) {
       count++;
     }
   }
@@ -25,8 +25,8 @@ double Fearful::speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
   int count = 0;
   for (std::vector<IBestiole*>::const_iterator it = bestiolesList.begin();
        it != bestiolesList.end(); ++it) {
-    IBestiole* autre = (*it);
-    if (b.canSee(*autre) && &b != autre) {
+    IBestiole* other = (*it);
+    if (b.canSee(*other) && &b != other) {
       count++;
     }
   }
