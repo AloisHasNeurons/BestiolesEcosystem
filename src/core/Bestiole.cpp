@@ -189,7 +189,10 @@ bool Bestiole::canSee(const IBestiole& b) const {
   return (dist <= VIEW_LIMIT);
 }
 
-IBestiole* Bestiole::clone() { return new Bestiole(*this); }
+IBestiole* Bestiole::clone() { 
+  std::cout << "Cloning Bestiole (" << identity << ")" << std::endl;
+  return new Bestiole(*this); 
+}
 
 // In src/core/Bestiole.cpp
 

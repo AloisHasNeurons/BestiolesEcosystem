@@ -95,15 +95,21 @@ void Environment::step(void) {
   }
   bestiolesToAdd.clear();
 
-  // Fill the environment background with white.
-  cimg_forXY(*this, x, y) fillC(x, y, 0, white[0], white[1], white[2]);
-
-  // Main loop for bestiole actions, drawing, and collision checks.
-  for (std::vector<IBestiole*>::iterator it = bestiolesList.begin();
-       it != bestiolesList.end(); ++it) {
+  auto it = bestiolesList.begin();
+  while (it != bestiolesList.end()) {
     IBestiole* b = (*it);
 
-    // Bestiole performs its action (e.g., movement).
+    if (b->getLifeSpan() < 0) {
+      delete b;
+      it = bestiolesList.erase(it);
+    } else {
+      ++it;
+    }
+  }
+
+  cimg_forXY(*this, x, y) fillC(x, y, 0, white[0], white[1], white[2]);
+
+  for (auto b : bestiolesList) {
     b->action(*this);
     // Draw the bestiole on the environment.
     b->draw(*this);
