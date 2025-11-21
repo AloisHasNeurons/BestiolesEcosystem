@@ -16,7 +16,7 @@
 #include "interfaces/IBehavior.h"
 
 const double Bestiole::AFF_SIZE = 8.;
-const double Bestiole::MAX_SPEED = 10.;
+const double Bestiole::MAX_SPEED = 15.;
 const double Bestiole::VIEW_LIMIT = 30.;
 const int Bestiole::MAX_LIFE_SPAN = 1000;
 
