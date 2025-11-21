@@ -56,6 +56,8 @@ MultiPersonality::MultiPersonality() {
             break;
     }
     lastChange = std::chrono::steady_clock::now();
+    // Set initial color
+    color = currentBehavior->getColor();
 }
 
 MultiPersonality::~MultiPersonality() {

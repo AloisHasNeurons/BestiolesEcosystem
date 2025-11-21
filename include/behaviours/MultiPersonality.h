@@ -10,7 +10,7 @@ class IBestiole;
 
 class MultiPersonality : public IBehavior {
 private:
-  unsigned char* color = currentBehavior->getColor(); // the color of the current behavior
+  unsigned char* color; // the color of the current behavior
   IBehavior* currentBehavior;
   std::chrono::steady_clock::time_point lastChange = std::chrono::steady_clock::now();
 public:
