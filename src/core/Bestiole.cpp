@@ -17,7 +17,7 @@
 
 // Define static constants for the Bestiole class.
 const double Bestiole::AFF_SIZE = 8.;
-const double Bestiole::MAX_SPEED = 15.;
+const double Bestiole::MAX_SPEED = 10.;
 const double Bestiole::VIEW_LIMIT = 30.;
 const int Bestiole::MAX_LIFE_SPAN = 1000;
 
@@ -102,9 +102,12 @@ Bestiole::Bestiole(const Bestiole& b) {
   // Copy the color array data.
   memcpy(color, b.color, 3 * sizeof(unsigned char));
 
-  // [Temporary Fix] clone() is not implemented in IBehavior yet.
-  // Resetting behavior to nullptr to prevent compilation error.
-  behavior = nullptr;
+  // Clone the behavior if it exists; otherwise, set to nullptr.
+  if (b.behavior) {
+    behavior = std::unique_ptr<IBehavior>(b.behavior->clone());
+  } else {
+    behavior = nullptr;
+  }
 }
 
 /**
