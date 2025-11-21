@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <vector>
+#include <string>
 
 #include "../interfaces/IBehavior.h"
 
@@ -15,12 +16,16 @@ class MultiPersonality : public IBehavior {
       std::chrono::steady_clock::now();
 
  public:
-  MultiPersonality();
-  ~MultiPersonality() override;
-
   double steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
   double speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
+  MultiPersonality();
+  ~MultiPersonality() override;
+  MultiPersonality(const MultiPersonality& other) {
+    currentBehavior = other.currentBehavior;
+  };
+  IBehavior* clone() const override { return new MultiPersonality(*this); }
   void changeBehavior();
+  std::string getName() const override { return "MultiPersonality"; }
 };
 
 #endif  // MULTIPERSONALITY_H
