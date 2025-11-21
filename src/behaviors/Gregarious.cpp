@@ -1,4 +1,4 @@
-#include "behaviours/Gregarious.h"
+#include "behaviors/Gregarious.h"
 #include "interfaces/IBestiole.h"
 
 double Gregarious::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {

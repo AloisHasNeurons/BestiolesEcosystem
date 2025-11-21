@@ -1,4 +1,4 @@
-#include "behaviours/Fearful.h"
+#include "behaviors/Fearful.h"
 #include "interfaces/IBestiole.h"
 #include <cmath>
 

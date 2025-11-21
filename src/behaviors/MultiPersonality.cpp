@@ -1,9 +1,9 @@
-#include "behaviours/MultiPersonality.h"
+#include "behaviors/MultiPersonality.h"
 #include "interfaces/IBestiole.h"
-#include "behaviours/Fearful.h"
-#include "behaviours/Gregarious.h"
-#include "behaviours/Kamikaze.h"
-#include "behaviours/Anticipating.h"
+#include "behaviors/Fearful.h"
+#include "behaviors/Gregarious.h"
+#include "behaviors/Kamikaze.h"
+#include "behaviors/Anticipating.h"
 #include <cstdlib>
 #include <chrono>
 
