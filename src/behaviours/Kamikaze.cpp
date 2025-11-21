@@ -28,3 +28,8 @@ double Kamikaze::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
     return b.getOrientation();
   }
 }
+
+// [Fix] Implementation added to satisfy linker
+double Kamikaze::speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
+    return b.getSpeed();
+}

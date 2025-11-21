@@ -1,6 +1,7 @@
 #include "behaviours/Anticipating.h"
 #include "interfaces/IBestiole.h"
 #include <cmath>
+#include <limits> // Added for numeric_limits
 
 double Anticipating::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
   double closest_distance = std::numeric_limits<double>::max();
@@ -18,6 +19,11 @@ double Anticipating::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) 
       }
     }
   }
+
+  if (!closest_bestiole) {
+      return b.getOrientation();
+  }
+
   // estimate future position of the closest bestiole
   double future_y = -sin(closest_bestiole->getOrientation()) * (closest_bestiole->getSpeed()) + closest_bestiole->getY();
   double future_x = cos(closest_bestiole->getOrientation()) * (closest_bestiole->getSpeed()) + closest_bestiole->getX();
@@ -35,4 +41,9 @@ double Anticipating::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) 
     anticipated_orientation = b.getOrientation();  // keep current orientation
   }
   return anticipated_orientation;
+}
+
+// [Fix] Implementation added to satisfy linker
+double Anticipating::speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
+    return b.getSpeed();
 }

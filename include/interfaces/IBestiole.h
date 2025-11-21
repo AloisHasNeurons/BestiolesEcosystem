@@ -1,11 +1,13 @@
 #ifndef IBESTIOLE_H
 #define IBESTIOLE_H
 
-#include "IsKillable.h"
-#include "UImg.h"
 #include <memory>
 
+#include "IsKillable.h"
+#include "UImg.h"
+
 class Environment;
+class IBehavior;
 
 class IBestiole : public IsKillable {
  public:

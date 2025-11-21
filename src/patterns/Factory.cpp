@@ -1,39 +1,52 @@
+#include "patterns/Factory.h"
 
 #include <random>
-#include "patterns/Factory.h"
-#include "core/Bestiole.h"
+
 #include "behaviours/Anticipating.h"
 #include "behaviours/Fearful.h"
 #include "behaviours/Gregarious.h"
 #include "behaviours/Kamikaze.h"
 #include "behaviours/MultiPersonality.h"
+#include "core/Bestiole.h"
 
-Factory::Factory(const Environment& env) // Constructor with Environment reference
-    : env(env)
-{}
+Factory::Factory(
+    const Environment& env)  // Constructor with Environment reference
+    : env(env) {}
 
-IBestiole* Factory::createBestiole() 
-{
-    // Get behavior probabilities from the environment
-    auto probs = env.getBehaviorDistribution(); // Assume this method exists
+IBestiole* Factory::createBestiole() {
+  // Get behavior probabilities from the environment
+  auto probs = env.getBehaviorDistribution();
 
-    static std::random_device rd;
-    static std::mt19937 gen(rd()); // Random number generator
+  static std::random_device rd;
+  static std::mt19937 gen(rd());  // Random number generator
 
-    // discrete distribution based on probabilities
-    std::discrete_distribution<int> dist(probs.begin(), probs.end());
+  // discrete distribution based on probabilities
+  std::discrete_distribution<int> dist(probs.begin(), probs.end());
 
-    int choice = dist(gen);
+  int choice = dist(gen);
 
-    std::unique_ptr<IBehavior> behavior;
+  std::unique_ptr<IBehavior> behavior;
 
-    switch(choice) {
-        case 0: behavior = std::make_unique<Anticipating>(); break;
-        case 1: behavior = std::make_unique<Fearful>(); break;
-        case 2: behavior = std::make_unique<Gregarious>(); break;
-        case 3: behavior = std::make_unique<Kamikaze>(); break;
-        case 4: behavior = std::make_unique<MultiPersonality>(); break;
-    }
+  switch (choice) {
+    case 0:
+      behavior = std::unique_ptr<Anticipating>(new Anticipating());
+      break;
+    case 1:
+      behavior = std::unique_ptr<Fearful>(new Fearful());
+      break;
+    case 2:
+      behavior = std::unique_ptr<Gregarious>(new Gregarious());
+      break;
+    case 3:
+      behavior = std::unique_ptr<Kamikaze>(new Kamikaze());
+      break;
+    case 4:
+      behavior = std::unique_ptr<MultiPersonality>(new MultiPersonality());
+      break;
+    default:
+      behavior = std::unique_ptr<Kamikaze>(new Kamikaze());
+      break;
+  }
 
-    return new Bestiole(std::move(behavior)); 
+  return new Bestiole(std::move(behavior));
 }
