@@ -8,7 +8,7 @@ class IBestiole;
 
 class Anticipating : public IBehavior {
  private: 
-  unsigned char* color = new unsigned char[3]{255, 0, 255}; // Magenta color for Anticipating behavior
+  unsigned char* color = new unsigned char[3]{255, 0, 255}; // Pink color for Anticipating behavior
  public:
   double steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
   double speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
