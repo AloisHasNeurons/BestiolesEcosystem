@@ -2,6 +2,7 @@
 #define IBEHAVIOR_H
 
 #include <vector>
+#include <string>
 class IBestiole;
 
 class IBehavior {

@@ -3,6 +3,7 @@
 
 #include "../interfaces/IBehavior.h"
 #include <vector>
+#include <string>
 class IBestiole;
 
 class Anticipating : public IBehavior {

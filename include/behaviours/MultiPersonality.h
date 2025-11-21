@@ -4,6 +4,7 @@
 #include "../interfaces/IBehavior.h"
 #include <vector>
 #include <chrono>
+#include <string>
 
 class IBestiole;
 

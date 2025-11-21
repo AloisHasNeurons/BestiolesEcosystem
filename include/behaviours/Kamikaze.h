@@ -2,6 +2,8 @@
 #define KAMIKAZE_H
 
 #include "../interfaces/IBehavior.h"
+#include <vector>
+#include <string>
 
 class Bestiole;
 
