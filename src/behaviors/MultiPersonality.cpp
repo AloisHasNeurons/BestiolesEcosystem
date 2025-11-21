@@ -3,6 +3,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <utility>
+#include <vector>
 
 #include "behaviors/Anticipating.h"
 #include "behaviors/Fearful.h"

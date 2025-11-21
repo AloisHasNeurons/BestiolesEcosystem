@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "../UImg.h"
@@ -70,7 +71,7 @@ class Environment : public UImg {
    * @param factoryRef The factory used to create IBestiole objects (renamed
    * from 'f').
    */
-  Environment(IFactory& factoryRef);
+  explicit Environment(IFactory& factoryRef);
 
   /**
    * @brief Executes one step of the environment simulation.

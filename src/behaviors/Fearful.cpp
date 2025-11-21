@@ -1,6 +1,7 @@
 #include "behaviors/Fearful.h"
 
 #include <cmath>
+#include <vector>
 
 #include "interfaces/IBestiole.h"
 

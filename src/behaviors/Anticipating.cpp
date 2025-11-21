@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <limits>  // Added for numeric_limits
+#include <vector>
 
 #include "interfaces/IBestiole.h"
 

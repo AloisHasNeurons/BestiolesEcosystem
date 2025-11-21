@@ -2,6 +2,7 @@
 #define IBESTIOLE_H
 
 #include <memory>
+#include <string>
 
 #include "IsKillable.h"
 #include "UImg.h"
