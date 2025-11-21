@@ -38,6 +38,26 @@ void MultiPersonality::changeBehavior() {
     }   
 }
 
+MultiPersonality::MultiPersonality() {
+    // Initialize with a random behavior
+    int behaviorType = rand() % 4;
+    switch (behaviorType) {
+        case 0:
+            currentBehavior = new Fearful(rand() % 5 + 4); // Random max_neighbors between 4 and 8
+            break;
+        case 1:
+            currentBehavior = new Gregarious();
+            break;
+        case 2:
+            currentBehavior = new Kamikaze();
+            break;
+        case 3:
+            currentBehavior = new Anticipating();
+            break;
+    }
+    lastChange = std::chrono::steady_clock::now();
+}
+
 MultiPersonality::~MultiPersonality() {
     delete currentBehavior;
 }

@@ -14,6 +14,11 @@ private:
 public:
   double steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
   double speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) override;
+  MultiPersonality();
+  MultiPersonality(const MultiPersonality& other) { currentBehavior = other.currentBehavior; };
+  IBehavior* clone() const override {
+      return new MultiPersonality(*this);
+  }
   void changeBehavior();
 };
 
