@@ -15,11 +15,6 @@
 int main() {
   Aquarium ecosystem(640, 480, 30);
 
-  // Create 10 Bestioles without behaviors
-  for (int i = 1; i <= 10; ++i) {
-    ecosystem.getEnvironment().addMember(new Bestiole());
-  }
-
   // 1. Create 5 Gregarious Bestioles
   for (int i = 0; i < 5; ++i) {
     ecosystem.getEnvironment().addMember(
@@ -55,8 +50,6 @@ int main() {
         new Bestiole(std::unique_ptr<MultiPersonality>(new MultiPersonality()))
     );
   }
-
-
 
   ecosystem.run();
 

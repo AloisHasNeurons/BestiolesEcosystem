@@ -23,7 +23,7 @@ const int Bestiole::MAX_LIFE_SPAN = 1000;
 int Bestiole::next = 0;
 
 // Constructor without defining behavior
-Bestiole::Bestiole(void) {
+/*Bestiole::Bestiole(void) {
   identity = ++next;
 
   std::cout << "const Bestiole (" << identity << ") by default" << std::endl;
@@ -32,8 +32,7 @@ Bestiole::Bestiole(void) {
   cumulativeX = cumulativeY = 0.;
   orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
   speed = static_cast<double>(rand()) / RAND_MAX * MAX_SPEED;
-  lifeSpan =
-      static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
+  lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
 
   color = new unsigned char[3];
   color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
@@ -44,30 +43,7 @@ Bestiole::Bestiole(void) {
   opacity = static_cast<double>(rand()) / RAND_MAX;
 
   behavior = nullptr;
-}
-
-// Copy constructor
-Bestiole::Bestiole(const Bestiole& b) {
-  identity = ++next;
-
-  std::cout << "const Bestiole (" << identity << ") by copy" << std::endl;
-
-  x = b.x;
-  y = b.y;
-  cumulativeX = cumulativeY = 0.;
-  orientation = b.orientation;
-  speed = b.speed;
-  lifeSpan = b.lifeSpan;
-  resistance = b.resistance;
-  opacity = b.opacity;
-
-  color = new unsigned char[3];
-  memcpy(color, b.color, 3 * sizeof(unsigned char));
-
-  // [Temporary Fix] clone() is not implemented in IBehavior yet.
-  // Resetting behavior to nullptr to prevent compilation error.
-  behavior = nullptr;
-}
+}*/
 
 Bestiole::Bestiole(std::unique_ptr<IBehavior> b)
     : behavior(std::move(b))
@@ -91,30 +67,26 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> b)
   color[2] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
 }
 
-// New constructor with environment to set behavior
-Bestiole::Bestiole(Environment* env) {
+// Copy constructor
+Bestiole::Bestiole(const Bestiole& b) {
   identity = ++next;
 
-  std::cout << "const Bestiole (" << identity << ") with environment"
-            << std::endl;
+  std::cout << "const Bestiole (" << identity << ") by copy" << std::endl;
 
-  x = y = 0;
+  x = b.x;
+  y = b.y;
   cumulativeX = cumulativeY = 0.;
-  orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
-  speed = static_cast<double>(rand()) / RAND_MAX * MAX_SPEED;
-  lifeSpan =
-      static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
+  orientation = b.orientation;
+  speed = b.speed;
+  lifeSpan = b.lifeSpan;
+  resistance = b.resistance;
+  opacity = b.opacity;
 
   color = new unsigned char[3];
-  color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
-  color[1] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
-  color[2] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
+  memcpy(color, b.color, 3 * sizeof(unsigned char));
 
-  resistance = static_cast<double>(rand()) / RAND_MAX;
-  opacity = static_cast<double>(rand()) / RAND_MAX;
-
-  // [Fix] Removed logic relying on missing getBehaviorConfig() method.
-  // The Factory class should handle behavior creation instead.
+  // [Temporary Fix] clone() is not implemented in IBehavior yet.
+  // Resetting behavior to nullptr to prevent compilation error.
   behavior = nullptr;
 }
 
