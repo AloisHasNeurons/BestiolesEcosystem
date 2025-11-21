@@ -7,11 +7,11 @@
 #include <utility>
 #include <vector>
 
-#include "behaviours/Anticipating.h"
-#include "behaviours/Fearful.h"
-#include "behaviours/Gregarious.h"
-#include "behaviours/Kamikaze.h"
-#include "behaviours/MultiPersonality.h"
+#include "behaviors/Anticipating.h"
+#include "behaviors/Fearful.h"
+#include "behaviors/Gregarious.h"
+#include "behaviors/Kamikaze.h"
+#include "behaviors/MultiPersonality.h"
 #include "core/Environment.h"
 #include "interfaces/IBehavior.h"
 

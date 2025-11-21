@@ -1,4 +1,4 @@
-#include "behaviours/Anticipating.h"
+#include "behaviors/Anticipating.h"
 #include "interfaces/IBestiole.h"
 #include <cmath>
 #include <limits> // Added for numeric_limits

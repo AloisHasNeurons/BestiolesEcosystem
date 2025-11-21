@@ -1,4 +1,4 @@
-#include "behaviours/Fearful.h"
+#include "behaviors/Fearful.h"
 #include "interfaces/IBestiole.h"
 #include <cmath>
 
@@ -34,4 +34,3 @@ double Fearful::speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
   }
   return b.getSpeed();  // Normal speed
 }
-

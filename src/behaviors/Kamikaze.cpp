@@ -1,4 +1,4 @@
-#include "behaviours/Kamikaze.h"
+#include "behaviors/Kamikaze.h"
 #include "interfaces/IBestiole.h"
 #include <limits>
 #include <cmath>
