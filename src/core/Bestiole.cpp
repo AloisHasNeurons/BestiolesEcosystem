@@ -174,13 +174,16 @@ void Bestiole::draw(UImg& support) {
   if (lifeSpan < 0) {
     return;
   }
-
+  unsigned char* drawColor = this->color;
+  if (behavior && behavior->getColor()) {
+    drawColor = behavior->getColor();
+  }
   double xt = x + cos(orientation) * AFF_SIZE / 2.1;
   double yt = y - sin(orientation) * AFF_SIZE / 2.1;
 
   support.draw_ellipse(x, y, AFF_SIZE, AFF_SIZE / 5.,
-                       -orientation / M_PI * 180., color);
-  support.draw_circle(xt, yt, AFF_SIZE / 2., color);
+                       -orientation / M_PI * 180., drawColor);
+  support.draw_circle(xt, yt, AFF_SIZE / 2., drawColor);
 }
 
 bool operator==(const Bestiole& b1, const Bestiole& b2) {
