@@ -335,10 +335,15 @@ bool Bestiole::collision() {
     kill(0);      // Die immediately
     return true;  // "I died"
   }
+  else if (orientation < M_PI) {
+    orientation = orientation + M_PI;}
+  else {
+    orientation = orientation - M_PI;
+  }
 
   // If they survive, usually they should bounce or change direction
   // Reverse orientation (bounce).
-  orientation = orientation + M_PI;
+  
 
   return false;  // "I survived"
 }
