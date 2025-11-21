@@ -13,42 +13,47 @@
  * Factory used to generate members. It centers the display window on the
  * screen.
  *
- * @param width The width of the simulation area (in pixels).
- * @param height The height of the simulation area (in pixels).
- * @param _delay The delay (in milliseconds) between each simulation step.
+ * @param kWidth The width of the simulation area (in pixels).
+ * @param kHeight The height of the simulation area (in pixels).
+ * @param kDelayMs The delay (in milliseconds) between each simulation step
+ * (renamed from '_delay').
  */
-Aquarium::Aquarium(int width, int height, int _delay)
-    : CImgDisplay(), delay(_delay) {
-  // Define screen dimensions for positioning.
-  int screenWidth = 1280;
-  int screenHeight = 1024;
+Aquarium::Aquarium(int kWidth, int kHeight, int kDelayMs)
+    // Initialize CImgDisplay and the private delay member.
+    : CImgDisplay(), m_delayMs(kDelayMs) {
+  // Define screen dimensions for positioning (these are constants, often
+  // defined globally or derived).
+  const int kScreenWidth = 1280;
+  const int kScreenHeight = 1024;
 
   std::cout << "const Aquarium" << std::endl;
 
   // Create the factory and the environment.
-  factory = new Factory();
-  population = new Environment(width, height, *factory);
-  // Link the environment back to the factory.
-  factory->setEnvironment(population);
+  m_factory = new Factory();
+  m_population = new Environment(kWidth, kHeight, *m_factory);
+  // Link the environment back to the factory so the factory knows the
+  // environment bounds.
+  m_factory->setEnvironment(m_population);
 
   // Set the display image and title, and move the window to the center of the
   // screen.
-  assign(*population, "Ecosystem Simulation");
-  move(static_cast<int>((screenWidth - width) / 2),
-       static_cast<int>((screenHeight - height) / 2));
+  assign(*m_population, "Ecosystem Simulation");
+  // Calculate center position to move the window.
+  move(static_cast<int>((kScreenWidth - kWidth) / 2),
+       static_cast<int>((kScreenHeight - kHeight) / 2));
 }
 
 /**
  * @brief Destroys the Aquarium object.
  *
  * Cleans up and deletes the dynamically allocated Environment and Factory
- * objects.
+ * objects to prevent memory leaks.
  * @param void No parameters.
  */
 Aquarium::~Aquarium(void) {
   // Free memory allocated for population and factory.
-  delete population;
-  delete factory;
+  delete m_population;
+  delete m_factory;
 
   std::cout << "dest Aquarium" << std::endl;
 }
@@ -64,7 +69,7 @@ Aquarium::~Aquarium(void) {
 void Aquarium::run(void) {
   std::cout << "running Aquarium" << std::endl;
 
-  // Main simulation loop.
+  // Main simulation loop: continues as long as the CImgDisplay window is open.
   while (!is_closed()) {
     // Check for user keyboard input.
     if (is_key()) {
@@ -75,10 +80,10 @@ void Aquarium::run(void) {
     }
 
     // Advance the simulation by one step.
-    population->step();
+    m_population->step();
     // Refresh the display with the updated environment state.
-    display(*population);
-    // Pause for the set delay time.
-    wait(delay);
+    display(*m_population);
+    // Pause for the set delay time (m_delayMs milliseconds).
+    wait(m_delayMs);
   }
 }

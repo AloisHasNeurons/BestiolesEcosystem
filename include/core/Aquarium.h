@@ -7,22 +7,56 @@
 
 using namespace cimg_library;
 
+// Forward declarations
 class Environment;
 class Factory;
 
+/**
+ * @class Aquarium
+ * @brief Manages the simulation environment and the CImg display window.
+ *
+ * Inherits from CImgDisplay to handle the visualization and user input loop.
+ */
 class Aquarium : public CImgDisplay {
  private:
-  Environment* population;
-  Factory* factory;
-  int delay;
+  // The simulation environment containing all bestioles.
+  Environment* m_population;
+  // The factory responsible for creating bestiole objects.
+  Factory* m_factory;
+  // The delay in milliseconds between simulation steps.
+  int m_delayMs;
 
  public:
-  Aquarium(int width, int height, int _delay);
+  /**
+   * @brief Constructor for the Aquarium.
+   *
+   * @param kWidth The width of the display area.
+   * @param kHeight The height of the display area.
+   * @param kDelayMs The delay in milliseconds per step (renamed from '_delay').
+   */
+  Aquarium(int kWidth, int kHeight, int kDelayMs);
+
+  /**
+   * @brief Destructor.
+   *
+   * Handles cleanup of dynamically allocated members (`m_population` and
+   * `m_factory`).
+   */
   ~Aquarium();
 
-  Environment& getEnvironment() { return *population; }
+  /**
+   * @brief Gets a reference to the simulation environment.
+   *
+   * @return Environment& Reference to the Environment object.
+   */
+  Environment& getEnvironment() { return *m_population; }
 
+  /**
+   * @brief Starts the main simulation loop.
+   *
+   * Runs the step-by-step simulation until the display window is closed.
+   */
   void run();
 };
 
-#endif
+#endif  // AQUARIUM_H
