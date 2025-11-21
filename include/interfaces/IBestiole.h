@@ -3,6 +3,7 @@
 
 #include "IsKillable.h"
 #include "UImg.h"
+#include <memory>
 
 class Environment;
 
@@ -14,7 +15,7 @@ class IBestiole : public IsKillable {
   virtual void draw(UImg& img) = 0;
   virtual void initCoords(int x, int y) = 0;
   virtual IBestiole* clone() = 0;
-  virtual bool collision() = 0;
+  virtual bool collision(IBestiole* b, IBestiole* other) = 0;
   virtual bool canSee(const IBestiole& b) const = 0;
 
   virtual void kill(int delay) override = 0;
