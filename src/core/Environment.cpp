@@ -12,7 +12,6 @@
 // Define static members
 const unsigned char Environment::white[] = {255, 255, 255};
 double Environment::birthRate = 0.1;
-double Environment::cloneRate = 0.001;
 double Environment::deltaEyeMin = 0.0;
 double Environment::deltaEyeMax = M_PI / 2;
 double Environment::alpha = M_PI / 4;
@@ -38,9 +37,15 @@ Environment::~Environment(void) {
     delete (*it);
   }
   bestiolesList.clear();
+  bestiolesToAdd.clear();
 }
 
 void Environment::step(void) {
+  for (IBestiole* b : bestiolesToAdd) {
+    bestiolesList.push_back(b);
+  }
+  bestiolesToAdd.clear();
+  
   cimg_forXY(*this, x, y) fillC(x, y, 0, white[0], white[1], white[2]);
 
   for (std::vector<IBestiole*>::iterator it = bestiolesList.begin();
@@ -80,7 +85,7 @@ void Environment::step(void) {
 }
 
 void Environment::addMember(IBestiole* b) {
-  this->bestiolesList.push_back(b);
+  this->bestiolesToAdd.push_back(b);  // Add bestiole to the list
   b->initCoords(this->width(), this->height());
 }
 

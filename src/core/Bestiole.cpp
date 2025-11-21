@@ -16,7 +16,7 @@
 #include "interfaces/IBehavior.h"
 
 const double Bestiole::AFF_SIZE = 8.;
-const double Bestiole::MAX_SPEED = 50.;
+const double Bestiole::MAX_SPEED = 10.;
 const double Bestiole::VIEW_LIMIT = 30.;
 const int Bestiole::MAX_LIFE_SPAN = 1000;
 
@@ -36,6 +36,7 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> b) : behavior(std::move(b)) {
       static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
   resistance = static_cast<double>(rand()) / RAND_MAX;
   opacity = static_cast<double>(rand()) / RAND_MAX;
+  cloneRate = (static_cast<double>(rand()) / RAND_MAX) / 1000.0;
 
   color = new unsigned char[3];
   unsigned char* behaviorColor = behavior->getColor();
@@ -67,6 +68,7 @@ Bestiole::Bestiole(const Bestiole& b) {
   lifeSpan = b.lifeSpan;
   resistance = b.resistance;
   opacity = b.opacity;
+  cloneRate = b.cloneRate;
 
   color = new unsigned char[3];
   memcpy(color, b.color, 3 * sizeof(unsigned char));
@@ -128,6 +130,16 @@ void Bestiole::action(Environment& myEnvironment) {
 
   if (lifeSpan <= 0) {
     return;
+  }
+
+  // Choose a random hazard level between 0 and 1
+  double hazard = static_cast<double>(std::rand()) / RAND_MAX;
+
+  // Compare hazard with cloneRate to determine if the bestiole is going to be cloned
+  // If hazard exceeds cloneRate, the bestiole is cloned
+  if (hazard < cloneRate) { 
+    IBestiole* newBestiole = this->clone();
+    myEnvironment.addMember(newBestiole);
   }
 
   if (behavior) {
@@ -217,6 +229,9 @@ void Bestiole::changeBehavior(std::unique_ptr<IBehavior> behavior) {
   // [Fix] getName() is not in IBehavior. Using placeholder.
   this->behaviorString = "Unknown";
 }
+
+void Bestiole::setCloneRate(double newCloneRate) { cloneRate = newCloneRate; }
+void Bestiole::setOrientation(double o) { orientation = o; }
 
 int Bestiole::getX() const { return x; }
 int Bestiole::getY() const { return y; }

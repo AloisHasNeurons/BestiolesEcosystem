@@ -31,6 +31,7 @@ class Bestiole : public IBestiole {
   double resistance;
   double opacity;
   int lifeSpan;
+  double cloneRate;
 
   std::string behaviorString;
 
@@ -53,6 +54,8 @@ class Bestiole : public IBestiole {
   bool collision() override;
   void kill(int delay) override;
   void changeBehavior(std::unique_ptr<IBehavior> behavior) override;
+  void setCloneRate(double newCloneRate) override;
+  void setOrientation(double o) override;
 
   int getX() const override;
   int getY() const override;

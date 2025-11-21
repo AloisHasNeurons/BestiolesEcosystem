@@ -22,6 +22,8 @@ class IBestiole : public IsKillable {
 
   virtual void kill(int delay) override = 0;
   virtual void changeBehavior(std::unique_ptr<IBehavior> behavior) = 0;
+  virtual void setCloneRate(double newCloneRate) = 0;
+  virtual void setOrientation(double o) = 0;
 
   virtual int getX() const = 0;
   virtual int getY() const = 0;
