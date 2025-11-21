@@ -43,6 +43,7 @@ class Environment : public UImg {
 
   // Getters in .h because they are simple and inline enough
   std::vector<double> getBehaviorDistribution() const;
+  std::vector<IBestiole*> getBestiolesList() const;
 
   double getDeltaEyeMin() const {
     return deltaEyeMin;

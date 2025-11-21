@@ -91,3 +91,7 @@ std::vector<double> Environment::getBehaviorDistribution() const {
     return probs;
   }
 
+std::vector<IBestiole*> Environment::getBestiolesList() const {
+    return bestiolesList;
+  }
+
