@@ -2,16 +2,18 @@
 #define FACTORY_H
 
 #include "IFactory.h"
-#include "core/Environment.h"
+
+class Environment;
 
 class Factory : public IFactory {
  private:
-  const Environment& env; // Reference to the Environment that may influence Bestiole creation
+  const Environment* env;
 
  public:
-  Factory(const Environment& env); // Constructor with Environment reference
-  IBestiole* createBestiole() override; // Method to create a new Bestiole
-
+  Factory();
+  void setEnvironment(
+      const Environment* env);
+  IBestiole* createBestiole() override;
 };
 
-#endif  // FACTORY_H
+#endif

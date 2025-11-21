@@ -7,12 +7,15 @@
 #include <vector>
 
 #include "../UImg.h"
+#include "core/Bestiole.h"
 #include "interfaces/IBestiole.h"
+#include "patterns/IFactory.h"
 
 class Environment : public UImg {
  private:
   static const T white[];
   static double birthRate;  // Birth rate of bestioles
+  static double cloneRate;  // Clone rate of bestioles
   static double deltaEyeMin, deltaEyeMax, alpha, gammaEyeMin,
       gammaEyeMMax;  // Vision parameters
 
@@ -25,32 +28,36 @@ class Environment : public UImg {
       {"MultiPersonality", 0.15}};  // Behavior distribution map for Factory
                                     // pattern ((can be modified later))
 
+  IFactory& factory;  // Factory
   std::vector<IBestiole*> bestiolesList;
 
  public:
-  Environment(int _width, int _height);
+  Environment(int _width, int _height, IFactory& f);
   ~Environment();
+  Environment(IFactory& f);
 
   void step(void);
 
-  void addMember(IBestiole* b) {
-    bestiolesList.push_back(b);  // Add bestiole to the list
-    b->initCoords(this->width(), this->height());
-  }
+  void addMember(IBestiole* b);
 
   int neighborCount(const IBestiole& b);
 
   // Getters in .h because they are simple and inline enough
-  std::vector<double> getBehaviorDistribution() const {
-    std::vector<double> probs;  // Vector to hold probabilities
-    for (const auto& pair : behaviorDistribution) {  // Iterate through the map
-      probs.push_back(pair.second);  // Add probability to vector
-    }
-    return probs;
-  }
+  std::vector<double> getBehaviorDistribution() const;
+
   std::vector<IBestiole*> getBestiolesList() const { return bestiolesList; }
 
-  // Setters
+  double getDeltaEyeMin() const { return deltaEyeMin; }
+
+  double getDeltaEyeMax() const { return deltaEyeMax; }
+
+  double getAlpha() const { return alpha; }
+
+  double getGammaEyeMin() const { return gammaEyeMin; }
+
+  double getGammaEyeMMax() const { return gammaEyeMMax; }
+
+  // Setters in .h because they are simple and inline enough
   void setBehaviorDistribution(
       const std::map<std::string, double>& newDistribution) {
     behaviorDistribution =

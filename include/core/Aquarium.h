@@ -1,23 +1,28 @@
-#ifndef AQUARIUM_H_
-#define AQUARIUM_H_
-
-#include <CImg.h>
+#ifndef AQUARIUM_H
+#define AQUARIUM_H
 
 #include <iostream>
 
-#include "core/Environment.h"
+#include "CImg.h"
 
-class Aquarium : public cimg_library::CImgDisplay {
+using namespace cimg_library;
+
+class Environment;
+class Factory;
+
+class Aquarium : public CImgDisplay {
  private:
   Environment* population;
+  Factory* factory;
   int delay;
 
  public:
   Aquarium(int width, int height, int _delay);
-  ~Aquarium(void);
+  ~Aquarium();
 
-  Environment& getEnvironment(void) { return *population; }
-  void run(void);
+  Environment& getEnvironment() { return *population; }
+
+  void run();
 };
 
 #endif

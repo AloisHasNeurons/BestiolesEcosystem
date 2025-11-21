@@ -8,23 +8,22 @@
 #include "behaviors/Kamikaze.h"
 #include "behaviors/MultiPersonality.h"
 #include "core/Bestiole.h"
+#include "core/Environment.h"  // Need full definition here for env->getBehaviorDistribution
 
-Factory::Factory(
-    const Environment& env)  // Constructor with Environment reference
-    : env(env) {}
+Factory::Factory() : env(nullptr) {}
+
+void Factory::setEnvironment(const Environment* e) { env = e; }
 
 IBestiole* Factory::createBestiole() {
-  // Get behavior probabilities from the environment
-  auto probs = env.getBehaviorDistribution();
+  if (!env) return nullptr;  // Safety check
+
+  auto probs = env->getBehaviorDistribution();
 
   static std::random_device rd;
-  static std::mt19937 gen(rd());  // Random number generator
-
-  // discrete distribution based on probabilities
+  static std::mt19937 gen(rd());
   std::discrete_distribution<int> dist(probs.begin(), probs.end());
 
   int choice = dist(gen);
-
   std::unique_ptr<IBehavior> behavior;
 
   switch (choice) {

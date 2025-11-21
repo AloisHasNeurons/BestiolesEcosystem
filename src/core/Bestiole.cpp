@@ -203,15 +203,25 @@ bool Bestiole::canSee(const IBestiole& b) const {
 
 IBestiole* Bestiole::clone() { return new Bestiole(*this); }
 
+// In src/core/Bestiole.cpp
+
 bool Bestiole::collision() {
+  // 1. KEEP: The survival logic based on resistance
+  // We can keep the random factor (survival chance) OR make it deterministic.
+  // Current: "If I crash, I roll a die to see if my resistance saves me"
+
   double hazard = static_cast<double>(std::rand()) / RAND_MAX;
 
   if (hazard > resistance) {
-    kill(0);
-    return true;
+    kill(0);      // Die immediately
+    return true;  // "I died"
   }
 
-  return false;
+  // 2. ADAPT: Optional - Bounce?
+  // If they survive, usually they should bounce or change direction
+  orientation = orientation + M_PI;
+
+  return false;  // "I survived"
 }
 
 void Bestiole::kill(int delay) {
