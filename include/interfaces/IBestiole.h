@@ -3,6 +3,7 @@
 
 #include "IsKillable.h"
 #include "UImg.h"
+#include <memory>
 
 class Environment;
 
