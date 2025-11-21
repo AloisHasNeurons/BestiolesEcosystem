@@ -40,10 +40,9 @@ class Bestiole : public IBestiole {
   void move(int xLim, int yLim);
 
  public:
-  Bestiole(void);
+  // Bestiole(void);
   Bestiole(const Bestiole& b);
-  Bestiole(std::unique_ptr<IBehavior> b); // Constructor with behavior (added by Lucie for Factory pattern)
-  Bestiole(Environment* env);
+  Bestiole(std::unique_ptr<IBehavior> b);
   ~Bestiole(void);
 
   void action(Environment& myEnvironment) override;
