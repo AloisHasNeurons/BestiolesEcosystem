@@ -17,6 +17,9 @@ class Gregarious : public IBehavior {
   IBehavior* clone() const override {
       return new Gregarious(*this);
   }
+  std::string getName() const { 
+      return "Gregarious"; 
+  }
 };
 
 #endif  // GREGARIOUS_H 

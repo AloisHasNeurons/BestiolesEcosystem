@@ -18,6 +18,9 @@ class Fearful : public IBehavior {
   IBehavior* clone() const override {
       return new Fearful(*this);
   }
+  std::string getName() const { 
+      return "Fearful"; 
+  }
 };
 
 #endif  // FEARFUL_H

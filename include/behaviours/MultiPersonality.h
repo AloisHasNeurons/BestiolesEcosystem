@@ -20,6 +20,9 @@ public:
       return new MultiPersonality(*this);
   }
   void changeBehavior();
+  std::string getName() const { 
+      return "MultiPersonality"; 
+  }
 };
 
 #endif  // MULTIPERSONALITY_H

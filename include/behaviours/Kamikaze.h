@@ -16,6 +16,9 @@ class Kamikaze : public IBehavior {
   IBehavior* clone() const override {
       return new Kamikaze(*this);
   }
+  std::string getName() const { 
+      return "Kamikaze"; 
+  }
 };
 
 #endif  // KAMIKAZE_H
