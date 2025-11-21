@@ -5,9 +5,9 @@ double Gregarious::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
   std::vector<double> orientations;
   for (std::vector<IBestiole*>::const_iterator it = bestiolesList.begin();
        it != bestiolesList.end(); ++it) {
-    IBestiole* autre = (*it);
-    if (b.canSee(*autre) && &b != autre) {
-    orientations.push_back(autre->getOrientation());
+    IBestiole* other = (*it);
+    if (b.canSee(*other) && &b != other) {
+    orientations.push_back(other->getOrientation());
     }}
   double sum = 0.0;
   for (double ori : orientations) {

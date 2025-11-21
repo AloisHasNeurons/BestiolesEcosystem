@@ -8,13 +8,13 @@ double Anticipating::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) 
   // search for the closest bestiole
   for (std::vector<IBestiole*>::const_iterator it = bestiolesList.begin();
        it != bestiolesList.end(); ++it) {
-    IBestiole* autre = (*it);
-    if (&b != autre && b.canSee(*autre)) {
-      double distance = std::sqrt((b.getX() - autre->getX()) * (b.getX() - autre->getX()) +
-                                  (b.getY() - autre->getY()) * (b.getY() - autre->getY()));
+    IBestiole* other = (*it);
+    if (&b != other && b.canSee(*other)) {
+      double distance = std::sqrt((b.getX() - other->getX()) * (b.getX() - other->getX()) +
+                                  (b.getY() - other->getY()) * (b.getY() - other->getY()));
       if (distance < closest_distance) {
         closest_distance = distance;
-        closest_bestiole = autre;
+        closest_bestiole = other;
       }
     }
   }
