@@ -21,7 +21,6 @@ const int Bestiole::MAX_LIFE_SPAN = 1000;
 
 int Bestiole::next = 0;
 
-
 // Constructor without defining behavior
 Bestiole::Bestiole(void) {
   identity = ++next;
@@ -70,6 +69,8 @@ Bestiole::Bestiole(const Bestiole& b) {
     behavior = nullptr;
   }
 }
+
+// New constructor with behavior
 Bestiole::Bestiole(std::unique_ptr<IBehavior> b) 
     : behavior(std::move(b)) // Initialize behavior with the provided unique_ptr
 {
@@ -89,72 +90,7 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> b)
   color[2] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
   return;
   } //We should find a way to indicate which behavior is assigned (e.g., via parameters)
-  
 
-// New constructor with environment to set behavior
-Bestiole::Bestiole(Environment* env) {
-  identity = ++next;
-
-  std::cout << "const Bestiole (" << identity << ") with environment" << std::endl;
-
-  x = y = 0;
-  cumulativeX = cumulativeY = 0.;
-  orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
-  speed = static_cast<double>(rand()) / RAND_MAX * MAX_SPEED;
-  lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * MAX_LIFE_SPAN);
-
-  color = new unsigned char[3];
-  color[0] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
-  color[1] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
-  color[2] = static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
-
-  resistance = static_cast<double>(rand()) / RAND_MAX;
-  opacity = static_cast<double>(rand()) / RAND_MAX;
-
-  if (env) {
-    const std::map<std::string, int>& config = env->getBehaviorConfig();
-
-    int totalWeight = 0;
-        for (const auto& pair : config) totalWeight += pair.second;
-
-        if (totalWeight > 0) {
-            int randomVal = std::rand() % totalWeight;
-            int currentSum = 0;
-
-            for (const auto& pair : config) {
-                currentSum += pair.second;
-                if (randomVal < currentSum) {
-                    std::string type = pair.first;
-
-                    // Instantiate the appropriate behavior based on the selected type
-                    if (type == "Gregarious") {
-                        behavior = std::unique_ptr<Gregarious>(new Gregarious());
-                    }
-                    else if (type == "Fearful") {
-                        behavior = std::unique_ptr<Fearful>(new Fearful());
-                    }
-                    else if (type == "Kamikaze") {
-                        behavior = std::unique_ptr<Kamikaze>(new Kamikaze());
-                    }
-                    else if (type == "Anticipating") {
-                        behavior = std::unique_ptr<Anticipating>(new Anticipating());
-                    }
-                    else if (type == "MultiPersonality") {
-                        behavior = std::unique_ptr<MultiPersonality>(new MultiPersonality());
-                    }
-                    else {
-                        std::cerr << "Unknown behavior type: " << type << std::endl;
-                        behavior = nullptr;
-                    }
-
-                    this->behaviorString = type;
-                    break;
-                }
-            }
-        }
-
-  }
-}
 
 Bestiole::~Bestiole(void) {
   delete[] color;
@@ -212,9 +148,10 @@ void Bestiole::action(Environment& myEnvironment) {
   }
 
   if (behavior) {
-    // C'est quoi le double en argument du diriger(double) dans le diagramme uml ?
-    orientation = this->behavior->direct();
-    speed = this->behavior->speed();
+    // Need to implement getBestiolesList in Environment
+    std::vector<IBestiole*> bestiolesList = myEnvironment.getBestiolesList();
+    orientation = this->behavior->steer(*this, bestiolesList);
+    speed = this->behavior->speed(*this, bestiolesList);
   }
 
   if (speed > MAX_SPEED) {
@@ -271,18 +208,29 @@ IBestiole* Bestiole::clone() {
   return new Bestiole(*this);
 }
 
-bool Bestiole::collision() {
-    // Choose a random hazard level between 0 and 1
-    double hazard = static_cast<double>(std::rand()) / RAND_MAX;
+bool Bestiole::collision(IBestiole* b, IBestiole* other) {
+    // Check for collision
+    double dist = std::sqrt((b->getX() - other->getX()) * (b->getX() - other->getX()) +
+                  (b->getY() - other->getY()) * (b->getY() - other->getY()));
 
-    // Compare hazard with resistance to determine if the collision is fatal
-    // If hazard exceeds resistance, the bestiole dies
-    if (hazard > resistance) {
-        kill(0);
-        return true;
-    }
+    // If a collision is detected
+    if (dist < Bestiole::AFF_SIZE) {
 
-    // Bestiole survives the collision
+      // Choose a random hazard level between 0 and 1
+      double hazard = static_cast<double>(std::rand()) / RAND_MAX;
+
+      // Compare hazard with resistance to determine if the collision is fatal
+      // If hazard exceeds resistance, the bestiole dies
+      if (hazard > resistance) {
+          kill(0);
+          return true;
+      }
+
+      // Bestiole survives the collision
+      return false;
+  }
+
+    // No collision
     return false;
 }
 

@@ -51,7 +51,7 @@ class Bestiole : public IBestiole {
   void initCoords(int xLim, int yLim) override;
 
   IBestiole* clone() override;
-  bool collision() override;
+  bool collision(IBestiole* b, IBestiole* other) override;
   void kill(int delay) override;
   void changeBehavior(std::unique_ptr<IBehavior> behavior) override;
 
