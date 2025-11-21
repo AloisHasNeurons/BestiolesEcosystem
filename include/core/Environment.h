@@ -10,12 +10,12 @@
 #include "../UImg.h"
 #include "interfaces/IBestiole.h"
 #include "core/Bestiole.h"
+#include "patterns/IFactory.h"
 
 class Environment : public UImg {
  private:
   static const T white[];
   static double birthRate; // Birth rate of bestioles
-  static double cloneRate; // Clone rate of bestioles
   static double deltaEyeMin, deltaEyeMax, alpha, gammaEyeMin, gammaEyeMMax; // Vision parameters
   
 
@@ -44,6 +44,26 @@ class Environment : public UImg {
   // Getters in .h because they are simple and inline enough
   std::vector<double> getBehaviorDistribution() const;
 
+  double getDeltaEyeMin() const {
+    return deltaEyeMin;
+  }
+
+  double getDeltaEyeMax() const {
+    return deltaEyeMax;
+  }
+
+  double getAlpha() const {
+    return alpha;
+  }
+
+  double getGammaEyeMin() const {
+    return gammaEyeMin;
+  }
+
+  double getGammaEyeMMax() const {
+    return gammaEyeMMax;
+  }
+
   // Setters in .h because they are simple and inline enough
   void setBehaviorDistribution(const std::map<std::string, double>& newDistribution) {
     behaviorDistribution = newDistribution; // Update the behavior distribution map
@@ -51,9 +71,6 @@ class Environment : public UImg {
 
   void setBirthRate(double rate) {
     birthRate = rate;
-  }
-  void setCloneRate(double rate) {
-    cloneRate = rate;
   }
 
   void setVisionParameters(double deltaMin, double deltaMax, double alphaVal, double gammaMin, double gammaMax) {
