@@ -19,3 +19,8 @@ double Gregarious::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
   double average_orientation = sum / orientations.size();
   return average_orientation;
 }
+
+// [Fix] Implementation added to satisfy linker
+double Gregarious::speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
+  return b.getSpeed();
+}
