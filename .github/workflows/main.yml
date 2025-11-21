@@ -2,9 +2,9 @@ name: C++ Build and Lint
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "production" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "production" ]
 
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
   lint:
     name: Code Style Linting
     runs-on: ubuntu-latest
-    continue-on-error: true # Non-bloquant
+    continue-on-error: true
 
     steps:
       - name: Checkout Repository
