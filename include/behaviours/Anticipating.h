@@ -16,7 +16,7 @@ class Anticipating : public IBehavior {
   IBehavior* clone() const override {
       return new Anticipating(*this);
   }
-  std::string getName() const { 
+  std::string getName() const override { 
       return "Anticipating"; 
   }
 };

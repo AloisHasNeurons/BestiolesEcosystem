@@ -20,7 +20,7 @@ public:
       return new MultiPersonality(*this);
   }
   void changeBehavior();
-  std::string getName() const { 
+  std::string getName() const override { 
       return "MultiPersonality"; 
   }
 };
