@@ -1,6 +1,7 @@
 #include "behaviors/Anticipating.h"
 #include "interfaces/IBestiole.h"
 #include <cmath>
+#include <limits>
 
 double Anticipating::steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) {
   double closest_distance = std::numeric_limits<double>::max();

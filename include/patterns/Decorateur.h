@@ -17,11 +17,11 @@ class Decorator : public IBestiole {
   void initCoords(int x, int y) override { m_bestiole->initCoords(x, y); }
 
   IBestiole* clone() override {
-    // A clone must clone the bestiole AND the decorator
-    return new Decorator(m_bestiole->clone());
+    // Return a clone of the decorated bestiole (plain Decorator is abstract)
+    return m_bestiole->clone();
   }
 
-  bool collision() override { return m_bestiole->collision(); }
+  bool collision(IBestiole* b, IBestiole* other) override { return m_bestiole->collision(b, other); }
   void kill(int delay) override { m_bestiole->kill(delay); }
 
   bool canSee(const IBestiole& b) const override {

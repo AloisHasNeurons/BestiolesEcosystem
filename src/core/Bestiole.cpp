@@ -8,11 +8,11 @@
 
 #include "core/Environment.h"
 #include "interfaces/IBehavior.h"
-#include "behaviours/Anticipating.h"
-#include "behaviours/Fearful.h"
-#include "behaviours/Gregarious.h"
-#include "behaviours/Kamikaze.h"
-#include "behaviours/MultiPersonality.h"
+#include "behaviors/Anticipating.h"
+#include "behaviors/Fearful.h"
+#include "behaviors/Gregarious.h"
+#include "behaviors/Kamikaze.h"
+#include "behaviors/MultiPersonality.h"
 
 const double Bestiole::AFF_SIZE = 8.;
 const double Bestiole::MAX_SPEED = 10.;
@@ -262,6 +262,7 @@ double Bestiole::getSpeed() const { return speed; }
 double Bestiole::getMaxSpeed() const { return MAX_SPEED; }
 double Bestiole::getResistance() const { return resistance; }
 double Bestiole::getOpacity() const { return opacity; }
+double Bestiole::getSize() const { return AFF_SIZE; }
 int Bestiole::getLifeSpan() const { return lifeSpan; }
 IBehavior* Bestiole::getBehavior() const { return behavior.get(); }
 std::string Bestiole::getBehaviorString() const { return behaviorString; }

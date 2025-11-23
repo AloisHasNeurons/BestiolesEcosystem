@@ -62,6 +62,7 @@ class Bestiole : public IBestiole {
   double getMaxSpeed() const override;
   double getResistance() const override;
   double getOpacity() const override;
+  double getSize() const override;
   int getLifeSpan() const override;
   IBehavior* getBehavior() const override;
   std::string getBehaviorString() const override;

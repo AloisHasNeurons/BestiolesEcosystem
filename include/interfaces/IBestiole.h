@@ -3,7 +3,9 @@
 
 #include "IsKillable.h"
 #include "UImg.h"
+#include "IBehavior.h"
 #include <memory>
+#include <string>
 
 class Environment;
 
@@ -31,6 +33,7 @@ class IBestiole : public IsKillable {
   virtual double getOpacity() const = 0;
   virtual IBehavior* getBehavior() const = 0;
   virtual std::string getBehaviorString() const = 0;
+  virtual double getSize() const = 0;
 };
 
 #endif  // IBESTIOLE_H
