@@ -42,6 +42,11 @@ Bestiole::Bestiole(void) {
   opacity = static_cast<double>(rand()) / RAND_MAX;
 
   behavior = nullptr;
+
+  speedFactor   = 1.0;
+  armorFactor   = 1.0;
+  camouflagePsi = 0.0;
+
 }
 
 // Copy constructor
@@ -266,3 +271,11 @@ double Bestiole::getSize() const { return AFF_SIZE; }
 int Bestiole::getLifeSpan() const { return lifeSpan; }
 IBehavior* Bestiole::getBehavior() const { return behavior.get(); }
 std::string Bestiole::getBehaviorString() const { return behaviorString; }
+double Bestiole::getSpeedFactor() const { return speedFactor; }
+double Bestiole::getArmorFactor() const { return armorFactor; }
+double Bestiole::getCamouflage() const { return camouflagePsi; }
+
+// Setters for new parameters(Use in Decorator pattern)
+void Bestiole::setSpeedFactor(double f) { speedFactor = f; }
+void Bestiole::setArmorFactor(double f) { armorFactor = f; }
+void Bestiole::setCamouflage(double psi) { camouflagePsi = psi; }

@@ -32,6 +32,11 @@ class Bestiole : public IBestiole {
   double opacity;
   int lifeSpan;
 
+
+  double speedFactor   = 1.0;
+  double armorFactor   = 1.0;
+  double camouflagePsi = 0.0;
+
   std::string behaviorString;
 
   std::unique_ptr<IBehavior> behavior;
@@ -63,6 +68,11 @@ class Bestiole : public IBestiole {
   double getResistance() const override;
   double getOpacity() const override;
   double getSize() const override;
+  double getCamouflage() const override;
+  double getSpeedFactor() const override;
+  double getArmorFactor() const override;
+
+
   int getLifeSpan() const override;
   IBehavior* getBehavior() const override;
   std::string getBehaviorString() const override;
@@ -70,6 +80,10 @@ class Bestiole : public IBestiole {
   bool canSee(const IBestiole& b) const override;
 
   friend bool operator==(const Bestiole& b1, const Bestiole& b2);
+
+  void setSpeedFactor(double f) override;  // 影响运动速度
+  void setArmorFactor(double omega) override;  // 影响死亡概率/伤害
+  void setCamouflage(double psi) override;  // 影响被探测概率
 };
 
 #endif
