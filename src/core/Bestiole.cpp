@@ -110,8 +110,8 @@ void Bestiole::initCoords(int xLim, int yLim) {
 
 void Bestiole::move(int xLim, int yLim) {
   double nx, ny;
-  double dx = cos(orientation) * speed;
-  double dy = -sin(orientation) * speed;
+  double dx = cos(orientation) * speed * speedFactor;
+  double dy = -sin(orientation) * speed * speedFactor;
   int cx, cy;
 
   cx = static_cast<int>(cumulativeX);

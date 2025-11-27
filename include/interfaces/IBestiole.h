@@ -36,13 +36,12 @@ class IBestiole : public IsKillable {
   
   // For accessories and sensors' parameters
   virtual double getSize() const = 0;
-  // virtual double getCamouflage() const { return 0.0; }
   virtual double getCamouflage() const = 0;
   virtual double getSpeedFactor() const = 0;
   virtual double getArmorFactor() const  = 0;
-  virtual void setSpeedFactor(double f)      = 0;  // 影响运动速度
-  virtual void setArmorFactor(double omega)  = 0;  // 影响死亡概率/伤害
-  virtual void setCamouflage(double psi)     = 0;  // 影响被探测概率
+  virtual void setSpeedFactor(double f)      = 0;  
+  virtual void setArmorFactor(double omega)  = 0;  
+  virtual void setCamouflage(double psi)     = 0;  
 
 
 

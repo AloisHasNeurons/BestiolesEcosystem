@@ -2,9 +2,9 @@
 
 #include <cmath>
 #include <cstdlib>
-#include "core/Environment.h"    // 路径按你的工程结构调一下
+#include "core/Environment.h"    // Adjust path according to your project structure
 
-// 工具函数：在 [minVal, maxVal] 区间内生成均匀随机数
+// Utility function: generate a uniform random number in [minVal, maxVal]
 static double uniformDouble(double minVal, double maxVal)
 {
     double r = static_cast<double>(std::rand()) / RAND_MAX; // [0,1]
@@ -14,31 +14,31 @@ static double uniformDouble(double minVal, double maxVal)
 Ears::Ears(IBestiole* b)
     : ISensor(b)
 {
-    // 从环境中读取耳朵的配置
+    // Read ear configuration from the environment
     const SensorConfig& cfg = Environment::getEarConfig();
 
-    // 距离上下限
+    // Distance limits
     deltaMin = cfg.deltaMin;
     deltaMax = cfg.deltaMax;
 
-    // γ 在 [gammaMin, gammaMax] 内随机
+    // γ is randomly chosen within [gammaMin, gammaMax]
     gamma = uniformDouble(cfg.gammaMin, cfg.gammaMax);
 }
 
 void Ears::draw(UImg& img)
 {
-    // 先画内部 bestiole（以及其它装饰器）
+    // First draw the underlying bestiole (and other decorators)
     Decorator::draw(img);
 
-    // 再在身体两侧画两个“小耳朵”
+    // Then draw two small “ears” on both sides of the body
     int cx = getX();
     int cy = getY();
-    double theta = getOrientation();   // 朝向（弧度）
+    double theta = getOrientation();   // orientation (radians)
 
-    // 耳朵相对中心的偏移距离
+    // Offset distance of ears from the center
     double r = getSize() * 0.5;
 
-    // 利用朝向 ±90° 方向，计算左右耳位置
+    // Positions are computed using orientation ± 90°
     double thetaLeft  = theta + M_PI_2;
     double thetaRight = theta - M_PI_2;
 
@@ -47,31 +47,31 @@ void Ears::draw(UImg& img)
     int earRX = static_cast<int>(cx + std::cos(thetaRight) * r);
     int earRY = static_cast<int>(cy - std::sin(thetaRight) * r);
 
-    // 耳朵颜色可以用和身体一样的颜色，或固定颜色
-    T earColor[3] = { 0, 0, 0 };  // 黑色小耳朵
+    // Ear color: same as body or fixed color
+    T earColor[3] = { 0, 0, 0 };  // small black ears
     img.draw_circle(earLX, earLY, 2, earColor);
     img.draw_circle(earRX, earRY, 2, earColor);
 }
 
 bool Ears::canSee(const IBestiole& b) const
 {
-    // ==== 1) 距离判定：在 [deltaMin, deltaMax] ====
+    // ==== 1) Distance check: must be within [deltaMin, deltaMax] ====
     double x1 = static_cast<double>(getX());
     double y1 = static_cast<double>(getY());
     double x2 = static_cast<double>(b.getX());
     double y2 = static_cast<double>(b.getY());
 
     double dx = x2 - x1;
-    double dy = y1 - y2;  // 屏幕坐标：y 向下为正，所以用 y1 - y2
+    double dy = y1 - y2;  // Screen coordinates: y increases downward, so use y1 - y2
 
     double dist = std::sqrt(dx * dx + dy * dy);
     if (dist < deltaMin || dist > deltaMax)
         return false;
 
-    // ==== 2) 听觉是 360°，不做视角判定 ====
+    // ==== 2) Hearing is 360°, no field-of-view check ====
 
-    // ==== 3) 伪装判定：γ > ψ 才能“听到/检测到” ====
-    double psi = b.getCamouflage();    // 目标伪装能力 ψ
+    // ==== 3) Camouflage check: γ > ψ required to “hear/detect” the target ====
+    double psi = b.getCamouflage();    // target’s camouflage level ψ
     if (gamma <= psi)
         return false;
 

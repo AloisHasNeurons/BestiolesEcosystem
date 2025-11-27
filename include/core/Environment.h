@@ -13,12 +13,12 @@
 #include "patterns/IFactory.h"
 
 struct SensorConfig {
-    double deltaMin;   // 距离最小值
-    double deltaMax;   // 距离最大值
-    double alphaMin;   // 视场角最小值（度数或弧度，看你约定）
-    double alphaMax;   // 视场角最大值
-    double gammaMin;   // 检测能力 γ 下限
-    double gammaMax;   // 检测能力 γ 上限
+  double deltaMin;   // minimum detection distance
+  double deltaMax;   // maximum detection distance
+  double alphaMin;   // minimum field-of-view angle
+  double alphaMax;   // maximum field-of-view angle
+  double gammaMin;   // lower bound of detection capability γ
+  double gammaMax;   // upper bound of detection capability γ
 };
 
 class Environment : public UImg {

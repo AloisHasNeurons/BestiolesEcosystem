@@ -81,9 +81,10 @@ class Bestiole : public IBestiole {
 
   friend bool operator==(const Bestiole& b1, const Bestiole& b2);
 
-  void setSpeedFactor(double f) override;  // 影响运动速度
-  void setArmorFactor(double omega) override;  // 影响死亡概率/伤害
-  void setCamouflage(double psi) override;  // 影响被探测概率
+  void setSpeedFactor(double f) override;      // affects movement speed
+  void setArmorFactor(double omega) override;  // affects mortality probability
+  void setCamouflage(double psi) override;     // affects detection probability
+
 };
 
 #endif

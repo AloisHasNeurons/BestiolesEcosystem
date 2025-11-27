@@ -11,6 +11,6 @@ class IAccessory : public Decorator {
   
   virtual void move(Environment& env) = 0;
   void action(Environment& env) override { move(env); }
-  virtual void draw() = 0;
+  virtual void draw(UImg& img) override = 0;
 };
 #endif  // IACCESSORY_H

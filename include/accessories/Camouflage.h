@@ -5,8 +5,14 @@
 
 class Camouflage : public IAccessory {
  public:
-  void updateParameters() override;
-  void draw() override;
+
+  Camouflage(IBestiole* b, double _psi);
+  ~Camouflage() override = default;
+
+  void move(Environment& env) override;
+  void draw(UImg& img) override;
+
+  double getCamouflage() const override;
 
  private:
   double psi;

@@ -5,11 +5,14 @@
 
 class Fin : public IAccessory {
 public:
-    void updateParameters() override;
-    void draw() override;
+    Fin(IBestiole* b, double _nu);
+    ~Fin() override = default;
+    
+    void move(Environment& env) override;
+    void draw(UImg& img) override;
 
 private:
     double nu;
 };
 
-#endif // FIN_H
+#endif

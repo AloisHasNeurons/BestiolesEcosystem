@@ -5,12 +5,16 @@
 
 class Shell : public IAccessory {
 public:
-    void updateParameters() override;
-    void draw() override;
+    Shell(IBestiole* b, double _omega, double _teta);
+    ~Shell() override = default;
+    void draw(UImg& img) override;
 
+    void move(Environment& env) override;
+    void draw(UImg& img) override;
+    
 private:
     double omega;
     double teta;
 };
 
-#endif // SHELL_H
+#endif
