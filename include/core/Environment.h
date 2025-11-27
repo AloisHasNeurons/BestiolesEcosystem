@@ -12,22 +12,10 @@
 #include "core/Bestiole.h"
 #include "patterns/IFactory.h"
 
-struct SensorConfig {
-  double deltaMin;   // minimum detection distance
-  double deltaMax;   // maximum detection distance
-  double alphaMin;   // minimum field-of-view angle
-  double alphaMax;   // maximum field-of-view angle
-  double gammaMin;   // lower bound of detection capability γ
-  double gammaMax;   // upper bound of detection capability γ
-};
-
 class Environment : public UImg {
  private:
   static const T white[];
   static double birthRate; // Birth rate of bestioles
-  //static double deltaEyeMin, deltaEyeMax, alpha, gammaEyeMin, gammaEyeMMax; // Vision parameters
-  static SensorConfig eyeConfig; 
-  static SensorConfig earConfig;
 
   std::map<std::string, double> behaviorDistribution = { // Adds up to 1.0
     {"Anticipating", 0.2},
@@ -64,20 +52,6 @@ class Environment : public UImg {
     birthRate = rate;
   }
 
-  static const SensorConfig& getEyeConfig() { return eyeConfig; }
-  static void setEyeConfig(const SensorConfig& cfg) { eyeConfig = cfg; }
-
-  static const SensorConfig& getEarConfig() { return earConfig; }
-  static void setEarConfig(const SensorConfig& cfg) { earConfig = cfg; }
-
-  //
-
-  void setVisionParameters(double deltaMin, double deltaMax,
-                           double alphaMin, double alphaMax,
-                           double gammaMin, double gammaMax) {
-    SensorConfig cfg { deltaMin, deltaMax, alphaMin, alphaMax, gammaMin, gammaMax };
-    setEyeConfig(cfg);
-  }
 };
 
 #endif

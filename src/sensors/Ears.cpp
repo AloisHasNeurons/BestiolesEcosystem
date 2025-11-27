@@ -2,7 +2,7 @@
 
 #include <cmath>
 #include <cstdlib>
-#include "core/Environment.h"    // Adjust path according to your project structure
+#include "core/Aquarium.h"   
 
 // Utility function: generate a uniform random number in [minVal, maxVal]
 static double uniformDouble(double minVal, double maxVal)
@@ -15,14 +15,12 @@ Ears::Ears(IBestiole* b)
     : ISensor(b)
 {
     // Read ear configuration from the environment
-    const SensorConfig& cfg = Environment::getEarConfig();
-
-    // Distance limits
-    deltaMin = cfg.deltaMin;
-    deltaMax = cfg.deltaMax;
+    const SensorConfig& cfg = Aquarium::getEarConfig();
 
     // γ is randomly chosen within [gammaMin, gammaMax]
     gamma = uniformDouble(cfg.gammaMin, cfg.gammaMax);
+    // delta is randomly chosen within [deltaMin, deltaMax]
+    delta = uniformDouble(cfg.deltaMin, cfg.deltaMax);
 }
 
 void Ears::draw(UImg& img)
@@ -65,7 +63,7 @@ bool Ears::canSee(const IBestiole& b) const
     double dy = y1 - y2;  // Screen coordinates: y increases downward, so use y1 - y2
 
     double dist = std::sqrt(dx * dx + dy * dy);
-    if (dist < deltaMin || dist > deltaMax)
+    if (dist < delta)
         return false;
 
     // ==== 2) Hearing is 360°, no field-of-view check ====

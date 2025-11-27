@@ -1,5 +1,5 @@
 #include "sensors/Eyes.h"
-#include "core/Environment.h"
+#include "core/Aquarium.h"
 
 #include <cmath>
 #include <cstdlib>
@@ -15,15 +15,14 @@ Eyes::Eyes(IBestiole* b)
     : ISensor(b)
 {
     // Read eye-parameter ranges from the environment configuration
-    const SensorConfig& cfg = Environment::getEyeConfig();
-
-    // Distance limits come directly from the config
-    deltaMin = cfg.deltaMin;
-    deltaMax = cfg.deltaMax;
+    const SensorConfig& cfg = Aquarium::getEyeConfig();
 
     // Field-of-view angle α is randomly selected within [alphaMin, alphaMax]
     double alphaDeg = uniformDouble(cfg.alphaMin, cfg.alphaMax);
     alpha = alphaDeg * std::acos(-1.0) / 180.0;  // convert degrees → radians
+
+    // Seeing distance δ randomly chosen within [deltaMin, deltaMax]
+    delta = uniformDouble(cfg.deltaMin, cfg.deltaMax);
 
     // Detection capability γ randomly chosen within [gammaMin, gammaMax]
     gamma = uniformDouble(cfg.gammaMin, cfg.gammaMax);
@@ -59,7 +58,7 @@ bool Eyes::canSee(const IBestiole& b) const
     double dy = y1 - y2;  // screen coordinates: y increases downward
     double dist = std::sqrt(dx * dx + dy * dy);
 
-    if (dist < deltaMin || dist > deltaMax)
+    if (dist < delta)
         return false;
 
     // 2) Field-of-view check: target must lie inside forward sector

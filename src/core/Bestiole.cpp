@@ -156,7 +156,7 @@ void Bestiole::action(Environment& myEnvironment) {
     // Need to implement getBestiolesList in Environment
     std::vector<IBestiole*> bestiolesList = myEnvironment.getBestiolesList();
     orientation = this->behavior->steer(*this, bestiolesList);
-    speed = this->behavior->speed(*this, bestiolesList);
+    speed = this->behavior->speed(*this, bestiolesList) * speedFactor;
   }
 
   if (speed > MAX_SPEED) {
@@ -197,14 +197,7 @@ bool operator==(const Bestiole& b1, const Bestiole& b2) {
 
 
 bool Bestiole::canSee(const IBestiole& b) const {
-  if (lifeSpan < 0) {
-    return false;
-  }
-
-  double dist;
-  dist = std::sqrt((x - b.getX()) * (x - b.getX()) +
-                   (y - b.getY()) * (y - b.getY()));
-  return (dist <= VIEW_LIMIT);
+  return false;
 }
 
 // Our implementations
@@ -226,7 +219,7 @@ bool Bestiole::collision(IBestiole* b, IBestiole* other) {
 
       // Compare hazard with resistance to determine if the collision is fatal
       // If hazard exceeds resistance, the bestiole dies
-      if (hazard > resistance) {
+      if (hazard > resistance * armorFactor) {
           kill(0);
           return true;
       }

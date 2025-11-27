@@ -6,8 +6,7 @@
 class Ears : public ISensor
 {
 private:
-    double deltaMin;  // minimum viewing distance
-    double deltaMax;  // maximum viewing distance
+    double delta;     // hearing distance δ
     double gamma;     // detection capability γ
 
 public:

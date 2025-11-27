@@ -7,8 +7,7 @@
 class Eyes : public ISensor
 {
 private:
-    double deltaMin;  // minimum viewing distance
-    double deltaMax;  // maximum viewing distance
+    double delta;     // seeing distance δ
     double alpha;     // field-of-view angle (radians)
     double gamma;     // detection capability γ
 
