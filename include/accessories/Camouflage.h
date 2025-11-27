@@ -9,7 +9,7 @@ class Camouflage : public IAccessory {
   Camouflage(IBestiole* b, double _psi);
   ~Camouflage() override = default;
 
-  void move(Environment& env) override;
+  void action(Environment& env) override;
   void draw(UImg& img) override;
 
   double getCamouflage() const override;

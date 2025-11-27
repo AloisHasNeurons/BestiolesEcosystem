@@ -8,7 +8,7 @@ Camouflage::Camouflage(IBestiole* b, double _psi)
   m_bestiole->setCamouflage(psi);
 }
 
-void Camouflage::move(Environment& env)
+void Camouflage::action(Environment& env)
 {
   // Camouflage does not alter movement behavior; simply forward the action
   m_bestiole->action(env);

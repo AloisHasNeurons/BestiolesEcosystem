@@ -16,7 +16,7 @@ Shell::Shell(IBestiole* b, double _omega, double _eta)
   m_bestiole->setArmorFactor(currentArmorFactor * omega);
 }
 
-void Shell::move(Environment& env)
+void Shell::action(Environment& env)
 {
   m_bestiole->action(env);
 }

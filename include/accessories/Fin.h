@@ -8,7 +8,7 @@ public:
     Fin(IBestiole* b, double _nu);
     ~Fin() override = default;
     
-    void move(Environment& env) override;
+    void action(Environment& env) override;
     void draw(UImg& img) override;
 
 private:

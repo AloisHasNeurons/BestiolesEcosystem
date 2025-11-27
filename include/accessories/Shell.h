@@ -9,7 +9,7 @@ public:
     ~Shell() override = default;
     void draw(UImg& img) override;
 
-    void move(Environment& env) override;
+    void action(Environment& env) override;
     void draw(UImg& img) override;
     
 private:

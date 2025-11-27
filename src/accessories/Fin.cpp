@@ -9,7 +9,7 @@ Fin::Fin(IBestiole* b, double _nu)
   m_bestiole->setSpeedFactor(currentFactor * nu);
 }
 
-void Fin::move(Environment& env) {
+void Fin::action(Environment& env) {
   m_bestiole->action(env);
 }
 
