@@ -3,11 +3,17 @@
 #define ISENSOR_H
 
 class IBestiole;
-
-class ISensor {
- public:
+#include "patterns/Decorator.h"
+class ISensor : public Decorator {
+public:
+  explicit ISensor(IBestiole *b) : Decorator(b) {}
   virtual ~ISensor() {}
-  virtual bool Detect(IBestiole& b) = 0;
-  virtual void draw() = 0;
+  virtual bool detect(IBestiole &b) = 0;
+
+  virtual void draw(UImg &img) = 0;
+
+  virtual void setCloneRate(double newCloneRate) override {}
+
+  virtual void setOrientation(double o) override {}
 };
-#endif  // ISENSOR_H
+#endif // ISENSOR_H

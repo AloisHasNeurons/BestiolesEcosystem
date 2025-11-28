@@ -10,8 +10,8 @@
 
 #include "../UImg.h"
 #include "core/Bestiole.h"
-#include "interfaces/IBestiole.h"
 #include "core/StatsCollector.h"
+#include "interfaces/IBestiole.h"
 #include "patterns/Factory.h"
 
 /**
@@ -22,9 +22,9 @@
  * Inherits from UImg to provide drawing capabilities for the simulation area.
  */
 class Environment : public UImg {
- private:
+private:
   // --- Static Members (k prefix) ---
-  static const T kBackgroundColor[];   // Background color (white)
+  static const T kBackgroundColor[]; // Background color (white)
   // Birth rate (probability) of bestioles per step
   static double kBirthRateProbability;
   // Vision parameters
@@ -40,22 +40,61 @@ class Environment : public UImg {
       {"Gregarious", 0.3},
       {"Kamikaze", 0.25},
       {"MultiPersonality", 0.15}};
+  std::map<std::string, double> eyesAccessoryDistribution = {
+
+      {"NoEyes", 0.7},
+
+      {"WithEyes", 0.3}
+
+  }; // Accessory distribution map for Eyes decorator
+
+  std::map<std::string, double> earsAccessoryDistribution = {
+
+      {"NoEars", 0.6},
+
+      {"WithEars", 0.4}
+
+  }; // Accessory distribution map for Ears decorator
+
+  std::map<std::string, double> camouflageAccessoryDistribution = {
+
+      {"NoCamouflage", 0.8},
+
+      {"WithCamouflage", 0.2}
+
+  }; // Accessory distribution map for Camouflage decorator
+
+  std::map<std::string, double> finsAccessoryDistribution = {
+
+      {"NoFins", 0.7},
+
+      {"WithFins", 0.3}
+
+  }; // Accessory distribution map for Fins decorator
+
+  std::map<std::string, double> shellAccessoryDistribution = {
+
+      {"NoShell", 0.85},
+
+      {"WithShell", 0.15}
+
+  }; // Accessory distribution map for Shell decorator
 
   // Reference to the factory used to create members
-  IFactory& m_factory;
+  IFactory &m_factory;
 
   // Main list of all bestioles currently active in the environment
-  std::vector<IBestiole*> m_bestiolesList;
+  std::vector<IBestiole *> m_bestiolesList;
   // Temporary list to hold new bestioles created during a step, added in the
   // next step
-  std::vector<IBestiole*> m_bestiolesToAdd;
+  std::vector<IBestiole *> m_bestiolesToAdd;
 
   StatsCollector m_statsCollector;
   int m_stepCount;
   std::chrono::steady_clock::time_point m_lastSummaryTime;
   double m_summaryIntervalSeconds = 2.0;
 
- public:
+public:
   /**
    * @brief Constructor with specified dimensions.
    *
@@ -64,7 +103,7 @@ class Environment : public UImg {
    * @param factoryRef The factory used to create IBestiole objects (renamed
    * from 'f').
    */
-  Environment(int kWidth, int kHeight, IFactory& factoryRef);
+  Environment(int kWidth, int kHeight, IFactory &factoryRef);
 
   /**
    * @brief Destructor.
@@ -79,7 +118,7 @@ class Environment : public UImg {
    * @param factoryRef The factory used to create IBestiole objects (renamed
    * from 'f').
    */
-  explicit Environment(IFactory& factoryRef);
+  explicit Environment(IFactory &factoryRef);
 
   /**
    * @brief Executes one step of the environment simulation.
@@ -95,7 +134,7 @@ class Environment : public UImg {
    *
    * @param bestiole A pointer to the IBestiole to add (renamed from 'b').
    */
-  void addMember(IBestiole* bestiole);
+  void addMember(IBestiole *bestiole);
 
   /**
    * @brief Counts the number of visible neighbors for a given bestiole.
@@ -104,8 +143,8 @@ class Environment : public UImg {
    * (renamed from 'b').
    * @return The number of neighboring bestioles visible to `currentBestiole`.
    */
-  int neighborCount(const IBestiole& currentBestiole);
-  void recordEvent(const std::string& event);
+  int neighborCount(const IBestiole &currentBestiole);
+  void recordEvent(const std::string &event);
 
   // --- Getters (Simple/Inline) ---
 
@@ -119,7 +158,7 @@ class Environment : public UImg {
    * @brief Gets the list of all active bestioles in the environment.
    * @return std::vector<IBestiole*> The list of bestioles.
    */
-  std::vector<IBestiole*> getBestiolesList() const { return m_bestiolesList; }
+  std::vector<IBestiole *> getBestiolesList() const { return m_bestiolesList; }
 
   /**
    * @brief Gets the minimum eye angle difference for perception.
@@ -152,6 +191,31 @@ class Environment : public UImg {
    */
   double getGammaEyeMaxPixels() const { return kGammaEyeMaxPixels; }
 
+  std::map<std::string, double> getEyesAccessoryDistribution() const {
+
+    return eyesAccessoryDistribution;
+  }
+
+  std::map<std::string, double> getEarsAccessoryDistribution() const {
+
+    return earsAccessoryDistribution;
+  }
+
+  std::map<std::string, double> getCamouflageAccessoryDistribution() const {
+
+    return camouflageAccessoryDistribution;
+  }
+
+  std::map<std::string, double> getFinsAccessoryDistribution() const {
+
+    return finsAccessoryDistribution;
+  }
+
+  std::map<std::string, double> getShellAccessoryDistribution() const {
+
+    return shellAccessoryDistribution;
+  }
+
   // --- Setters (Simple/Inline) ---
 
   /**
@@ -159,7 +223,7 @@ class Environment : public UImg {
    * @param newDistribution The new map of behavior names to probabilities.
    */
   void setBehaviorDistribution(
-      const std::map<std::string, double>& newDistribution) {
+      const std::map<std::string, double> &newDistribution) {
     m_behaviorDistribution = newDistribution;
   }
 
@@ -188,4 +252,4 @@ class Environment : public UImg {
   }
 };
 
-#endif  // ENVIRONMENT_H_
+#endif // ENVIRONMENT_H_

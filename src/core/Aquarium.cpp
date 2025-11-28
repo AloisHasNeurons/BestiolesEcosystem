@@ -16,9 +16,15 @@
  *
  * @param kWidth The width of the simulation area (in pixels).
  * @param kHeight The height of the simulation area (in pixels).
- * @param kDelayMs The delay (in milliseconds) between each simulation step
- * (renamed from '_delay').
+ * @param kDelayMs The delay (in milliseconds) between each simulation step.
  */
+// Define static members
+
+SensorConfig Aquarium::eyeConfig;
+
+SensorConfig Aquarium::earConfig;
+
+AccessoryConfig Aquarium::accessoryConfig;
 Aquarium::Aquarium(int kWidth, int kHeight, int kDelayMs)
     // Initialize CImgDisplay and the private delay member.
     : CImgDisplay(), m_delayMs(kDelayMs) {
@@ -77,7 +83,8 @@ void Aquarium::run(void) {
       // std::cout << "You pressed key " << static_cast<unsigned char>(key())
       //           << " (" << key() << ")" << std::endl;
       // Close the window if the ESC key is pressed.
-      if (is_keyESC()) close();
+      if (is_keyESC())
+        close();
     }
 
     // Advance the simulation by one step.

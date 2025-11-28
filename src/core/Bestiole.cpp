@@ -67,7 +67,7 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> behavior)
   m_cloneRate = (static_cast<double>(rand()) / RAND_MAX) / 1000.0;
 
   m_color = new unsigned char[3];
-  unsigned char* behaviorColor = m_behavior->getColor();
+  unsigned char *behaviorColor = m_behavior->getColor();
 
   // Set color based on the associated behavior, if available.
   if (behaviorColor != nullptr) {
@@ -84,6 +84,11 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> behavior)
     m_color[2] =
         static_cast<int>(static_cast<double>(rand()) / RAND_MAX * 230.);
   }
+  m_speedFactor = 1.0;
+
+  m_armorFactor = 1.0;
+
+  m_camouflagePsi = 0.0;
 }
 
 /**
@@ -97,7 +102,7 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> behavior)
  * @param otherBestiole The Bestiole object to copy from (renamed from 'b').
  */
 // Copy constructor
-Bestiole::Bestiole(const Bestiole& otherBestiole) {
+Bestiole::Bestiole(const Bestiole &otherBestiole) {
   m_identity = ++kNextId;
 
   // std::cout << "const Bestiole (" << m_identity << ") by copy" << std::endl;
@@ -105,7 +110,7 @@ Bestiole::Bestiole(const Bestiole& otherBestiole) {
   m_x = otherBestiole.m_x;
   m_y = otherBestiole.m_y;
   m_cumulativeX = m_cumulativeY =
-      0.;  // Reset cumulative movement for a new clone
+      0.; // Reset cumulative movement for a new clone
   m_orientation = otherBestiole.m_orientation;
   m_speed = otherBestiole.m_speed;
   m_lifeSpan = otherBestiole.m_lifeSpan;
@@ -211,12 +216,12 @@ void Bestiole::move(int xLimit, int yLimit) {
  *
  * @param myEnvironment The environment in which the bestiole exists.
  */
-void Bestiole::action(Environment& myEnvironment) {
+void Bestiole::action(Environment &myEnvironment) {
   // Decrease lifespan and check if the bestiole should die of old age.
   if (m_lifeSpan > 0) {
     m_lifeSpan--;
     if (m_lifeSpan == 0) {
-      this->kill(0);  // Mark for instant death
+      this->kill(0); // Mark for instant death
       myEnvironment.recordEvent("Natural death of " + getBehaviorString());
     }
   }
@@ -233,7 +238,7 @@ void Bestiole::action(Environment& myEnvironment) {
   // cloned.
   if (hazard < m_cloneRate) {
     // Create a clone and add it to the environment.
-    IBestiole* newBestiole = this->clone();
+    IBestiole *newBestiole = this->clone();
     myEnvironment.addMember(newBestiole);
     myEnvironment.recordEvent("Clone of " + getBehaviorString());
   }
@@ -241,7 +246,7 @@ void Bestiole::action(Environment& myEnvironment) {
   // Apply behavior-based steering and speed adjustments.
   if (m_behavior) {
     // Get the list of all bestioles (potential neighbors) from the environment.
-    std::vector<IBestiole*> neighbors = myEnvironment.getBestiolesList();
+    std::vector<IBestiole *> neighbors = myEnvironment.getBestiolesList();
     // Pass the list to the behavior to calculate new orientation and speed.
     m_orientation = this->m_behavior->steer(*this, neighbors);
     m_speed = this->m_behavior->speed(*this, neighbors);
@@ -266,14 +271,14 @@ void Bestiole::action(Environment& myEnvironment) {
  *
  * @param support The CImg object representing the environment/display surface.
  */
-void Bestiole::draw(UImg& support) {
+void Bestiole::draw(UImg &support) {
   // Only draw if the bestiole is alive (lifeSpan > 0).
   if (m_lifeSpan < 0) {
     return;
   }
   // Use the behavior's color if available, otherwise use the bestiole's
   // default (m_color).
-  unsigned char* drawColor = this->m_color;
+  unsigned char *drawColor = this->m_color;
   if (m_behavior && m_behavior->getColor()) {
     drawColor = m_behavior->getColor();
   }
@@ -297,7 +302,7 @@ void Bestiole::draw(UImg& support) {
  * @param b2 The second Bestiole.
  * @return true if both bestioles have the same identity, false otherwise.
  */
-bool operator==(const Bestiole& b1, const Bestiole& b2) {
+bool operator==(const Bestiole &b1, const Bestiole &b2) {
   return (b1.m_identity == b2.m_identity);
 }
 
@@ -311,7 +316,7 @@ bool operator==(const Bestiole& b1, const Bestiole& b2) {
  * from 'b').
  * @return true if the other bestiole is within the kViewLimit, false otherwise.
  */
-bool Bestiole::canSee(const IBestiole& otherBestiole) const {
+bool Bestiole::canSee(const IBestiole &otherBestiole) const {
   // Dead bestioles cannot see.
   if (m_lifeSpan < 0) {
     return false;
@@ -333,7 +338,7 @@ bool Bestiole::canSee(const IBestiole& otherBestiole) const {
  *
  * @return A pointer to the newly created Bestiole clone.
  */
-IBestiole* Bestiole::clone() {
+IBestiole *Bestiole::clone() {
   // std::cout << "Cloning Bestiole (" << m_identity << ")" << std::endl;
   return new Bestiole(*this);
 }
@@ -352,9 +357,9 @@ bool Bestiole::collision() {
   // Random value for survival check.
   double hazard = static_cast<double>(std::rand()) / RAND_MAX;
 
-  if (hazard > m_resistance) {
-    kill(0);      // Die immediately
-    return true;  // "I died"
+  if (hazard > m_resistance * m_armorFactor) {
+    kill(0);     // Die immediately
+    return true; // "I died"
   }
 
   // If they survive, reverse orientation (bounce).
@@ -366,7 +371,7 @@ bool Bestiole::collision() {
     m_orientation = m_orientation - M_PI;
   }
 
-  return false;  // "I survived"
+  return false; // "I survived"
 }
 
 /**
@@ -381,7 +386,7 @@ bool Bestiole::collision() {
 void Bestiole::kill(int delay) {
   if (delay <= 0) {
     m_lifeSpan =
-        -1;  // Negative lifespan signals immediate removal in the next step
+        -1; // Negative lifespan signals immediate removal in the next step
   } else {
     m_lifeSpan = delay;
   }
@@ -465,6 +470,20 @@ double Bestiole::getResistance() const { return m_resistance; }
 double Bestiole::getOpacity() const { return m_opacity; }
 
 /**
+
+
+
+ * @brief Gets the bestiole's size for drawing purposes.
+
+
+ * @return The size (radius/dimension for drawing).
+
+
+ */
+
+double Bestiole::getSize() const { return kAffSizePixels; }
+
+/**
  * @brief Gets the bestiole's remaining lifespan.
  * @return The remaining lifespan (in steps).
  */
@@ -474,10 +493,24 @@ int Bestiole::getLifeSpan() const { return m_lifeSpan; }
  * @brief Gets a pointer to the bestiole's current behavior strategy.
  * @return A raw pointer to the IBehavior object.
  */
-IBehavior* Bestiole::getBehavior() const { return m_behavior.get(); }
+IBehavior *Bestiole::getBehavior() const { return m_behavior.get(); }
 
 /**
  * @brief Gets the string representation of the bestiole's behavior.
  * @return The behavior name string.
  */
 std::string Bestiole::getBehaviorString() const { return m_behaviorString; }
+
+double Bestiole::getSpeedFactor() const { return m_speedFactor; }
+
+double Bestiole::getArmorFactor() const { return m_armorFactor; }
+
+double Bestiole::getCamouflage() const { return m_camouflagePsi; }
+
+// Setters for new parameters(Use in Decorator pattern)
+
+void Bestiole::setSpeedFactor(double f) { m_speedFactor = f; }
+
+void Bestiole::setArmorFactor(double f) { m_armorFactor = f; }
+
+void Bestiole::setCamouflage(double psi) { m_camouflagePsi = psi; }

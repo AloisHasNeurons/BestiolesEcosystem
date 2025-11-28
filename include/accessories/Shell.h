@@ -4,13 +4,16 @@
 #include "../interfaces/IAccessory.h"
 
 class Shell : public IAccessory {
- public:
-  void updateParameters() override;
-  void draw() override;
+public:
+  explicit Shell(IBestiole *b);
+  ~Shell() override = default;
 
- private:
-  double omega;
-  double teta;
+  void action(Environment &env) override;
+  void draw(UImg &img) override;
+
+private:
+  double m_omega;
+  double m_teta;
 };
 
-#endif  // SHELL_H
+#endif

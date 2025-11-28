@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 #include <utility>
-#include <vector>  // Added for vector use in IBestiole methods
+#include <vector> // Added for vector use in IBestiole methods
 
 #include "../interfaces/IBestiole.h"
 #include "UImg.h"
@@ -21,40 +21,44 @@ class IBehavior;
  * and behavior via a Strategy pattern (`IBehavior`).
  */
 class Bestiole : public IBestiole {
- private:
+private:
   // --- Static Constants (k prefix) ---
   static const double
-      kAffSizePixels;  // Affichage size (radius/dimension for drawing)
-  static const double kMaxSpeedPixels;   // Maximum movement speed
-  static const double kViewLimitPixels;  // Maximum visual range (distance)
+      kAffSizePixels; // Affichage size (radius/dimension for drawing)
+  static const double kMaxSpeedPixels;  // Maximum movement speed
+  static const double kViewLimitPixels; // Maximum visual range (distance)
   static const int
-      kMaxLifeSpanSteps;    // Maximum number of steps the bestiole can live
-  static int kNextId;  // Counter for assigning unique identity
+      kMaxLifeSpanSteps; // Maximum number of steps the bestiole can live
+  static int kNextId;    // Counter for assigning unique identity
 
- private:
+private:
   // --- Dynamic State (m_ prefix) ---
-  int m_identity;  // Unique identifier
-  int m_x, m_y;    // Current integer coordinates
+  int m_identity; // Unique identifier
+  int m_x, m_y;   // Current integer coordinates
   double m_cumulativeX,
-      m_cumulativeY;  // Fractional coordinate accumulation for smooth movement
-  double m_orientation;  // Direction of movement (angle in radians)
-  double m_speed;        // Current movement speed
+      m_cumulativeY; // Fractional coordinate accumulation for smooth movement
+  double m_orientation; // Direction of movement (angle in radians)
+  double m_speed;       // Current movement speed
 
-  unsigned char* m_color;  // RGB color array for drawing
+  unsigned char *m_color; // RGB color array for drawing
 
   double
-      m_resistance;  // Survival chance against hazards/collisions (0.0 to 1.0)
-  double m_opacity;  // Opacity/visibility factor (0.0 to 1.0)
-  int m_lifeSpan;    // Remaining lifespan (steps)
-  double m_cloneRate;  // Probability of cloning per step
+      m_resistance;   // Survival chance against hazards/collisions (0.0 to 1.0)
+  double m_opacity;   // Opacity/visibility factor (0.0 to 1.0)
+  int m_lifeSpan;     // Remaining lifespan (steps)
+  double m_cloneRate; // Probability of cloning per step
+  double m_speedFactor = 1.0;
 
+  double m_armorFactor = 1.0;
+
+  double m_camouflagePsi = 0.0;
   // String representation of the current behavior (for logging/debugging)
   std::string m_behaviorString;
 
   // The behavior strategy (unique ownership)
   std::unique_ptr<IBehavior> m_behavior;
 
- private:
+private:
   /**
    * @brief Calculates and updates the bestiole's position.
    *
@@ -65,7 +69,7 @@ class Bestiole : public IBestiole {
    */
   void move(int xLimit, int yLimit);
 
- public:
+public:
   // Bestiole(void); // Default constructor commented out in original
 
   /**
@@ -74,7 +78,7 @@ class Bestiole : public IBestiole {
    * Creates a deep copy of the state and clones the behavior strategy.
    * @param otherBestiole The Bestiole object to copy from (renamed from 'b').
    */
-  Bestiole(const Bestiole& otherBestiole);
+  Bestiole(const Bestiole &otherBestiole);
 
   /**
    * @brief Constructor using a unique pointer for the initial behavior.
@@ -94,11 +98,11 @@ class Bestiole : public IBestiole {
 
   // --- IBestiole Interface Methods ---
 
-  void action(Environment& myEnvironment) override;
-  void draw(UImg& support) override;
+  void action(Environment &myEnvironment) override;
+  void draw(UImg &support) override;
   void initCoords(int xLimit, int yLimit) override;
 
-  IBestiole* clone() override;
+  IBestiole *clone() override;
   bool collision() override;
   void kill(int delay) override;
   void changeBehavior(std::unique_ptr<IBehavior> behavior) override;
@@ -119,8 +123,15 @@ class Bestiole : public IBestiole {
   double getMaxSpeed() const override;
   double getResistance() const override;
   double getOpacity() const override;
+  double getSize() const override;
+
+  double getCamouflage() const override;
+
+  double getSpeedFactor() const override;
+
+  double getArmorFactor() const override;
   int getLifeSpan() const override;
-  IBehavior* getBehavior() const override;
+  IBehavior *getBehavior() const override;
   std::string getBehaviorString() const override;
 
   /**
@@ -129,10 +140,15 @@ class Bestiole : public IBestiole {
    * (renamed from 'b').
    * @return true if visible, false otherwise.
    */
-  bool canSee(const IBestiole& otherBestiole) const override;
+  bool canSee(const IBestiole &otherBestiole) const override;
 
   // --- Friend Operators ---
-  friend bool operator==(const Bestiole& b1, const Bestiole& b2);
+  friend bool operator==(const Bestiole &b1, const Bestiole &b2);
+  void setSpeedFactor(double f) override; // affects movement speed
+
+  void setArmorFactor(double omega) override; // affects mortality probability
+
+  void setCamouflage(double psi) override; // affects detection probability
 };
 
-#endif  // BESTIOLE_H
+#endif // BESTIOLE_H
