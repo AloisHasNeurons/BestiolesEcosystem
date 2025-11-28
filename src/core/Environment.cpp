@@ -14,32 +14,29 @@
 // Define static members (using 'k' prefix)
 
 // Color array for the environment background (white: 255, 255, 255).
-const unsigned char Environment::kWhite[] = {255, 255, 255};
+const unsigned char Environment::kBackgroundColor[] = {255, 255, 255};
 // The probability of a new bestiole being born in a step.
-double Environment::kBirthRate = 0.1;
+double Environment::kBirthRateProbability = 0.1;
 // Minimum angle difference for the bestiole's eye orientation check.
-double Environment::kDeltaEyeMin = 0.0;
+double Environment::kDeltaEyeMinRadians = 0.0;
 // Maximum angle difference for the bestiole's eye orientation check (90
 // degrees).
-double Environment::kDeltaEyeMax = M_PI / 2;
+double Environment::kDeltaEyeMaxRadians = M_PI / 2;
 // Angle parameter related to eye perception (45 degrees).
-double Environment::kAlpha = M_PI / 4;
+double Environment::kAlphaRadians = M_PI / 4;
 // Minimum eye distance/range parameter.
-double Environment::kGammaEyeMin = 0.0;
+double Environment::kGammaEyeMinPixels = 0.0;
 // Maximum eye distance/range parameter.
-double Environment::kGammaEyeMax = 20.0;
+double Environment::kGammaEyeMaxPixels = 20.0;
 
 /**
  * @brief Constructs an Environment with specified dimensions and a factory.
  *
  * Initializes the environment dimensions and sets up the random number
  * generator.
- * @param kWidth The width of the environment (in pixels) (renamed from
- * '_width').
- * @param kHeight The height of the environment (in pixels) (renamed from
- * '_height').
- * @param factoryRef The factory used to create IBestiole objects (renamed from
- * 'f').
+ * @param kWidth The width of the environment (in pixels).
+ * @param kHeight The height of the environment (in pixels).
+ * @param factoryRef The factory used to create IBestiole objects.
  */
 Environment::Environment(int kWidth, int kHeight, IFactory& factoryRef)
     : UImg(kWidth, kHeight, 1, 3), m_factory(factoryRef), m_stepCount(0) {
@@ -53,8 +50,7 @@ Environment::Environment(int kWidth, int kHeight, IFactory& factoryRef)
  *
  * Uses default dimensions from UImg (usually 640x480) and sets up the random
  * number generator.
- * @param factoryRef The factory used to create IBestiole objects (renamed from
- * 'f').
+ * @param factoryRef The factory used to create IBestiole objects.
  */
 Environment::Environment(IFactory& factoryRef)
     : m_factory(factoryRef), m_stepCount(0) {
@@ -111,8 +107,10 @@ void Environment::step(void) {
     }
   }
 
-  // 3. Clear the display by filling it with the background color (kWhite).
-  cimg_forXY(*this, x, y) fillC(x, y, 0, kWhite[0], kWhite[1], kWhite[2]);
+  // 3. Clear the display by filling it with the background color.
+  cimg_forXY(*this, x, y) fillC(x, y, 0, kBackgroundColor[0],
+                                         kBackgroundColor[1],
+                                         kBackgroundColor[2]);
 
   // 4. Iterate through all bestioles to update, draw, and check collisions.
   for (auto currentBestiole : m_bestiolesList) {
@@ -136,7 +134,7 @@ void Environment::step(void) {
       double dist = std::sqrt(dx * dx + dy * dy);
 
       // Define the distance for considering a collision (using
-      // Bestiole::kAffSize * factor).
+      // Bestiole::kAffSizePixels * factor).
       const double kCollisionThreshold = 8.0;
 
       if (dist < kCollisionThreshold) {
@@ -154,8 +152,8 @@ void Environment::step(void) {
   double randomValue =
       static_cast<double>(std::rand()) / (static_cast<double>(RAND_MAX) + 1.0);
 
-  // Check if a new bestiole should be born based on kBirthRate.
-  if (randomValue < kBirthRate) {
+  // Check if a new bestiole should be born based on kBirthRateProbability.
+  if (randomValue < kBirthRateProbability) {
     // Create a new bestiole using the factory.
     IBestiole* newBestiole = m_factory.createBestiole();
     if (newBestiole) {
@@ -200,7 +198,7 @@ void Environment::addMember(IBestiole* bestiole) {
  * @return The number of neighboring bestioles visible to `currentBestiole`.
  */
 int Environment::neighborCount(const IBestiole& currentBestiole) {
-  int neighbor_count = 0;
+  int neighborCount = 0;
   // Iterate through all bestioles in the environment.
   for (std::vector<IBestiole*>::iterator iterator = m_bestiolesList.begin();
        iterator != m_bestiolesList.end(); ++iterator) {
@@ -211,10 +209,10 @@ int Environment::neighborCount(const IBestiole& currentBestiole) {
 
     // Check if the current bestiole can perceive the other bestiole.
     if (currentBestiole.canSee(*otherBestiole)) {
-      ++neighbor_count;
+      ++neighborCount;
     }
   }
-  return neighbor_count;
+  return neighborCount;
 }
 
 void Environment::recordEvent(const std::string& event) {

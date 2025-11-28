@@ -24,11 +24,12 @@
 class Environment : public UImg {
  private:
   // --- Static Members (k prefix) ---
-  static const T kWhite[];   // Background color (white)
-  static double kBirthRate;  // Birth rate (probability) of bestioles per step
-                             // (renamed from 'birthRate')
-  // Vision parameters (renamed from 'deltaEyeMin', etc.)
-  static double kDeltaEyeMin, kDeltaEyeMax, kAlpha, kGammaEyeMin, kGammaEyeMax;
+  static const T kBackgroundColor[];   // Background color (white)
+  // Birth rate (probability) of bestioles per step
+  static double kBirthRateProbability;
+  // Vision parameters
+  static double kDeltaEyeMinRadians, kDeltaEyeMaxRadians, kAlphaRadians;
+  static double kGammaEyeMinPixels, kGammaEyeMaxPixels;
 
   // Map defining the probability distribution for bestiole creation by the
   // factory
@@ -124,32 +125,32 @@ class Environment : public UImg {
    * @brief Gets the minimum eye angle difference for perception.
    * @return double The minimum delta eye angle.
    */
-  double getDeltaEyeMin() const { return kDeltaEyeMin; }
+  double getDeltaEyeMinRadians() const { return kDeltaEyeMinRadians; }
 
   /**
    * @brief Gets the maximum eye angle difference for perception.
    * @return double The maximum delta eye angle.
    */
-  double getDeltaEyeMax() const { return kDeltaEyeMax; }
+  double getDeltaEyeMaxRadians() const { return kDeltaEyeMaxRadians; }
 
   /**
    * @brief Gets the alpha parameter for vision.
    * @return double The alpha value.
    */
-  double getAlpha() const { return kAlpha; }
+  double getAlphaRadians() const { return kAlphaRadians; }
 
   /**
    * @brief Gets the minimum eye distance/range parameter.
    * @return double The minimum gamma eye distance.
    */
-  double getGammaEyeMin() const { return kGammaEyeMin; }
+  double getGammaEyeMinPixels() const { return kGammaEyeMinPixels; }
 
   /**
    * @brief Gets the maximum eye distance/range parameter.
    * @return double The maximum gamma eye distance (renamed from
    * 'gammaEyeMMax').
    */
-  double getGammaEyeMax() const { return kGammaEyeMax; }
+  double getGammaEyeMaxPixels() const { return kGammaEyeMaxPixels; }
 
   // --- Setters (Simple/Inline) ---
 
@@ -166,7 +167,7 @@ class Environment : public UImg {
    * @brief Sets the probability of new bestiole birth per step.
    * @param rate The new birth rate (0.0 to 1.0).
    */
-  void setBirthRate(double rate) { kBirthRate = rate; }
+  void setBirthRateProbability(double rate) { kBirthRateProbability = rate; }
 
   /**
    * @brief Sets all vision parameters simultaneously.
@@ -179,11 +180,11 @@ class Environment : public UImg {
    */
   void setVisionParameters(double deltaMin, double deltaMax, double alphaVal,
                            double gammaMin, double gammaMax) {
-    kDeltaEyeMin = deltaMin;
-    kDeltaEyeMax = deltaMax;
-    kAlpha = alphaVal;
-    kGammaEyeMin = gammaMin;
-    kGammaEyeMax = gammaMax;
+    kDeltaEyeMinRadians = deltaMin;
+    kDeltaEyeMaxRadians = deltaMax;
+    kAlphaRadians = alphaVal;
+    kGammaEyeMinPixels = gammaMin;
+    kGammaEyeMaxPixels = gammaMax;
   }
 };
 
