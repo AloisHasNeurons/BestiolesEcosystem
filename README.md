@@ -49,6 +49,30 @@ Before you begin, you will need:
 
 This project is built around key design patterns to ensure flexibility and separation of concerns.
 
+### Abstract Factory Pattern (Creation)
+
+**Why this pattern?**
+The Abstract Factory pattern was chosen because it is designed to create *families of related objects*. In our simulation, this represents the different species of Bestioles, each with their own behavior. This pattern also provides extensibility for the future—new creation methods can be added if Bestioles need to be born through external events or other mechanisms.
+
+**How it's adapted:**
+- `IFactory` defines the creation interface with a single `createBestiole()` method.
+- The `Factory` class accesses the `Environment` to retrieve behavior distribution probabilities.
+- Using `std::discrete_distribution`, the factory performs weighted random selection of behavior types.
+- The factory creates Bestioles with their initial behavior, abstracting creation details from the Environment.
+- The behavior distribution is configurable in the Environment (e.g., "the environment contains X% gregarious, Y% anticipating, Z% kamikaze...").
+- At creation time, each Bestiole receives a random lifespan and has equal probability of being decorated with any accessory or sensor.
+
+### Prototype Pattern (Cloning)
+
+**Why this pattern?**
+The Prototype pattern enables Bestioles to self-replicate (clone) without the creation code needing to know their specific type or decoration chain.
+
+**How it's adapted:**
+- The `IBestiole` interface defines a `clone()` method that returns a deep copy of the object.
+- All Bestioles have the same probability of cloning themselves during the simulation.
+- Cloning is triggered in the `Environment::step()` method based on the clone rate.
+- Decorators override `clone()` to ensure the entire decoration chain is properly duplicated.
+
 ### Strategy Pattern (Behaviors)
 
 **Why this pattern?**
@@ -58,8 +82,8 @@ The Strategy Pattern was chosen to encapsulate the different movement and decisi
 - The `IBehavior` interface defines two key methods: `steer()` for direction control and `speed()` for velocity management.
 - Concrete behaviors (`Fearful`, `Gregarious`, `Kamikaze`, `Anticipating`, `MultiPersonality`) implement these methods with their own logic.
 - Each Bestiole holds a `std::unique_ptr<IBehavior>`, allowing behaviors to be changed at runtime via `changeBehavior()`.
-- Behaviors also define their own color representation, making visual distinction easy.
-- The `MultiPersonality` behavior is a composite that switches between other behaviors periodically, demonstrating how strategies can be composed.
+- Behaviors also define their own color representation, making visual distinction easy (one color = one behavior type).
+- The `MultiPersonality` behavior uses a **Composite-like approach**, linking to the `IBehavior` interface to delegate to different concrete behaviors. It periodically switches between behaviors, demonstrating how strategies can be composed.
 
 ### Decorator Pattern (Accessories & Sensors)
 
@@ -68,22 +92,58 @@ The Decorator Pattern enables dynamic addition of capabilities (accessories and 
 
 **How it's adapted:**
 - The `Decorator` base class wraps an `IBestiole*` and delegates all interface calls to the wrapped object.
-- Accessories (`Fin`, `Shell`, `Camouflage`) modify physical attributes like speed, resistance, and opacity.
-- Sensors (`Eyes`, `Ears`) extend perception capabilities with different detection characteristics.
+- All accessories and sensors have **equal probability** of being applied when a Bestiole is created.
+- Accessories modify physical attributes:
+  - `Fin` (ν parameter): Increases speed
+  - `Shell` (ω, θ parameters): Increases resistance, decreases speed
+  - `Camouflage` (ψ parameter): Reduces detection probability (modifies opacity)
+- Sensors extend perception capabilities:
+  - `Eyes` (δ, α, γ parameters): Visual detection with angle and range limits
+  - `Ears` (δ, γ parameters): Audio detection with range-based perception
+- Detection uses a single common method (`canSee`/`Detect`) that is overridden in decorators. If a Bestiole has both Eyes AND Ears, detection is evaluated separately for each sensor type.
 - Decorators can be stacked, allowing a Bestiole to have multiple accessories and sensors simultaneously.
 - Each decorator overrides the `clone()` method to ensure proper deep copying of the entire decoration chain.
 
-### Factory Pattern (Creation)
+### IsKillable Interface (Death)
 
-**Why this pattern?**
-The Factory Pattern centralizes Bestiole creation logic, allowing the system to create diverse creatures based on configurable probability distributions without coupling the creation code to specific types.
+**Why this approach?**
+A simple `IsKillable` interface was implemented to handle Bestiole death. This provides a clean abstraction for the kill mechanism without requiring complex inheritance.
 
 **How it's adapted:**
-- `IFactory` defines the creation interface with a single `createBestiole()` method.
-- The `Factory` class accesses the `Environment` to retrieve behavior distribution probabilities.
-- Using `std::discrete_distribution`, the factory performs weighted random selection of behavior types.
-- The factory creates Bestioles with their initial behavior, abstracting creation details from the Environment.
-- This design allows easy modification of population dynamics by adjusting distribution weights.
+- The `IsKillable` interface defines a `kill(int delay)` method.
+- `IBestiole` inherits from `IsKillable`, making all Bestioles killable.
+- Death can occur due to:
+  - Lifespan expiration (random lifespan assigned at creation)
+  - Collision with another Bestiole (survival probability based on `resistance` attribute)
+
+## Simulation Configuration
+
+### Environment Parameters
+
+The simulation behavior is controlled through various configurable parameters:
+
+| Parameter | Description |
+|-----------|-------------|
+| **Birth Rate** | Probability of spontaneous birth per simulation step (attribute in Environment) |
+| **Behavior Distribution** | Percentage distribution of behaviors in new births (e.g., 30% Gregarious, 25% Kamikaze, etc.) |
+| **Decoration Probability** | All accessories/sensors have equal probability of being applied |
+| **Lifespan** | Randomly assigned at Bestiole creation |
+| **Resistance** | Attribute defining survival probability during collisions |
+| **Detection** | Attribute modified by Camouflage decorator to reduce visibility |
+| **Perception Limits** | Parameters (α, γ, δ, ν, ω, θ, ψ) configured at Aquarium creation |
+
+### Visual Representation
+
+Each Bestiole component has a distinct visual representation:
+
+| Component | Visual |
+|-----------|--------|
+| **Eyes** | Two small dots |
+| **Ears** | Diamond shape |
+| **Fin** | Triangle |
+| **Camouflage** | Opacity (transparency) |
+| **Shell** | Large dot |
+| **Behavior** | Color-coded (each behavior = unique color) |
 
 ### Class Diagram
 
@@ -328,6 +388,45 @@ sequenceDiagram
     F->>B: new Bestiole(unique_ptr~IBehavior~)
     B->>B: Initialize position, speed, etc.
     F-->>E: Bestiole*
+```
+
+#### Bestiole Collision
+
+This diagram shows how collision detection works and how survival is determined based on the resistance attribute.
+
+```mermaid
+sequenceDiagram
+    participant E as Environment
+    participant B1 as Bestiole 1
+    participant B2 as Bestiole 2
+    participant RNG as Random Generator
+
+    E->>B1: action(environment)
+    B1->>B1: move()
+    B1->>B1: collision()
+    
+    Note over B1,B2: Check distance to other Bestioles
+    
+    alt Collision with B2 detected
+        B1->>B1: getResistance()
+        B1-->>B1: resistance value (0.0 to 1.0)
+        
+        B1->>RNG: Generate random [0, 1]
+        RNG-->>B1: random value
+        
+        alt random > resistance
+            Note over B1: Death - Bestiole does not survive
+            B1->>B1: kill(0)
+            B1-->>E: collision() returns true
+        else random <= resistance
+            Note over B1: Survival - Bestiole survives collision
+            B1-->>E: collision() returns false
+        end
+    else No collision
+        B1-->>E: collision() returns false
+    end
+    
+    E->>E: Remove dead Bestioles from list
 ```
 
 ## Project Structure
