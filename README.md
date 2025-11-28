@@ -52,7 +52,7 @@ This project is built around key design patterns to ensure flexibility and separ
 ### Abstract Factory Pattern (Creation)
 
 **Why this pattern?**
-The Abstract Factory pattern was chosen because it is designed to create *families of related objects*. In our simulation, this represents the different species of Bestioles, each with their own behavior. This pattern also provides extensibility for the future—new creation methods can be added if Bestioles need to be born through external events or other mechanisms.
+The Abstract Factory pattern was chosen because it is designed to create *families of related objects*. In our simulation, this represents the different families of Bestioles with various behavioral configurations. This pattern also provides extensibility for the future—new creation methods can be added if Bestioles need to be born through external events or other mechanisms.
 
 **How it's adapted:**
 - `IFactory` defines the creation interface with a single `createBestiole()` method.
@@ -83,7 +83,7 @@ The Strategy Pattern was chosen to encapsulate the different movement and decisi
 - Concrete behaviors (`Fearful`, `Gregarious`, `Kamikaze`, `Anticipating`, `MultiPersonality`) implement these methods with their own logic.
 - Each Bestiole holds a `std::unique_ptr<IBehavior>`, allowing behaviors to be changed at runtime via `changeBehavior()`.
 - Behaviors also define their own color representation, making visual distinction easy (one color = one behavior type).
-- The `MultiPersonality` behavior uses a **Composite-like approach**, linking to the `IBehavior` interface to delegate to different concrete behaviors. It periodically switches between behaviors, demonstrating how strategies can be composed.
+- The `MultiPersonality` behavior demonstrates **strategy switching**, where it links to the `IBehavior` interface to delegate to different concrete behaviors. It periodically switches between behaviors at runtime, showcasing how strategies can be dynamically composed.
 
 ### Decorator Pattern (Accessories & Sensors)
 
@@ -100,7 +100,7 @@ The Decorator Pattern enables dynamic addition of capabilities (accessories and 
 - Sensors extend perception capabilities:
   - `Eyes` (δ, α, γ parameters): Visual detection with angle and range limits
   - `Ears` (δ, γ parameters): Audio detection with range-based perception
-- Detection uses a single common method (`canSee`/`Detect`) that is overridden in decorators. If a Bestiole has both Eyes AND Ears, detection is evaluated separately for each sensor type.
+- Detection uses a single common method (`canSee`) that is overridden in decorators. If a Bestiole has both Eyes AND Ears, detection is evaluated separately for each sensor type.
 - Decorators can be stacked, allowing a Bestiole to have multiple accessories and sensors simultaneously.
 - Each decorator overrides the `clone()` method to ensure proper deep copying of the entire decoration chain.
 
