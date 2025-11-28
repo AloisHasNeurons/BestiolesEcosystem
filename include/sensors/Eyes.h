@@ -1,17 +1,29 @@
 #ifndef EYES_H
 #define EYES_H
 
-#include "../interfaces/ISensor.h"
+#include "core/Environment.h"
+#include "interfaces/ISensor.h"
 
 class Eyes : public ISensor {
- public:
-  bool Detect(IBestiole& b) override;
-  void draw() override;
+private:
+  double m_delta; // seeing distance δ
+  double m_alpha; // field-of-view angle (radians)
+  double m_gamma; // detection capability γ
 
- private:
-  double delta;
-  double alpha;
-  double gamma;
+public:
+  explicit Eyes(IBestiole *b);
+
+  ~Eyes() override = default;
+
+  void draw(UImg &img) override;
+
+  bool canSee(const IBestiole &b) const override;
+
+  bool detect(IBestiole &b) override;
+
+  void setCloneRate(double newCloneRate) override {}
+
+  void setOrientation(double o) override {}
 };
 
-#endif  // EYES_H
+#endif // EYES_H

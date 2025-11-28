@@ -4,12 +4,17 @@
 #include "../interfaces/IAccessory.h"
 
 class Camouflage : public IAccessory {
- public:
-  void updateParameters() override;
-  void draw() override;
+public:
+  explicit Camouflage(IBestiole *b);
+  ~Camouflage() override = default;
 
- private:
-  double psi;
+  void action(Environment &env) override;
+  void draw(UImg &img) override;
+
+  double getCamouflage() const override;
+
+private:
+  double m_psi;
 };
 
-#endif  // CAMOUFLAGE_H
+#endif // CAMOUFLAGE_H

@@ -4,12 +4,15 @@
 #include "../interfaces/IAccessory.h"
 
 class Fin : public IAccessory {
- public:
-  void updateParameters() override;
-  void draw() override;
+public:
+  explicit Fin(IBestiole *b);
+  ~Fin() override = default;
 
- private:
-  double nu;
+  void action(Environment &env) override;
+  void draw(UImg &img) override;
+
+private:
+  double m_nu;
 };
 
-#endif  // FIN_H
+#endif
