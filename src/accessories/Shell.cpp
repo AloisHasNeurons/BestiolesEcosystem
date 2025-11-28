@@ -1,12 +1,16 @@
 #include "accessories/Shell.h"
+#include <Aquarium.h>
 #include <cmath>  // std::cos, std::sin, M_PI
 
-Shell::Shell(IBestiole* b, double _omega, double _eta)
-    : IAccessory(b), omega(_omega), teta(_eta)
+Shell::Shell(IBestiole* b)
+    : IAccessory(b)
 {
   // Modify Bestiole parameters using multiplicative factors instead of changing speed directly
   // 1) Slow down: speedFactor /= eta  (when eta > 1, it becomes slower)
   double currentSpeedFactor = m_bestiole->getSpeedFactor();
+  double r = static_cast<double>(std::rand()) / RAND_MAX;
+  double teta = Aquarium::getAccessoryConfig().tetaMin + r * (Aquarium::getAccessoryConfig().tetaMax - Aquarium::getAccessoryConfig().tetaMin);
+  double omega = Aquarium::getAccessoryConfig().omegaMin + r * (Aquarium::getAccessoryConfig().omegaMax - Aquarium::getAccessoryConfig().omegaMin);
   if (teta != 0.0) {
     m_bestiole->setSpeedFactor(currentSpeedFactor / teta);
   }

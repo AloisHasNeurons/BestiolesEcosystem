@@ -5,7 +5,7 @@
 
 class Fin : public IAccessory {
 public:
-    Fin(IBestiole* b, double _nu);
+    Fin(IBestiole* b);
     ~Fin() override = default;
     
     void action(Environment& env) override;

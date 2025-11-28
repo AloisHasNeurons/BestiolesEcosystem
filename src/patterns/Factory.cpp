@@ -43,7 +43,7 @@ IBestiole* Factory::createBestiole()
     }
 
     // Create and return a new Bestiole with the selected behavior
-    Bestiole* plainBestiole = new Bestiole(std::move(behavior)); 
+    IBestiole* plainBestiole = new Bestiole(std::move(behavior)); 
     
     // Randomly add eyes based on environment settings
     auto eyesProbs = env.getEyesAccessoryDistribution(); // Assume this method exists

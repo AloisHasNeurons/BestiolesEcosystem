@@ -6,7 +6,7 @@
 class Camouflage : public IAccessory {
  public:
 
-  Camouflage(IBestiole* b, double _psi);
+  Camouflage(IBestiole* b);
   ~Camouflage() override = default;
 
   void action(Environment& env) override;

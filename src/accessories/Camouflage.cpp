@@ -1,11 +1,15 @@
 #include "accessories/Camouflage.h"
 #include <cmath>
+#include <Aquarium.h>
+#include <random>
 
-Camouflage::Camouflage(IBestiole* b, double _psi)
-    : IAccessory(b), psi(_psi)
+Camouflage::Camouflage(IBestiole* b)
+    : IAccessory(b)
 {
   // Set the camouflage value of the bestiole
-  m_bestiole->setCamouflage(psi);
+  // chose random psi value based on environment configuration
+  double r = static_cast<double>(std::rand()) / RAND_MAX;
+  psi = Aquarium::getAccessoryConfig().camouflageMin + r * (Aquarium::getAccessoryConfig().camouflageMax - Aquarium::getAccessoryConfig().camouflageMin);
 }
 
 void Camouflage::action(Environment& env)

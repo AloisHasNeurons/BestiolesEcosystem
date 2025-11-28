@@ -1,12 +1,14 @@
 #include "accessories/Fin.h"
-
+#include <Aquarium.h>
 #include <cmath>  // std::cos, std::sin
 
-Fin::Fin(IBestiole* b, double _nu)
-    : IAccessory(b), nu(_nu) {
+Fin::Fin(IBestiole* b)
+    : IAccessory(b) {
   // Use a multiplicative factor to increase speed instead of modifying speed directly
   double currentFactor = m_bestiole->getSpeedFactor();
-  m_bestiole->setSpeedFactor(currentFactor * nu);
+  double r = static_cast<double>(std::rand()) / RAND_MAX;
+  nu = Aquarium::getAccessoryConfig().nuMin + r * (Aquarium::getAccessoryConfig().nuMax - Aquarium::getAccessoryConfig().nuMin);
+  m_bestiole->setSpeedFactor(currentFactor * (1.0 + nu));
 }
 
 void Fin::action(Environment& env) {

@@ -16,6 +16,17 @@ struct SensorConfig {
   double gammaMax;   // upper bound of detection capability γ
 };
 
+struct AccessoryConfig {
+  double camouflageMin; // minimum camouflage value
+  double camouflageMax; // maximum camouflage value
+  double nuMin;         // minimum speed factor for Fin accessory
+  double nuMax;         // maximum speed factor for Fin accessory
+  double tetaMin;       // minimum speed reduction factor for Shell accessory
+  double tetaMax;       // maximum speed reduction factor for Shell accessory
+  double omegaMin;      // minimum armor enhancement factor for Shell accessory
+  double omegaMax;      // maximum armor enhancement factor for Shell accessory
+};
+
 class Aquarium : public cimg_library::CImgDisplay {
  private:
   Environment* population;
@@ -23,6 +34,7 @@ class Aquarium : public cimg_library::CImgDisplay {
   //static double deltaEyeMin, deltaEyeMax, alpha, gammaEyeMin, gammaEyeMMax; // Vision parameters
   static SensorConfig eyeConfig; 
   static SensorConfig earConfig;
+  static AccessoryConfig accessoryConfig;
 
  public:
   Aquarium(int width, int height, int _delay);
@@ -36,6 +48,9 @@ class Aquarium : public cimg_library::CImgDisplay {
 
   static const SensorConfig& getEarConfig() { return earConfig; }
   static void setEarConfig(const SensorConfig& cfg) { earConfig = cfg; }
+
+  static AccessoryConfig getAccessoryConfig() { return accessoryConfig; }
+  static void setAccessoryConfig(const AccessoryConfig& cfg) { accessoryConfig = cfg; }
 };
 
 #endif

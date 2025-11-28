@@ -5,7 +5,7 @@
 
 class Shell : public IAccessory {
 public:
-    Shell(IBestiole* b, double _omega, double _teta);
+    Shell(IBestiole* b);
     ~Shell() override = default;
 
     void action(Environment& env) override;
