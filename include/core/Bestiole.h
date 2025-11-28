@@ -24,11 +24,11 @@ class Bestiole : public IBestiole {
  private:
   // --- Static Constants (k prefix) ---
   static const double
-      kAffSize;  // Affichage size (radius/dimension for drawing)
-  static const double kMaxSpeed;   // Maximum movement speed
-  static const double kViewLimit;  // Maximum visual range (distance)
+      kAffSizePixels;  // Affichage size (radius/dimension for drawing)
+  static const double kMaxSpeedPixels;   // Maximum movement speed
+  static const double kViewLimitPixels;  // Maximum visual range (distance)
   static const int
-      kMaxLifeSpan;    // Maximum number of steps the bestiole can live
+      kMaxLifeSpanSteps;    // Maximum number of steps the bestiole can live
   static int kNextId;  // Counter for assigning unique identity
 
  private:

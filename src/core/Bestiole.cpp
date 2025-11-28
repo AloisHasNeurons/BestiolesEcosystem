@@ -18,10 +18,10 @@
 #include "interfaces/IBehavior.h"
 
 // Define static constants for the Bestiole class (using 'k' prefix).
-const double Bestiole::kAffSize = 8.;
-const double Bestiole::kMaxSpeed = 10.;
-const double Bestiole::kViewLimit = 30.;
-const int Bestiole::kMaxLifeSpan = 1000;
+const double Bestiole::kAffSizePixels = 8.;
+const double Bestiole::kMaxSpeedPixels = 10.;
+const double Bestiole::kViewLimitPixels = 30.;
+const int Bestiole::kMaxLifeSpanSteps = 1000;
 
 // Static counter to ensure each Bestiole has a unique identity.
 int Bestiole::kNextId = 0;
@@ -54,11 +54,11 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> behavior)
   // Random orientation between 0 and $2\pi$.
   m_orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
   // Random initial speed up to MAX_SPEED.
-  m_speed = static_cast<double>(rand()) / RAND_MAX * kMaxSpeed;
+  m_speed = static_cast<double>(rand()) / RAND_MAX * kMaxSpeedPixels;
 
   // Random lifespan up to MAX_LIFE_SPAN.
-  m_lifeSpan =
-      static_cast<int>(static_cast<double>(rand()) / RAND_MAX * kMaxLifeSpan);
+  m_lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX *
+                                kMaxLifeSpanSteps);
   // Random survival resistance factor between 0.0 and 1.0.
   m_resistance = static_cast<double>(rand()) / RAND_MAX;
   // Random opacity factor between 0.0 and 1.0.
@@ -248,8 +248,8 @@ void Bestiole::action(Environment& myEnvironment) {
   }
 
   // Enforce speed limits.
-  if (m_speed > kMaxSpeed) {
-    m_speed = kMaxSpeed;
+  if (m_speed > kMaxSpeedPixels) {
+    m_speed = kMaxSpeedPixels;
   } else if (m_speed < 0.) {
     m_speed = 0.;
   }
@@ -278,14 +278,14 @@ void Bestiole::draw(UImg& support) {
     drawColor = m_behavior->getColor();
   }
   // Calculate head position (small offset in the direction of orientation).
-  double headX = m_x + cos(m_orientation) * kAffSize / 2.1;
-  double headY = m_y - sin(m_orientation) * kAffSize / 2.1;
+  double headX = m_x + cos(m_orientation) * kAffSizePixels / 2.1;
+  double headY = m_y - sin(m_orientation) * kAffSizePixels / 2.1;
 
   // Draw the body (ellipse).
-  support.draw_ellipse(m_x, m_y, kAffSize, kAffSize / 5.,
+  support.draw_ellipse(m_x, m_y, kAffSizePixels, kAffSizePixels / 5.,
                        -m_orientation / M_PI * 180., drawColor);
   // Draw the head (circle).
-  support.draw_circle(headX, headY, kAffSize / 2., drawColor);
+  support.draw_circle(headX, headY, kAffSizePixels / 2., drawColor);
 }
 
 /**
@@ -322,7 +322,7 @@ bool Bestiole::canSee(const IBestiole& otherBestiole) const {
   dist = std::sqrt((m_x - otherBestiole.getX()) * (m_x - otherBestiole.getX()) +
                    (m_y - otherBestiole.getY()) * (m_y - otherBestiole.getY()));
   // Check if distance is within the viewing limit.
-  return (dist <= kViewLimit);
+  return (dist <= kViewLimitPixels);
 }
 
 /**
@@ -448,9 +448,9 @@ double Bestiole::getSpeed() const { return m_speed; }
 
 /**
  * @brief Gets the maximum possible speed for this bestiole type.
- * @return The maximum speed (kMaxSpeed).
+ * @return The maximum speed (kMaxSpeedPixels).
  */
-double Bestiole::getMaxSpeed() const { return kMaxSpeed; }
+double Bestiole::getMaxSpeed() const { return kMaxSpeedPixels; }
 
 /**
  * @brief Gets the bestiole's survival resistance value.
