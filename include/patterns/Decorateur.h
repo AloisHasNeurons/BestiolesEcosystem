@@ -5,6 +5,8 @@
 
 // Base class for decorators
 class Decorator : public IBestiole {
+ protected:
+ IBestiole* m_bestiole;
  public:
   explicit Decorator(IBestiole* bestiole) : m_bestiole(bestiole) {}
   virtual ~Decorator() { delete m_bestiole; }
@@ -28,11 +30,30 @@ class Decorator : public IBestiole {
     return m_bestiole->canSee(b);
   }
 
+  void changeBehavior(std::unique_ptr<IBehavior> behavior) override {
+    m_bestiole->changeBehavior(std::move(behavior));
+  }
+
   int getX() const override { return m_bestiole->getX(); }
   int getY() const override { return m_bestiole->getY(); }
+  double getOrientation() const override { return m_bestiole->getOrientation(); }
+  double getSpeed() const override { return m_bestiole->getSpeed(); }
+  double getMaxSpeed() const override { return m_bestiole->getMaxSpeed(); }
+  int getLifeSpan() const override { return m_bestiole->getLifeSpan(); }
+  double getResistance() const override { return m_bestiole->getResistance(); }
+  double getOpacity() const override { return m_bestiole->getOpacity(); }
+  IBehavior* getBehavior() const override { return m_bestiole->getBehavior(); }
+  std::string getBehaviorString() const override { return m_bestiole->getBehaviorString(); }
+  
+  // For accessories and sensors' parameters
+  double getSize() const override { return m_bestiole->getSize(); }
+  double getCamouflage() const override { return m_bestiole->getCamouflage(); }
+  double getSpeedFactor() const override { return m_bestiole->getSpeedFactor(); }
+  double getArmorFactor() const override { return m_bestiole->getArmorFactor(); }
+  void setSpeedFactor(double f) override { m_bestiole->setSpeedFactor(f); } 
+  void setArmorFactor(double omega) override { m_bestiole->setArmorFactor(omega); }  
+  void setCamouflage(double psi) override { m_bestiole->setCamouflage(psi); }
 
- protected:
-  IBestiole* m_bestiole;
 };
 
 #endif  // DECORATOR_H
