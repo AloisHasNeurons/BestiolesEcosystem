@@ -10,25 +10,6 @@
 
 const unsigned char Environment::white[] = {255, 255, 255};
 
-// default configuration for Eyes
-SensorConfig Environment::eyeConfig = {
-    5.0,   // deltaMin
-    50.0,  // deltaMax
-    60.0,  // alphaMin (in degrees)
-    120.0, // alphaMax (in degrees)
-    0.3,   // gammaMin
-    0.9    // gammaMax
-};
-
-// default configuration for Ears
-SensorConfig Environment::earConfig = {
-    10.0,  // deltaMin
-    80.0,  // deltaMax
-    0.0,   // alphaMin (dont care about angle for ears)
-    360.0, // alphaMax
-    0.2,   // gammaMin
-    0.8    // gammaMax
-};
 
 Environment::Environment(int _width, int _height, IFactory& f) : factory(f), UImg(_width, _height, 1, 3) { // factory must be initialized in initializer list
   std::cout << "const Environment" << std::endl;
@@ -114,4 +95,6 @@ std::vector<double> Environment::getBehaviorDistribution() const {
 std::vector<IBestiole*> Environment::getBestiolesList() const {
     return bestiolesList;
   }
+
+
 
