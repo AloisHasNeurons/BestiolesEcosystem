@@ -1,4 +1,4 @@
-#include "Camouflage.h"
+#include "accessories/Camouflage.h"
 #include <cmath>
 
 Camouflage::Camouflage(IBestiole* b, double _psi)
