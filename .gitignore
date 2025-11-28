@@ -45,5 +45,8 @@ main
 .devcontainer/
 .vscode/
 
-# Linter
-.clang-format
+# Outputs
+outputs/
+*.out
+*.log
+*.csv

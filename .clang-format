@@ -1,0 +1,3 @@
+# .clang-format
+Style: Google
+Language: Cpp
