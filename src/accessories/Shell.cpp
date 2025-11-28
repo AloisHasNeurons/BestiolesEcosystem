@@ -1,4 +1,4 @@
-#include "Shell.h"
+#include "accessories/Shell.h"
 #include <cmath>  // std::cos, std::sin, M_PI
 
 Shell::Shell(IBestiole* b, double _omega, double _eta)
