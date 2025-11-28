@@ -40,8 +40,14 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> behavior)
     : m_behavior(std::move(behavior)) {
   m_identity = ++kNextId;
 
-  std::cout << "const Bestiole (" << m_identity << ") with behavior"
-            << std::endl;
+  // std::cout << "const Bestiole (" << m_identity << ") with behavior"
+  //           << std::endl;
+
+  if (m_behavior) {
+    m_behaviorString = m_behavior->getName();
+  } else {
+    m_behaviorString = "Unknown";
+  }
 
   m_x = m_y = 0;
   m_cumulativeX = m_cumulativeY = 0.;
@@ -94,7 +100,7 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> behavior)
 Bestiole::Bestiole(const Bestiole& otherBestiole) {
   m_identity = ++kNextId;
 
-  std::cout << "const Bestiole (" << m_identity << ") by copy" << std::endl;
+  // std::cout << "const Bestiole (" << m_identity << ") by copy" << std::endl;
 
   m_x = otherBestiole.m_x;
   m_y = otherBestiole.m_y;
@@ -115,8 +121,10 @@ Bestiole::Bestiole(const Bestiole& otherBestiole) {
   if (otherBestiole.m_behavior) {
     // Perform a deep copy of the behavior object using the clone method.
     m_behavior = std::unique_ptr<IBehavior>(otherBestiole.m_behavior->clone());
+    m_behaviorString = m_behavior->getName();
   } else {
     m_behavior = nullptr;
+    m_behaviorString = "Unknown";
   }
 }
 
@@ -129,7 +137,7 @@ Bestiole::Bestiole(const Bestiole& otherBestiole) {
 Bestiole::~Bestiole(void) {
   delete[] m_color;
 
-  std::cout << "dest Bestiole" << std::endl;
+  // std::cout << "dest Bestiole" << std::endl;
 }
 
 /**
@@ -209,6 +217,7 @@ void Bestiole::action(Environment& myEnvironment) {
     m_lifeSpan--;
     if (m_lifeSpan == 0) {
       this->kill(0);  // Mark for instant death
+      myEnvironment.recordEvent("Natural death of " + getBehaviorString());
     }
   }
 
@@ -226,6 +235,7 @@ void Bestiole::action(Environment& myEnvironment) {
     // Create a clone and add it to the environment.
     IBestiole* newBestiole = this->clone();
     myEnvironment.addMember(newBestiole);
+    myEnvironment.recordEvent("Clone of " + getBehaviorString());
   }
 
   // Apply behavior-based steering and speed adjustments.
@@ -324,7 +334,7 @@ bool Bestiole::canSee(const IBestiole& otherBestiole) const {
  * @return A pointer to the newly created Bestiole clone.
  */
 IBestiole* Bestiole::clone() {
-  std::cout << "Cloning Bestiole (" << m_identity << ")" << std::endl;
+  // std::cout << "Cloning Bestiole (" << m_identity << ")" << std::endl;
   return new Bestiole(*this);
 }
 
@@ -392,9 +402,7 @@ void Bestiole::changeBehavior(std::unique_ptr<IBehavior> newBehavior) {
   }
 
   this->m_behavior = std::move(newBehavior);
-  // [Temporary Fix] getName() is not guaranteed in IBehavior. Using
-  // placeholder.
-  this->m_behaviorString = "Unknown";
+  this->m_behaviorString = this->m_behavior->getName();
 }
 
 // --- Accessors and Mutators ---

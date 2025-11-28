@@ -4,8 +4,10 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <string>
 #include <vector>
 
+#include "UImg.h"
 #include "core/Bestiole.h"
 #include "patterns/Factory.h"
 
@@ -40,8 +42,8 @@ double Environment::kGammaEyeMax = 20.0;
  * 'f').
  */
 Environment::Environment(int kWidth, int kHeight, IFactory& factoryRef)
-    : UImg(kWidth, kHeight, 1, 3), m_factory(factoryRef) {
-  std::cout << "const Environment" << std::endl;
+    : UImg(kWidth, kHeight, 1, 3), m_factory(factoryRef), m_stepCount(0) {
+  m_lastSummaryTime = std::chrono::steady_clock::now();
   // Initialize the random number generator seed.
   std::srand(time(NULL));
 }
@@ -54,8 +56,9 @@ Environment::Environment(int kWidth, int kHeight, IFactory& factoryRef)
  * @param factoryRef The factory used to create IBestiole objects (renamed from
  * 'f').
  */
-Environment::Environment(IFactory& factoryRef) : m_factory(factoryRef) {
-  std::cout << "const Environment" << std::endl;
+Environment::Environment(IFactory& factoryRef)
+    : m_factory(factoryRef), m_stepCount(0) {
+  m_lastSummaryTime = std::chrono::steady_clock::now();
   // Initialize the random number generator seed.
   std::srand(time(NULL));
 }
@@ -68,7 +71,6 @@ Environment::Environment(IFactory& factoryRef) : m_factory(factoryRef) {
  * @param void No parameters.
  */
 Environment::~Environment(void) {
-  std::cout << "dest Environment" << std::endl;
 
   // Iterate over all bestioles and delete them to free memory.
   for (std::vector<IBestiole*>::iterator iterator = m_bestiolesList.begin();
@@ -139,7 +141,10 @@ void Environment::step(void) {
 
       if (dist < kCollisionThreshold) {
         // Trigger the bestiole's collision behavior.
-        currentBestiole->collision();
+        if (currentBestiole->collision()) {
+          recordEvent(otherBestiole->getBehaviorString() + " killed " +
+                      currentBestiole->getBehaviorString());
+        }
       }
     }
   }
@@ -156,7 +161,18 @@ void Environment::step(void) {
     if (newBestiole) {
       // Add the new bestiole to the environment (m_bestiolesToAdd list).
       this->addMember(newBestiole);
+      recordEvent("Birth of " + newBestiole->getBehaviorString());
     }
+  }
+
+  // 6. Track statistics
+  m_stepCount++;
+  auto now = std::chrono::steady_clock::now();
+  std::chrono::duration<double> elapsed = now - m_lastSummaryTime;
+
+  if (elapsed.count() >= m_summaryIntervalSeconds) {
+    m_statsCollector.track(m_bestiolesList, m_stepCount);
+    m_lastSummaryTime = now;
   }
 }
 
@@ -199,6 +215,10 @@ int Environment::neighborCount(const IBestiole& currentBestiole) {
     }
   }
   return neighbor_count;
+}
+
+void Environment::recordEvent(const std::string& event) {
+  m_statsCollector.addEvent(event);
 }
 
 /**

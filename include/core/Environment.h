@@ -1,6 +1,7 @@
 #ifndef ENVIRONMENT_H_
 #define ENVIRONMENT_H_
 
+#include <chrono>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -10,7 +11,8 @@
 #include "../UImg.h"
 #include "core/Bestiole.h"
 #include "interfaces/IBestiole.h"
-#include "patterns/IFactory.h"
+#include "core/StatsCollector.h"
+#include "patterns/Factory.h"
 
 /**
  * @class Environment
@@ -46,6 +48,11 @@ class Environment : public UImg {
   // Temporary list to hold new bestioles created during a step, added in the
   // next step
   std::vector<IBestiole*> m_bestiolesToAdd;
+
+  StatsCollector m_statsCollector;
+  int m_stepCount;
+  std::chrono::steady_clock::time_point m_lastSummaryTime;
+  double m_summaryIntervalSeconds = 2.0;
 
  public:
   /**
@@ -97,6 +104,7 @@ class Environment : public UImg {
    * @return The number of neighboring bestioles visible to `currentBestiole`.
    */
   int neighborCount(const IBestiole& currentBestiole);
+  void recordEvent(const std::string& event);
 
   // --- Getters (Simple/Inline) ---
 

@@ -27,7 +27,7 @@ Aquarium::Aquarium(int kWidth, int kHeight, int kDelayMs)
   const int kScreenWidth = 1280;
   const int kScreenHeight = 1024;
 
-  std::cout << "const Aquarium" << std::endl;
+  // std::cout << "const Aquarium" << std::endl;
 
   // Create the factory and the environment.
   m_factory = new Factory();
@@ -56,7 +56,7 @@ Aquarium::~Aquarium(void) {
   delete m_population;
   delete m_factory;
 
-  std::cout << "dest Aquarium" << std::endl;
+  // std::cout << "dest Aquarium" << std::endl;
 }
 
 /**
@@ -68,14 +68,14 @@ Aquarium::~Aquarium(void) {
  * @param void No parameters.
  */
 void Aquarium::run(void) {
-  std::cout << "running Aquarium" << std::endl;
+  // std::cout << "running Aquarium" << std::endl;
 
   // Main simulation loop: continues as long as the CImgDisplay window is open.
   while (!is_closed()) {
     // Check for user keyboard input.
     if (is_key()) {
-      std::cout << "You pressed key " << static_cast<unsigned char>(key())
-                << " (" << key() << ")" << std::endl;
+      // std::cout << "You pressed key " << static_cast<unsigned char>(key())
+      //           << " (" << key() << ")" << std::endl;
       // Close the window if the ESC key is pressed.
       if (is_keyESC()) close();
     }

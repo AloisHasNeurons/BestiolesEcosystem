@@ -38,4 +38,10 @@ clean:
 	@echo "Cleaning..."	rm -rf $(BUILD_DIR) $(TARGET_EXEC)
 	rm -rf $(BUILD_DIR) $(TARGET_EXEC)
 
-.PHONY: all clean
+lint:
+	@cpplint --filter=-build/header_guard,-legal/copyright,-whitespace/ending_newline,-whitespace/indent,-whitespace/comments,-runtime/threadsafe_fn,-readability/inheritance,-whitespace/blank_line --recursive src/ include/accessories/ include/sensors/ include/behaviors/ include/core/ include/interfaces/ include/patterns/
+
+actions: clean all lint
+	@echo "Actions completed successfully."
+
+.PHONY: all clean lint actions
