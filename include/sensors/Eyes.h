@@ -15,8 +15,11 @@ private:
 
 public:
   explicit Eyes(IBestiole *b);
+  Eyes(const Eyes &other, IBestiole *inner);
 
   ~Eyes() override = default;
+
+  IBestiole *clone() override;
 
   void draw(UImg &img) override;
   std::vector<std::string> getSensors() const override {

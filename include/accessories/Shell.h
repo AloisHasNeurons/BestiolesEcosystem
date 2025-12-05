@@ -9,7 +9,10 @@
 class Shell : public IAccessory {
 public:
   explicit Shell(IBestiole *b);
+  Shell(const Shell &other, IBestiole *inner);
   ~Shell() override = default;
+
+  IBestiole *clone() override;
 
   void action(Environment &env) override;
   void draw(UImg &img) override;

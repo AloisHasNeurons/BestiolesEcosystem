@@ -9,7 +9,10 @@
 class Camouflage : public IAccessory {
 public:
   explicit Camouflage(IBestiole *b);
+  Camouflage(const Camouflage &other, IBestiole *inner);
   ~Camouflage() override = default;
+
+  IBestiole *clone() override;
 
   void action(Environment &env) override;
   void draw(UImg &img) override;

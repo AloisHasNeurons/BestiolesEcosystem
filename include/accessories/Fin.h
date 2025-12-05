@@ -9,7 +9,10 @@
 class Fin : public IAccessory {
 public:
   explicit Fin(IBestiole *b);
+  Fin(const Fin &other, IBestiole *inner);
   ~Fin() override = default;
+
+  IBestiole *clone() override;
 
   void action(Environment &env) override;
   void draw(UImg &img) override;
