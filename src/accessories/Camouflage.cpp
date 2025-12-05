@@ -3,6 +3,17 @@
 #include <random>
 #include "core/Aquarium.h"
 
+std::string Camouflage::getDescription() const {
+    return "Camouflage + " + m_bestiole->getDescription();
+}
+
+
+IBestiole* Camouflage::clone() {
+  // Must wrap the inner clone with new Camouflage(...)
+  return new Camouflage(m_bestiole->clone());
+}
+
+
 Camouflage::Camouflage(IBestiole *b) : IAccessory(b) {
   // Set the camouflage value of the bestiole
   // chose random psi value based on environment configuration
@@ -12,9 +23,9 @@ Camouflage::Camouflage(IBestiole *b) : IAccessory(b) {
              Aquarium::getAccessoryConfig().camouflageMin);
 }
 
-void Camouflage::action(Environment &env) {
-  // Camouflage does not alter movement behavior; simply forward the action
-  m_bestiole->action(env);
+void Camouflage::action(Environment &env, IBestiole* self = nullptr) {
+  // Delegate the action to the wrapped object, passing along the 'self' pointer.
+  m_bestiole->action(env, self);
 }
 
 void Camouflage::draw(UImg &img) {
@@ -29,16 +40,21 @@ void Camouflage::draw(UImg &img) {
 
   double angleDeg = -theta * 180.0 / M_PI;
 
-  // Camouflage color: a light tone leaning toward the background (adjust if
-  // needed)
-  T camoColor[3] = {200, 220, 200};
+  // To simulate camouflage, draw a semi-transparent overlay using the
+  // background color. This "washes out" the bestiole's original color,
+  // making it blend in. The background is white.
+  T backgroundColor[3] = {255, 255, 255};
 
-  // Use low opacity so the body appears blended into the environment
-  // Note: the last argument of draw_ellipse is alpha (0.0–1.0)
-  img.draw_ellipse(cx, cy, size, size / 5.0, angleDeg, camoColor, 0.3f);
+  // The opacity of the overlay is determined by the camouflage strength (m_psi).
+  // A higher psi value results in a more opaque overlay, making the bestiole
+  // harder to see. We clamp it to a max value to prevent total invisibility.
+  float alpha = std::min(0.8f, static_cast<float>(m_psi));
+
+  img.draw_ellipse(cx, cy, size, size / 5.0, angleDeg, backgroundColor, alpha);
 }
 
 double Camouflage::getCamouflage() const {
-  // Override IBestiole's default getCamouflage()
-  return m_psi;
+  // As a decorator, add this layer's camouflage value to the value of the
+  // wrapped object. This allows multiple camouflage effects to stack correctly.
+  return m_psi + m_bestiole->getCamouflage();
 }

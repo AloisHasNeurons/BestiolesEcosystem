@@ -98,7 +98,7 @@ public:
 
   // --- IBestiole Interface Methods ---
 
-  void action(Environment &myEnvironment) override;
+  void action(Environment &myEnvironment, IBestiole* self = nullptr) override;
   void draw(UImg &support) override;
   void initCoords(int xLimit, int yLimit) override;
 
@@ -149,6 +149,7 @@ public:
   void setArmorFactor(double omega) override; // affects mortality probability
 
   void setCamouflage(double psi) override; // affects detection probability
+  std::string getDescription() const override;
 };
 
 #endif // BESTIOLE_H

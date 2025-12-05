@@ -17,6 +17,10 @@
 #include "core/Environment.h"
 #include "interfaces/IBehavior.h"
 
+std::string Bestiole::getDescription() const {
+    return "Bestiole(" + std::to_string(m_identity) + ")";
+}
+
 // Define static constants for the Bestiole class (using 'k' prefix).
 const double Bestiole::kAffSizePixels = 8.;
 const double Bestiole::kMaxSpeedPixels = 10.;
@@ -216,7 +220,9 @@ void Bestiole::move(int xLimit, int yLimit) {
  *
  * @param myEnvironment The environment in which the bestiole exists.
  */
-void Bestiole::action(Environment &myEnvironment) {
+void Bestiole::action(Environment &myEnvironment, IBestiole* self) {
+  
+  IBestiole* actualSelf = (self != nullptr) ? self : this;
   // Decrease lifespan and check if the bestiole should die of old age.
   if (m_lifeSpan > 0) {
     m_lifeSpan--;
@@ -238,10 +244,24 @@ void Bestiole::action(Environment &myEnvironment) {
   // cloned.
   if (hazard < m_cloneRate) {
     // Create a clone and add it to the environment.
-    IBestiole *newBestiole = this->clone();
+    IBestiole *newBestiole = actualSelf->clone();
     myEnvironment.addMember(newBestiole);
     myEnvironment.recordEvent("Clone of " + getBehaviorString());
+
+    std::cout << ">>> CLONE EVENT! <<<" << std::endl;
+    std::cout << "Original: " << actualSelf->getDescription() << std::endl;
+    std::cout << "Clone   : " << newBestiole->getDescription() << std::endl;
+    std::string desc = newBestiole->getDescription();
+    std::cout << "Check Accessories:" << std::endl;
+    std::cout << " - Has Fin?   " << (desc.find("Fin") != std::string::npos ? "YES" : "NO") << std::endl;
+    std::cout << " - Has Shell? " << (desc.find("Shell") != std::string::npos ? "YES" : "NO") << std::endl;
+    std::cout << " - Has Camouflage? " << (desc.find("Camouflage") != std::string::npos ? "YES" : "NO") << std::endl;
+    std::cout << " - Has Eyes?  " << (desc.find("Eyes") != std::string::npos ? "YES" : "NO") << std::endl;
+    std::cout << " - Has Ears?  " << (desc.find("Ears") != std::string::npos ? "YES" : "NO") << std::endl;
+    std::cout << "----------------------" << std::endl;
   }
+ 
+
 
   // Apply behavior-based steering and speed adjustments.
   if (m_behavior) {
@@ -503,3 +523,4 @@ void Bestiole::setSpeedFactor(double f) { m_speedFactor = f; }
 void Bestiole::setArmorFactor(double f) { m_armorFactor = f; }
 
 void Bestiole::setCamouflage(double psi) { m_camouflagePsi = psi; }
+

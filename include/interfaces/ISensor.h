@@ -9,11 +9,8 @@ public:
   explicit ISensor(IBestiole *b) : Decorator(b) {}
   virtual ~ISensor() {}
   virtual bool detect(IBestiole &b) = 0;
-
+  virtual IBestiole *clone() = 0;
+  virtual std::string getDescription() const = 0;
   virtual void draw(UImg &img) = 0;
-
-  virtual void setCloneRate(double newCloneRate) override {}
-
-  virtual void setOrientation(double o) override {}
 };
 #endif // ISENSOR_H

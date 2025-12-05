@@ -2,6 +2,14 @@
 #include <cmath> // std::cos, std::sin, M_PI
 #include "core/Aquarium.h"
 
+std::string Shell::getDescription() const {
+    return "Shell + " + m_bestiole->getDescription();
+}
+
+IBestiole* Shell::clone() {
+    return new Shell(m_bestiole->clone());
+}
+
 Shell::Shell(IBestiole *b) : IAccessory(b) {
   // Modify Bestiole parameters using multiplicative factors instead of changing
   // speed directly 1) Slow down: speedFactor /= eta  (when eta > 1, it becomes
@@ -24,24 +32,28 @@ Shell::Shell(IBestiole *b) : IAccessory(b) {
   m_bestiole->setArmorFactor(currentArmorFactor * m_omega);
 }
 
-void Shell::action(Environment &env) { m_bestiole->action(env); }
+void Shell::action(Environment &env, IBestiole* self = nullptr) {
+  m_bestiole->action(env, self);
+}
 
 void Shell::draw(UImg &img) {
-  Decorator::draw(img);
-
-  // Draw an outer “shell” around the body
+  // Draw the shell first, so it appears as a background layer for the body.
+  // This prevents the shell from covering the bestiole's head and other accessories.
   int cx = getX();
   int cy = getY();
   double theta = getOrientation();
   double size = getSize();
 
-  // The shell is slightly larger than the body
-  double a = size + 2.0;       // major axis
-  double b = size / 5.0 + 1.0; // minor axis
+  // The shell is drawn slightly larger than the base body.
+  const double shellMajorAxis = size + 2.0;
+  const double shellMinorAxis = size / 5.0 + 2.0; // Made slightly thicker for better visibility
   double angleDeg = -theta * 180.0 / M_PI;
 
   // Shell color: dark gray
   T shellColor[3] = {60, 60, 60};
 
-  img.draw_ellipse(cx, cy, a, b, angleDeg, shellColor, 1.0f);
+  img.draw_ellipse(cx, cy, shellMajorAxis, shellMinorAxis, angleDeg, shellColor, 1.0f);
+
+  // Now, draw the rest of the bestiole (body, head, other accessories) on top of the shell.
+  Decorator::draw(img);
 }

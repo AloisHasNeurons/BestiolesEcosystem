@@ -48,29 +48,39 @@ void Ears::draw(UImg &img) {
   img.draw_circle(earRX, earRY, 2, earColor);
 }
 
+IBestiole *Ears::clone() {
+  // Wrap the inner clone with a new Ears decorator
+  return new Ears(m_bestiole->clone());
+}
+
+std::string Ears::getDescription() const {
+  // Add "Ears" to the description chain
+  return "Ears + " + m_bestiole->getDescription();
+}
+
 bool Ears::canSee(const IBestiole &b) const {
-  // ==== 1) Distance check: must be within [deltaMin, deltaMax] ====
-  double x1 = static_cast<double>(getX());
-  double y1 = static_cast<double>(getY());
-  double x2 = static_cast<double>(b.getX());
-  double y2 = static_cast<double>(b.getY());
+  // Check if this specific sensor (Ears) can detect the target.
+  bool canThisSensorHear = false;
+  {
+    // 1) Distance check: must be within hearing distance m_delta.
+    double x1 = static_cast<double>(getX());
+    double y1 = static_cast<double>(getY());
+    double x2 = static_cast<double>(b.getX());
+    double y2 = static_cast<double>(b.getY());
+    double dx = x2 - x1;
+    double dy = y1 - y2; // Screen coordinates: y increases downward
+    double dist = std::sqrt(dx * dx + dy * dy);
+    double psi = b.getCamouflage(); // target’s camouflage level ψ
 
-  double dx = x2 - x1;
-  double dy =
-      y1 - y2; // Screen coordinates: y increases downward, so use y1 - y2
+    // 2) Hearing is 360°, so no field-of-view check.
+    // 3) Camouflage check: γ > ψ required to “hear/detect” the target.
+    if (dist <= m_delta && m_gamma > psi) {
+      canThisSensorHear = true;
+    }
+  }
 
-  double dist = std::sqrt(dx * dx + dy * dy);
-  if (dist < m_delta)
-    return false;
-
-  // ==== 2) Hearing is 360°, no field-of-view check ====
-
-  // ==== 3) Camouflage check: γ > ψ required to “hear/detect” the target ====
-  double psi = b.getCamouflage(); // target’s camouflage level ψ
-  if (m_gamma <= psi)
-    return false;
-
-  return true;
+  // The bestiole can detect the target if this sensor can, or if any wrapped sensor can.
+  return canThisSensorHear || m_bestiole->canSee(b);
 }
 
 bool Ears::detect(IBestiole &b) { return canSee(b); }

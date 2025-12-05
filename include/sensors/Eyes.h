@@ -19,11 +19,11 @@ public:
 
   bool canSee(const IBestiole &b) const override;
 
+  virtual IBestiole *clone() override;
+
+  std::string getDescription() const override;
+
   bool detect(IBestiole &b) override;
-
-  void setCloneRate(double newCloneRate) override {}
-
-  void setOrientation(double o) override {}
 };
 
 #endif // EYES_H

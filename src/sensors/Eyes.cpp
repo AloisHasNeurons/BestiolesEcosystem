@@ -43,37 +43,44 @@ void Eyes::draw(UImg &img) {
   img.draw_circle(eyeX, eyeY, 2, eyeColor);
 }
 
+IBestiole *Eyes::clone() {
+  // Wrap the inner clone with a new Eyes decorator
+  return new Eyes(m_bestiole->clone());
+}
+
+std::string Eyes::getDescription() const {
+  // Add "Eyes" to the description chain
+  return "Eyes + " + m_bestiole->getDescription();
+}
+
 bool Eyes::canSee(const IBestiole &b) const {
-  // 1) Distance check: must be within [deltaMin, deltaMax]
-  double x1 = static_cast<double>(getX());
-  double y1 = static_cast<double>(getY());
-  double x2 = static_cast<double>(b.getX());
-  double y2 = static_cast<double>(b.getY());
+  // Check if this specific sensor (Eyes) can see the target.
+  bool canThisSensorSee = false;
+  {
+    // 1) Distance check: must be within seeing distance m_delta.
+    double x1 = static_cast<double>(getX());
+    double y1 = static_cast<double>(getY());
+    double x2 = static_cast<double>(b.getX());
+    double y2 = static_cast<double>(b.getY());
+    double dx = x2 - x1;
+    double dy = y1 - y2; // screen coordinates: y increases downward
+    double dist = std::sqrt(dx * dx + dy * dy);
 
-  double dx = x2 - x1;
-  double dy = y1 - y2; // screen coordinates: y increases downward
-  double dist = std::sqrt(dx * dx + dy * dy);
+    // 2) Field-of-view and Camouflage checks are only performed if within distance.
+    if (dist <= m_delta) {
+      double theta = getOrientation();      // my orientation
+      double angleToB = std::atan2(dy, dx); // direction toward the target
+      double dTheta = std::atan2(std::sin(angleToB - theta), std::cos(angleToB - theta));
+      double psi = b.getCamouflage(); // camouflage strength of the target
 
-  if (dist < m_delta)
-    return false;
+      if (std::fabs(dTheta) <= m_alpha * 0.5 && m_gamma > psi) {
+        canThisSensorSee = true;
+      }
+    }
+  }
 
-  // 2) Field-of-view check: target must lie inside forward sector
-  double theta = getOrientation();      // my orientation
-  double angleToB = std::atan2(dy, dx); // direction toward the target
-
-  // Normalize angle difference to [-π, π]
-  double dTheta =
-      std::atan2(std::sin(angleToB - theta), std::cos(angleToB - theta));
-
-  if (std::fabs(dTheta) > m_alpha * 0.5)
-    return false;
-
-  // 3) Camouflage check: γ must be greater than ψ to see the target
-  double psi = b.getCamouflage(); // camouflage strength of the target
-  if (m_gamma <= psi)
-    return false;
-
-  return true;
+  // The bestiole can see the target if this sensor can, or if any wrapped sensor can.
+  return canThisSensorSee || m_bestiole->canSee(b);
 }
 
 bool Eyes::detect(IBestiole &b) { return canSee(b); }

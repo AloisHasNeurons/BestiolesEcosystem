@@ -14,7 +14,7 @@ class IBestiole : public IsKillable {
 public:
   virtual ~IBestiole() {}
 
-  virtual void action(Environment &environment) = 0;
+  virtual void action(Environment &environment, IBestiole* self = nullptr) = 0;
   virtual void draw(UImg &img) = 0;
   virtual void initCoords(int x, int y) = 0;
   virtual IBestiole *clone() = 0;
@@ -36,6 +36,8 @@ public:
   virtual double getOpacity() const = 0;
   virtual IBehavior *getBehavior() const = 0;
   virtual std::string getBehaviorString() const = 0;
+
+  virtual std::string getDescription() const = 0;
 
   // For accessories and sensors' parameters
 

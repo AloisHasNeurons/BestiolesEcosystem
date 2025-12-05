@@ -23,10 +23,15 @@ public:
 
   // Default implementation: delegate to the decorated bestiole
 
-  void action(Environment &environment) override {
+  void action(Environment &environment, IBestiole* self) override {
 
-    m_bestiole->action(environment);
+    IBestiole* ptrToPass = (self != nullptr) ? self : this;
+    m_bestiole->action(environment, ptrToPass);
   }
+
+  std::string getDescription() const override {
+    return m_bestiole->getDescription(); 
+}
 
   void draw(UImg &img) override { m_bestiole->draw(img); }
 

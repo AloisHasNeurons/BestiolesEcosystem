@@ -10,8 +10,12 @@ public:
 
   ~IAccessory() override = default;
 
-  void action(Environment &env) override = 0;
+  void action(Environment &env, IBestiole* self = nullptr) override = 0;
 
   virtual void draw(UImg &img) override = 0;
+
+  virtual std::string getDescription() const = 0;
+
+  virtual IBestiole *clone() = 0;
 };
 #endif // IACCESSORY_H
