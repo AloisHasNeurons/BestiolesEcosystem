@@ -19,7 +19,7 @@ public:
 
   ~Eyes() override = default;
 
-  IBestiole *clone() override;
+  Eyes *clone() override;
 
   void draw(UImg &img) override;
   std::vector<std::string> getSensors() const override {

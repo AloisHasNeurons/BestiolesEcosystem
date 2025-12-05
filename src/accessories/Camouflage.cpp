@@ -16,7 +16,7 @@ Camouflage::Camouflage(const Camouflage &other, IBestiole *inner)
     : IAccessory(inner), m_psi(other.m_psi) {
 }
 
-IBestiole *Camouflage::clone() {
+Camouflage *Camouflage::clone() {
   return new Camouflage(*this, m_bestiole->clone());
 }
 

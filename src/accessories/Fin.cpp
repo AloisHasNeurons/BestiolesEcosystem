@@ -22,7 +22,7 @@ Fin::Fin(const Fin &other, IBestiole *inner)
   m_bestiole->setSpeedFactor(currentFactor * (1.0 + m_nu));
 }
 
-IBestiole *Fin::clone() {
+Fin *Fin::clone() {
   return new Fin(*this, m_bestiole->clone());
 }
 

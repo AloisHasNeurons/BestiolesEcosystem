@@ -329,7 +329,7 @@ bool Bestiole::canSee(const IBestiole &otherBestiole) const {
  *
  * @return A pointer to the newly created Bestiole clone.
  */
-IBestiole *Bestiole::clone() {
+Bestiole *Bestiole::clone() {
   // std::cout << "Cloning Bestiole (" << m_identity << ")" << std::endl;
   return new Bestiole(*this);
 }

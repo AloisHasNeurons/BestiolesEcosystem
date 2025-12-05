@@ -12,7 +12,7 @@ public:
   Shell(const Shell &other, IBestiole *inner);
   ~Shell() override = default;
 
-  IBestiole *clone() override;
+  Shell *clone() override;
 
   void action(Environment &env, IBestiole *self = nullptr) override;
   void draw(UImg &img) override;

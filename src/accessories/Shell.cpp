@@ -60,6 +60,6 @@ void Shell::draw(UImg &img) {
   img.draw_ellipse(cx, cy, a, b, angleDeg, shellColor, 1.0f);
 }
 
-IBestiole *Shell::clone() {
+Shell *Shell::clone() {
   return new Shell(*this, m_bestiole->clone());
 }

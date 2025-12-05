@@ -12,7 +12,7 @@ public:
   Fin(const Fin &other, IBestiole *inner);
   ~Fin() override = default;
 
-  IBestiole *clone() override;
+  Fin *clone() override;
 
   void action(Environment &env, IBestiole *self = nullptr) override;
   void draw(UImg &img) override;

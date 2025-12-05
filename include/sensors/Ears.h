@@ -18,7 +18,7 @@ public:
 
   ~Ears() override = default;
 
-  IBestiole *clone() override;
+  Ears *clone() override;
 
   void draw(UImg &img) override;
   std::vector<std::string> getSensors() const override {

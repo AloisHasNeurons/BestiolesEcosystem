@@ -12,7 +12,7 @@ public:
   Camouflage(const Camouflage &other, IBestiole *inner);
   ~Camouflage() override = default;
 
-  IBestiole *clone() override;
+  Camouflage *clone() override;
 
   void action(Environment &env, IBestiole *self = nullptr) override;
   void draw(UImg &img) override;
