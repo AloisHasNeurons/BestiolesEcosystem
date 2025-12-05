@@ -15,8 +15,19 @@ Fin::Fin(IBestiole* b)
   m_bestiole->setSpeedFactor(currentFactor * (1.0 + m_nu));
 }
 
-void Fin::action(Environment& env) {
-  m_bestiole->action(env);
+Fin::Fin(const Fin &other, IBestiole *inner)
+    : IAccessory(inner), m_nu(other.m_nu) {
+  // Apply the same speed modification to the new inner bestiole
+  double currentFactor = m_bestiole->getSpeedFactor();
+  m_bestiole->setSpeedFactor(currentFactor * (1.0 + m_nu));
+}
+
+Fin *Fin::clone() {
+  return new Fin(*this, m_bestiole->clone());
+}
+
+void Fin::action(Environment& env, IBestiole *self) {
+  m_bestiole->action(env, self ? self : this);
 }
 
 void Fin::draw(UImg& img) {

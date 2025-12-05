@@ -8,10 +8,10 @@ Shell::Shell(IBestiole *b) : IAccessory(b) {
   // slower)
   double currentSpeedFactor = m_bestiole->getSpeedFactor();
   double r = static_cast<double>(std::rand()) / RAND_MAX;
-  double m_teta = Aquarium::getAccessoryConfig().tetaMin +
+  m_teta = Aquarium::getAccessoryConfig().tetaMin +
                 r * (Aquarium::getAccessoryConfig().tetaMax -
                      Aquarium::getAccessoryConfig().tetaMin);
-  double m_omega = Aquarium::getAccessoryConfig().omegaMin +
+  m_omega = Aquarium::getAccessoryConfig().omegaMin +
                  r * (Aquarium::getAccessoryConfig().omegaMax -
                       Aquarium::getAccessoryConfig().omegaMin);
   if (m_teta != 0.0) {
@@ -24,7 +24,21 @@ Shell::Shell(IBestiole *b) : IAccessory(b) {
   m_bestiole->setArmorFactor(currentArmorFactor * m_omega);
 }
 
-void Shell::action(Environment &env) { m_bestiole->action(env); }
+Shell::Shell(const Shell &other, IBestiole *inner)
+    : IAccessory(inner), m_omega(other.m_omega), m_teta(other.m_teta) {
+  // Apply the same modifications to the new inner bestiole
+  double currentSpeedFactor = m_bestiole->getSpeedFactor();
+  if (m_teta != 0.0) {
+    m_bestiole->setSpeedFactor(currentSpeedFactor / m_teta);
+  }
+
+  double currentArmorFactor = m_bestiole->getArmorFactor();
+  m_bestiole->setArmorFactor(currentArmorFactor * m_omega);
+}
+
+void Shell::action(Environment &env, IBestiole *self) {
+  m_bestiole->action(env, self ? self : this);
+}
 
 void Shell::draw(UImg &img) {
   Decorator::draw(img);
@@ -44,4 +58,8 @@ void Shell::draw(UImg &img) {
   T shellColor[3] = {60, 60, 60};
 
   img.draw_ellipse(cx, cy, a, b, angleDeg, shellColor, 1.0f);
+}
+
+Shell *Shell::clone() {
+  return new Shell(*this, m_bestiole->clone());
 }

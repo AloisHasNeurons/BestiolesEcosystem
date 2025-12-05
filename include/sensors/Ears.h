@@ -14,8 +14,11 @@ private:
 
 public:
   explicit Ears(IBestiole *b);
+  Ears(const Ears &other, IBestiole *inner);
 
   ~Ears() override = default;
+
+  Ears *clone() override;
 
   void draw(UImg &img) override;
   std::vector<std::string> getSensors() const override {

@@ -9,9 +9,12 @@
 class Shell : public IAccessory {
 public:
   explicit Shell(IBestiole *b);
+  Shell(const Shell &other, IBestiole *inner);
   ~Shell() override = default;
 
-  void action(Environment &env) override;
+  Shell *clone() override;
+
+  void action(Environment &env, IBestiole *self = nullptr) override;
   void draw(UImg &img) override;
   std::vector<std::string> getAccessories() const override {
     std::vector<std::string> accessories = m_bestiole->getAccessories();

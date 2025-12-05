@@ -12,9 +12,17 @@ Camouflage::Camouflage(IBestiole *b) : IAccessory(b) {
              Aquarium::getAccessoryConfig().camouflageMin);
 }
 
-void Camouflage::action(Environment &env) {
+Camouflage::Camouflage(const Camouflage &other, IBestiole *inner)
+    : IAccessory(inner), m_psi(other.m_psi) {
+}
+
+Camouflage *Camouflage::clone() {
+  return new Camouflage(*this, m_bestiole->clone());
+}
+
+void Camouflage::action(Environment &env, IBestiole *self) {
   // Camouflage does not alter movement behavior; simply forward the action
-  m_bestiole->action(env);
+  m_bestiole->action(env, self ? self : this);
 }
 
 void Camouflage::draw(UImg &img) {

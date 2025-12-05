@@ -24,9 +24,8 @@ public:
 
   // Default implementation: delegate to the decorated bestiole
 
-  void action(Environment &environment) override {
-
-    m_bestiole->action(environment);
+  void action(Environment &environment, IBestiole *self = nullptr) override {
+    m_bestiole->action(environment, self ? self : this);
   }
 
   void draw(UImg &img) override { m_bestiole->draw(img); }

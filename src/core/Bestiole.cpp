@@ -216,7 +216,9 @@ void Bestiole::move(int xLimit, int yLimit) {
  *
  * @param myEnvironment The environment in which the bestiole exists.
  */
-void Bestiole::action(Environment &myEnvironment) {
+void Bestiole::action(Environment &myEnvironment, IBestiole *self) {
+  IBestiole *me = self ? self : this;
+
   // Decrease lifespan and check if the bestiole should die of old age.
   if (m_lifeSpan > 0) {
     m_lifeSpan--;
@@ -238,7 +240,7 @@ void Bestiole::action(Environment &myEnvironment) {
   // cloned.
   if (hazard < m_cloneRate) {
     // Create a clone and add it to the environment.
-    IBestiole *newBestiole = this->clone();
+    IBestiole *newBestiole = me->clone();
     myEnvironment.addMember(newBestiole);
     myEnvironment.recordEvent("Clone of " + getBehaviorString());
   }
@@ -248,8 +250,8 @@ void Bestiole::action(Environment &myEnvironment) {
     // Get the list of all bestioles (potential neighbors) from the environment.
     std::vector<IBestiole *> neighbors = myEnvironment.getBestiolesList();
     // Pass the list to the behavior to calculate new orientation and speed.
-    m_orientation = this->m_behavior->steer(*this, neighbors);
-    m_speed = this->m_behavior->speed(*this, neighbors);
+    m_orientation = this->m_behavior->steer(*me, neighbors);
+    m_speed = this->m_behavior->speed(*me, neighbors);
   }
 
   // Enforce speed limits.
@@ -327,7 +329,7 @@ bool Bestiole::canSee(const IBestiole &otherBestiole) const {
  *
  * @return A pointer to the newly created Bestiole clone.
  */
-IBestiole *Bestiole::clone() {
+Bestiole *Bestiole::clone() {
   // std::cout << "Cloning Bestiole (" << m_identity << ")" << std::endl;
   return new Bestiole(*this);
 }

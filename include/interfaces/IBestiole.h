@@ -15,7 +15,7 @@ class IBestiole : public IsKillable {
 public:
   virtual ~IBestiole() {}
 
-  virtual void action(Environment &environment) = 0;
+  virtual void action(Environment &environment, IBestiole *self = nullptr) = 0;
   virtual void draw(UImg &img) = 0;
   virtual void initCoords(int x, int y) = 0;
   virtual IBestiole *clone() = 0;

@@ -9,9 +9,12 @@
 class Fin : public IAccessory {
 public:
   explicit Fin(IBestiole *b);
+  Fin(const Fin &other, IBestiole *inner);
   ~Fin() override = default;
 
-  void action(Environment &env) override;
+  Fin *clone() override;
+
+  void action(Environment &env, IBestiole *self = nullptr) override;
   void draw(UImg &img) override;
   std::vector<std::string> getAccessories() const override {
     std::vector<std::string> accessories = m_bestiole->getAccessories();
