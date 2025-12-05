@@ -156,7 +156,7 @@ void Bestiole::action(Environment& myEnvironment) {
     // Need to implement getBestiolesList in Environment
     std::vector<IBestiole*> bestiolesList = myEnvironment.getBestiolesList();
     orientation = this->behavior->steer(*this, bestiolesList);
-    speed = this->behavior->speed(*this, bestiolesList) * speedFactor;
+    speed = this->behavior->speed(*this, bestiolesList);
   }
 
   if (speed > MAX_SPEED) {
