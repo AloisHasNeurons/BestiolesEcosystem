@@ -1,6 +1,9 @@
 #ifndef FIN_H
 #define FIN_H
 
+#include <string>
+#include <vector>
+
 #include "../interfaces/IAccessory.h"
 
 class Fin : public IAccessory {

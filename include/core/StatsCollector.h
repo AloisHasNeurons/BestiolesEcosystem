@@ -26,7 +26,8 @@ class StatsCollector {
 
  private:
   // Key: <Behavior, Accessories, Sensors>
-  std::map<std::tuple<std::string, std::string, std::string>, int> m_statsCounts;
+  std::map<std::tuple<std::string, std::string, std::string>, int>
+      m_statsCounts;
   std::vector<std::string> m_events;
   // Helper to clear terminal
   void clearTerminal();

@@ -1,6 +1,9 @@
 #ifndef EARS_H
 #define EARS_H
 
+#include <string>
+#include <vector>
+
 #include "../interfaces/ISensor.h"
 #include "UImg.h"
 

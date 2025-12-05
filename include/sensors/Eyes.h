@@ -1,6 +1,9 @@
 #ifndef EYES_H
 #define EYES_H
 
+#include <string>
+#include <vector>
+
 #include "core/Environment.h"
 #include "interfaces/ISensor.h"
 

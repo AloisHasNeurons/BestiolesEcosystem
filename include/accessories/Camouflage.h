@@ -1,6 +1,9 @@
 #ifndef CAMOUFLAGE_H
 #define CAMOUFLAGE_H
 
+#include <string>
+#include <vector>
+
 #include "../interfaces/IAccessory.h"
 
 class Camouflage : public IAccessory {

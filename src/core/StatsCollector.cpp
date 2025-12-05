@@ -39,7 +39,8 @@ void StatsCollector::addEvent(const std::string& event) {
 #include <numeric>   // for accumulate
 
 // Helper to join strings
-std::string join(const std::vector<std::string>& v, const std::string& delimiter) {
+std::string join(const std::vector<std::string>& v,
+                 const std::string& delimiter) {
   if (v.empty()) return "None";
   return std::accumulate(std::next(v.begin()), v.end(), v[0],
                          [&delimiter](std::string a, std::string b) {
@@ -53,7 +54,7 @@ void StatsCollector::track(const std::vector<IBestiole*>& bestioles,
 
   for (const auto& bestiole : bestioles) {
     std::string behavior = bestiole->getBehaviorString();
-    
+
     std::vector<std::string> accessories = bestiole->getAccessories();
     std::sort(accessories.begin(), accessories.end());
     std::string accStr = join(accessories, ", ");
@@ -178,10 +179,10 @@ void StatsCollector::writeToCSV(int stepCount) {
     }
 
     for (const auto& pair : m_statsCounts) {
-      csvFile << stepCount << "," 
-              << std::get<0>(pair.first) << "," 
-              << std::get<1>(pair.first) << "," 
-              << std::get<2>(pair.first) << "," 
+      csvFile << stepCount << ","
+              << std::get<0>(pair.first) << ","
+              << std::get<1>(pair.first) << ","
+              << std::get<2>(pair.first) << ","
               << pair.second << ","
               << eventsStr << "\n";
     }

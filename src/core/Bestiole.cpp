@@ -316,7 +316,7 @@ bool operator==(const Bestiole &b1, const Bestiole &b2) {
  * @return false, because perception is handled by sensors.
  */
 bool Bestiole::canSee(const IBestiole &otherBestiole) const {
-  return false; // 
+  return false; //
 }
 
 /**
