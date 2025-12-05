@@ -39,17 +39,17 @@ private:
       {"MultiPersonality", 0}};
   std::map<std::string, double> eyesAccessoryDistribution = {
 
-      {"NoEyes", 0},
+      {"NoEyes", 1},
 
-      {"WithEyes", 1}
+      {"WithEyes", 0}
 
   }; // Accessory distribution map for Eyes decorator
 
   std::map<std::string, double> earsAccessoryDistribution = {
 
-      {"NoEars", 1},
+      {"NoEars", 0},
 
-      {"WithEars", 0}
+      {"WithEars", 1}
 
   }; // Accessory distribution map for Ears decorator
 
