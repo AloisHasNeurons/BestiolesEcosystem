@@ -30,10 +30,6 @@ public:
   bool canSee(const IBestiole &b) const override;
 
   bool detect(IBestiole &b) override;
-
-  void setCloneRate(double newCloneRate) override {}
-
-  void setOrientation(double o) override {}
 };
 
 #endif // EARS_H
