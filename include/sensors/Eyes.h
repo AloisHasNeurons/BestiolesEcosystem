@@ -16,6 +16,11 @@ public:
   ~Eyes() override = default;
 
   void draw(UImg &img) override;
+  std::vector<std::string> getSensors() const override {
+    std::vector<std::string> sensors = m_bestiole->getSensors();
+    sensors.push_back("Eyes");
+    return sensors;
+  }
 
   bool canSee(const IBestiole &b) const override;
 

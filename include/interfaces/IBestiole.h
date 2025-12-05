@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "IsKillable.h"
 #include "UImg.h"
@@ -51,7 +52,11 @@ public:
 
   virtual void setArmorFactor(double omega) = 0;
 
-  virtual void setCamouflage(double psi) = 0;
+  virtual void setCamouflage(double psi) = 0; // affects detection probability
+
+  // New methods for stats
+  virtual std::vector<std::string> getAccessories() const = 0;
+  virtual std::vector<std::string> getSensors() const = 0;
 };
 
 #endif // IBESTIOLE_H

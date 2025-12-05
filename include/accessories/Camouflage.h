@@ -10,7 +10,11 @@ public:
 
   void action(Environment &env) override;
   void draw(UImg &img) override;
-
+  std::vector<std::string> getAccessories() const override {
+    std::vector<std::string> accessories = m_bestiole->getAccessories();
+    accessories.push_back("Camouflage");
+    return accessories;
+  }
   double getCamouflage() const override;
 
 private:

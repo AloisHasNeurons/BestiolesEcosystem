@@ -149,6 +149,9 @@ public:
   void setArmorFactor(double omega) override; // affects mortality probability
 
   void setCamouflage(double psi) override; // affects detection probability
+
+  std::vector<std::string> getAccessories() const override;
+  std::vector<std::string> getSensors() const override;
 };
 
 #endif // BESTIOLE_H

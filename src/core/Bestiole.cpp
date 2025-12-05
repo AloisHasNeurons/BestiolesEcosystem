@@ -502,4 +502,20 @@ void Bestiole::setSpeedFactor(double f) { m_speedFactor = f; }
 
 void Bestiole::setArmorFactor(double f) { m_armorFactor = f; }
 
-void Bestiole::setCamouflage(double psi) { m_camouflagePsi = psi; }
+void Bestiole::setCamouflage(double psi) {
+  if (psi > 1) {
+    m_camouflagePsi = 1;
+  } else if (psi < 0) {
+    m_camouflagePsi = 0;
+  } else {
+    m_camouflagePsi = psi;
+  }
+}
+
+std::vector<std::string> Bestiole::getAccessories() const {
+  return {};
+}
+
+std::vector<std::string> Bestiole::getSensors() const {
+  return {};
+}
