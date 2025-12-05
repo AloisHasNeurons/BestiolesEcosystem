@@ -27,9 +27,6 @@ private:
   static const T kBackgroundColor[]; // Background color (white)
   // Birth rate (probability) of bestioles per step
   static double kBirthRateProbability;
-  // Vision parameters
-  static double kDeltaEyeMinRadians, kDeltaEyeMaxRadians, kAlphaRadians;
-  static double kGammaEyeMinPixels, kGammaEyeMaxPixels;
 
   // Map defining the probability distribution for bestiole creation by the
   // factory
@@ -160,37 +157,7 @@ public:
    */
   std::vector<IBestiole *> getBestiolesList() const { return m_bestiolesList; }
 
-  /**
-   * @brief Gets the minimum eye angle difference for perception.
-   * @return double The minimum delta eye angle.
-   */
-  double getDeltaEyeMinRadians() const { return kDeltaEyeMinRadians; }
-
-  /**
-   * @brief Gets the maximum eye angle difference for perception.
-   * @return double The maximum delta eye angle.
-   */
-  double getDeltaEyeMaxRadians() const { return kDeltaEyeMaxRadians; }
-
-  /**
-   * @brief Gets the alpha parameter for vision.
-   * @return double The alpha value.
-   */
-  double getAlphaRadians() const { return kAlphaRadians; }
-
-  /**
-   * @brief Gets the minimum eye distance/range parameter.
-   * @return double The minimum gamma eye distance.
-   */
-  double getGammaEyeMinPixels() const { return kGammaEyeMinPixels; }
-
-  /**
-   * @brief Gets the maximum eye distance/range parameter.
-   * @return double The maximum gamma eye distance (renamed from
-   * 'gammaEyeMMax').
-   */
-  double getGammaEyeMaxPixels() const { return kGammaEyeMaxPixels; }
-
+  // -- getters for accessory distributions --
   std::map<std::string, double> getEyesAccessoryDistribution() const {
 
     return eyesAccessoryDistribution;
@@ -233,23 +200,6 @@ public:
    */
   void setBirthRateProbability(double rate) { kBirthRateProbability = rate; }
 
-  /**
-   * @brief Sets all vision parameters simultaneously.
-   * @param deltaMin The new minimum delta eye angle.
-   * @param deltaMax The new maximum delta eye angle.
-   * @param alphaVal The new alpha value.
-   * @param gammaMin The new minimum gamma eye distance.
-   * @param gammaMax The new maximum gamma eye distance (renamed from
-   * 'gammaEyeMMax').
-   */
-  void setVisionParameters(double deltaMin, double deltaMax, double alphaVal,
-                           double gammaMin, double gammaMax) {
-    kDeltaEyeMinRadians = deltaMin;
-    kDeltaEyeMaxRadians = deltaMax;
-    kAlphaRadians = alphaVal;
-    kGammaEyeMinPixels = gammaMin;
-    kGammaEyeMaxPixels = gammaMax;
-  }
 };
 
 #endif // ENVIRONMENT_H_

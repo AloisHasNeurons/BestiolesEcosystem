@@ -17,17 +17,6 @@
 const unsigned char Environment::kBackgroundColor[] = {255, 255, 255};
 // The probability of a new bestiole being born in a step.
 double Environment::kBirthRateProbability = 0.1;
-// Minimum angle difference for the bestiole's eye orientation check.
-double Environment::kDeltaEyeMinRadians = 0.0;
-// Maximum angle difference for the bestiole's eye orientation check (90
-// degrees).
-double Environment::kDeltaEyeMaxRadians = M_PI / 2;
-// Angle parameter related to eye perception (45 degrees).
-double Environment::kAlphaRadians = M_PI / 4;
-// Minimum eye distance/range parameter.
-double Environment::kGammaEyeMinPixels = 0.0;
-// Maximum eye distance/range parameter.
-double Environment::kGammaEyeMaxPixels = 20.0;
 
 /**
  * @brief Constructs an Environment with specified dimensions and a factory.
