@@ -98,7 +98,7 @@ public:
 
   // --- IBestiole Interface Methods ---
 
-  void action(Environment &myEnvironment) override;
+  void action(Environment &myEnvironment, IBestiole *self = nullptr) override;
   void draw(UImg &support) override;
   void initCoords(int xLimit, int yLimit) override;
 
@@ -141,6 +141,14 @@ public:
    * @return true if visible, false otherwise.
    */
   bool canSee(const IBestiole &otherBestiole) const override;
+
+  /**
+   * @brief Checks if this bestiole can audibly perceive another bestiole.
+   * @param otherBestiole The other IBestiole to check hearing against
+   * (renamed from 'b').
+   * @return true if audible, false otherwise.
+   */
+  bool canHear(const IBestiole &otherBestiole) const override;
 
   // --- Friend Operators ---
   friend bool operator==(const Bestiole &b1, const Bestiole &b2);

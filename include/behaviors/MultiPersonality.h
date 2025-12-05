@@ -70,7 +70,7 @@ class MultiPersonality : public IBehavior {
    * @param otherBestioles A list of all other bestioles in the environment.
    * @return double The calculated steering adjustment.
    */
-  double steer(IBestiole& currentBestiole,
+  double steer(IBestiole* currentBestiole,
                std::vector<IBestiole*> otherBestioles) override;
 
   /**
@@ -80,7 +80,7 @@ class MultiPersonality : public IBehavior {
    * @param otherBestioles A list of all other bestioles in the environment.
    * @return double The calculated speed value.
    */
-  double speed(IBestiole& currentBestiole,
+  double speed(IBestiole* currentBestiole,
                std::vector<IBestiole*> otherBestioles) override;
 
   /**

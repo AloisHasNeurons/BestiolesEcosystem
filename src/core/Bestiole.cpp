@@ -216,7 +216,8 @@ void Bestiole::move(int xLimit, int yLimit) {
  *
  * @param myEnvironment The environment in which the bestiole exists.
  */
-void Bestiole::action(Environment &myEnvironment) {
+void Bestiole::action(Environment &myEnvironment, IBestiole *self) {
+  IBestiole* me = self ? self : this;
   // Decrease lifespan and check if the bestiole should die of old age.
   if (m_lifeSpan > 0) {
     m_lifeSpan--;
@@ -238,7 +239,7 @@ void Bestiole::action(Environment &myEnvironment) {
   // cloned.
   if (hazard < m_cloneRate) {
     // Create a clone and add it to the environment.
-    IBestiole *newBestiole = this->clone();
+    IBestiole *newBestiole = me->clone();
     myEnvironment.addMember(newBestiole);
     myEnvironment.recordEvent("Clone of " + getBehaviorString());
   }
@@ -248,8 +249,8 @@ void Bestiole::action(Environment &myEnvironment) {
     // Get the list of all bestioles (potential neighbors) from the environment.
     std::vector<IBestiole *> neighbors = myEnvironment.getBestiolesList();
     // Pass the list to the behavior to calculate new orientation and speed.
-    m_orientation = this->m_behavior->steer(*this, neighbors);
-    m_speed = this->m_behavior->speed(*this, neighbors);
+    m_orientation = this->m_behavior->steer(me, neighbors);
+    m_speed = this->m_behavior->speed(me, neighbors);
   }
 
   // Enforce speed limits.
@@ -316,6 +317,19 @@ bool operator==(const Bestiole &b1, const Bestiole &b2) {
  * @return false, because perception is handled by sensors.
  */
 bool Bestiole::canSee(const IBestiole &otherBestiole) const {
+  return false; //
+}
+
+/**
+ * @brief Checks if this bestiole can audibly perceive another bestiole.
+ *
+ * Perception is based on the sensors that the bestiole possesses and their capabilities.
+ *
+ * @param otherBestiole The other IBestiole to check hearing against (renamed
+ * from 'b').
+ * @return false, because perception is handled by sensors.
+ */
+bool Bestiole::canHear(const IBestiole &otherBestiole) const {
   return false; //
 }
 

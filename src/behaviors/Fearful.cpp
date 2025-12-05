@@ -17,7 +17,7 @@
  * (renamed from 'bestiolesList').
  * @return double The calculated steering adjustment (orientation in radians).
  */
-double Fearful::steer(IBestiole& currentBestiole,
+double Fearful::steer(IBestiole* currentBestiole,
                       std::vector<IBestiole*> otherBestioles) {
   int visible_neighbor_count = 0;
 
@@ -26,7 +26,7 @@ double Fearful::steer(IBestiole& currentBestiole,
        it != otherBestioles.end(); ++it) {
     IBestiole* other = (*it);
     // Only count visible, distinct bestioles.
-    if (currentBestiole.canSee(*other) && &currentBestiole != other) {
+    if (currentBestiole->canSee(*other) && currentBestiole != other) {
       visible_neighbor_count++;
     }
   }
@@ -35,11 +35,11 @@ double Fearful::steer(IBestiole& currentBestiole,
   if (visible_neighbor_count > m_maxNeighbors) {
     // If there are too many neighbors, steer away by turning 180 degrees
     // (M_PI).
-    double new_orientation = currentBestiole.getOrientation() + M_PI;
+    double new_orientation = currentBestiole->getOrientation() + M_PI;
     return new_orientation;
   }
   // Otherwise, maintain current orientation.
-  return currentBestiole.getOrientation();
+  return currentBestiole->getOrientation();
 }
 
 /**
@@ -55,7 +55,7 @@ double Fearful::steer(IBestiole& currentBestiole,
  * (renamed from 'bestiolesList').
  * @return double The calculated speed value.
  */
-double Fearful::speed(IBestiole& currentBestiole,
+double Fearful::speed(IBestiole* currentBestiole,
                       std::vector<IBestiole*> otherBestioles) {
   int visible_neighbor_count = 0;
 
@@ -64,7 +64,7 @@ double Fearful::speed(IBestiole& currentBestiole,
        it != otherBestioles.end(); ++it) {
     IBestiole* other = (*it);
     // Only count visible, distinct bestioles.
-    if (currentBestiole.canSee(*other) && &currentBestiole != other) {
+    if (currentBestiole->canSee(*other) && currentBestiole != other) {
       visible_neighbor_count++;
     }
   }
@@ -72,8 +72,8 @@ double Fearful::speed(IBestiole& currentBestiole,
   // Check against the maximum tolerated neighbors.
   if (visible_neighbor_count > m_maxNeighbors) {
     // If there are too many neighbors, increase speed to maximum.
-    return currentBestiole.getMaxSpeed();
+    return currentBestiole->getMaxSpeed();
   }
   // Otherwise, maintain normal speed.
-  return currentBestiole.getSpeed();
+  return currentBestiole->getSpeed();
 }

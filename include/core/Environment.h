@@ -32,24 +32,24 @@ private:
   // factory
   std::map<std::string, double> m_behaviorDistribution = {
       // Adds up to 1.0
-      {"Anticipating", 0.2},
-      {"Fearfull", 0.1},
-      {"Gregarious", 0.3},
-      {"Kamikaze", 0.25},
-      {"MultiPersonality", 0.15}};
+      {"Anticipating", 0},
+      {"Fearfull", 0},
+      {"Gregarious", 1},
+      {"Kamikaze", 0},
+      {"MultiPersonality", 0}};
   std::map<std::string, double> eyesAccessoryDistribution = {
 
-      {"NoEyes", 0.7},
+      {"NoEyes", 0},
 
-      {"WithEyes", 0.3}
+      {"WithEyes", 1}
 
   }; // Accessory distribution map for Eyes decorator
 
   std::map<std::string, double> earsAccessoryDistribution = {
 
-      {"NoEars", 0.6},
+      {"NoEars", 1},
 
-      {"WithEars", 0.4}
+      {"WithEars", 0}
 
   }; // Accessory distribution map for Ears decorator
 

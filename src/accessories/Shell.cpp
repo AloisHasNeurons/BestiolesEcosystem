@@ -24,8 +24,6 @@ Shell::Shell(IBestiole *b) : IAccessory(b) {
   m_bestiole->setArmorFactor(currentArmorFactor * m_omega);
 }
 
-void Shell::action(Environment &env) { m_bestiole->action(env); }
-
 void Shell::draw(UImg &img) {
   Decorator::draw(img);
 

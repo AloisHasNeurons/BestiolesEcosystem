@@ -10,8 +10,6 @@ public:
 
   ~IAccessory() override = default;
 
-  void action(Environment &env) override = 0;
-
   virtual void draw(UImg &img) override = 0;
 };
 #endif // IACCESSORY_H

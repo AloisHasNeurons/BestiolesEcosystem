@@ -12,11 +12,6 @@ Camouflage::Camouflage(IBestiole *b) : IAccessory(b) {
              Aquarium::getAccessoryConfig().camouflageMin);
 }
 
-void Camouflage::action(Environment &env) {
-  // Camouflage does not alter movement behavior; simply forward the action
-  m_bestiole->action(env);
-}
-
 void Camouflage::draw(UImg &img) {
   Decorator::draw(img);
 

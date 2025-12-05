@@ -15,10 +15,6 @@ Fin::Fin(IBestiole* b)
   m_bestiole->setSpeedFactor(currentFactor * (1.0 + m_nu));
 }
 
-void Fin::action(Environment& env) {
-  m_bestiole->action(env);
-}
-
 void Fin::draw(UImg& img) {
 
   Decorator::draw(img);

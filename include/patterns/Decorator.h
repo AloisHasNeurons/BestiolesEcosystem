@@ -24,9 +24,9 @@ public:
 
   // Default implementation: delegate to the decorated bestiole
 
-  void action(Environment &environment) override {
+  void action(Environment &environment, IBestiole *self = nullptr) override {
 
-    m_bestiole->action(environment);
+    m_bestiole->action(environment, self ? self : this);
   }
 
   void draw(UImg &img) override { m_bestiole->draw(img); }
@@ -47,6 +47,11 @@ public:
   bool canSee(const IBestiole &b) const override {
 
     return m_bestiole->canSee(b);
+  }
+
+  bool canHear(const IBestiole &b) const override{
+
+    return m_bestiole->canHear(b);
   }
 
   void changeBehavior(std::unique_ptr<IBehavior> behavior) override {
