@@ -1,6 +1,9 @@
 #ifndef EARS_H
 #define EARS_H
 
+#include <string>
+#include <vector>
+
 #include "../interfaces/ISensor.h"
 #include "UImg.h"
 
@@ -14,7 +17,12 @@ public:
 
   ~Ears() override = default;
 
-  void draw(UImg &img);
+  void draw(UImg &img) override;
+  std::vector<std::string> getSensors() const override {
+    std::vector<std::string> sensors = m_bestiole->getSensors();
+    sensors.push_back("Ears");
+    return sensors;
+  }
 
   bool canSee(const IBestiole &b) const override;
 

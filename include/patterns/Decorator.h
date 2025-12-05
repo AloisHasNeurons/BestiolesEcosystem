@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "../interfaces/IBestiole.h"
 #include "../interfaces/IBehavior.h"
@@ -104,6 +105,14 @@ public:
   }
 
   void setOrientation(double o) override { m_bestiole->setOrientation(o); }
+
+  std::vector<std::string> getAccessories() const override {
+    return m_bestiole->getAccessories();
+  }
+
+  std::vector<std::string> getSensors() const override {
+    return m_bestiole->getSensors();
+  }
 };
 
 #endif // DECORATOR_H

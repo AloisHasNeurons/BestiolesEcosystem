@@ -24,7 +24,7 @@ StatsCollector::StatsCollector() {
   // Initialize CSV with header
   std::ofstream csvFile("outputs/simulation_log.csv");
   if (csvFile.is_open()) {
-    csvFile << "Step,Behavior,Count,Events\n";
+    csvFile << "Step,Behavior,Accessories,Sensors,Count,Events\n";
     csvFile.close();
   }
 }
@@ -35,13 +35,35 @@ void StatsCollector::addEvent(const std::string& event) {
   m_events.push_back(event);
 }
 
+#include <algorithm> // for sort
+#include <numeric>   // for accumulate
+
+// Helper to join strings
+std::string join(const std::vector<std::string>& v,
+                 const std::string& delimiter) {
+  if (v.empty()) return "None";
+  return std::accumulate(std::next(v.begin()), v.end(), v[0],
+                         [&delimiter](std::string a, std::string b) {
+                           return a + delimiter + b;
+                         });
+}
+
 void StatsCollector::track(const std::vector<IBestiole*>& bestioles,
                            int stepCount) {
-  m_behaviorCounts.clear();
+  m_statsCounts.clear();
 
   for (const auto& bestiole : bestioles) {
     std::string behavior = bestiole->getBehaviorString();
-    m_behaviorCounts[behavior]++;
+
+    std::vector<std::string> accessories = bestiole->getAccessories();
+    std::sort(accessories.begin(), accessories.end());
+    std::string accStr = join(accessories, ", ");
+
+    std::vector<std::string> sensors = bestiole->getSensors();
+    std::sort(sensors.begin(), sensors.end());
+    std::string sensStr = join(sensors, ", ");
+
+    m_statsCounts[std::make_tuple(behavior, accStr, sensStr)]++;
   }
 
   printSummary(stepCount);
@@ -62,34 +84,39 @@ void StatsCollector::printSummary(int stepCount) {
   std::cout << "\n" << BOLD << "--- Simulation Step: " << stepCount
             << " ---" << RESET << "\n";
   std::cout << std::left << std::setw(20) << "Behavior"
-            << "| " << std::setw(15) << "Accessories"
-            << "| " << std::setw(10) << "Sensors"
+            << "| " << std::setw(30) << "Accessories"
+            << "| " << std::setw(20) << "Sensors"
             << "| " << std::setw(10) << "Count" << "\n";
-  std::cout << std::string(60, '-') << "\n";
+  std::cout << std::string(85, '-') << "\n";
 
-  for (const auto& pair : m_behaviorCounts) {
+  for (const auto& pair : m_statsCounts) {
+    std::string behavior = std::get<0>(pair.first);
+    std::string accessories = std::get<1>(pair.first);
+    std::string sensors = std::get<2>(pair.first);
+    int count = pair.second;
+
     std::string color = RESET;
-    if (pair.first == "Kamikaze") color = RED;
-    else if (pair.first == "Fearful") color = BLUE;
-    else if (pair.first == "Gregarious") color = GREEN;
-    else if (pair.first == "Anticipating") color = MAGENTA;
-    else if (pair.first == "MultiPersonality") color = CYAN;
+    if (behavior == "Kamikaze") color = RED;
+    else if (behavior == "Fearful") color = BLUE;
+    else if (behavior == "Gregarious") color = GREEN;
+    else if (behavior == "Anticipating") color = MAGENTA;
+    else if (behavior == "MultiPersonality") color = CYAN;
     else color = YELLOW;
 
-    if (pair.first == "MultiPersonality") {
+    if (behavior == "MultiPersonality") {
       std::cout << MAGENTA << "Mult" << GREEN << "iPer" << BLUE << "sona" << RED
                 << "lity" << RESET << std::left << std::setw(4) << "" << RESET
-                << "| " << std::setw(15) << "None"  // Placeholder
-                << "| " << std::setw(10) << "None"  // Placeholder
-                << "| " << std::setw(10) << pair.second << "\n";
+                << "| " << std::setw(30) << accessories
+                << "| " << std::setw(20) << sensors
+                << "| " << std::setw(10) << count << "\n";
     } else {
-      std::cout << color << std::left << std::setw(20) << pair.first << RESET
-                << "| " << std::setw(15) << "None"  // Placeholder
-                << "| " << std::setw(10) << "None"  // Placeholder
-                << "| " << std::setw(10) << pair.second << "\n";
+      std::cout << color << std::left << std::setw(20) << behavior << RESET
+                << "| " << std::setw(30) << accessories
+                << "| " << std::setw(20) << sensors
+                << "| " << std::setw(10) << count << "\n";
     }
   }
-  std::cout << std::string(60, '-') << "\n";
+  std::cout << std::string(85, '-') << "\n";
 
   if (!m_events.empty()) {
     std::cout << BOLD << "Events:" << RESET << "\n";
@@ -134,7 +161,7 @@ void StatsCollector::printSummary(int stepCount) {
 
       std::cout << " - " << formattedEvent << "\n";
     }
-    std::cout << std::string(60, '-') << "\n";
+    std::cout << std::string(85, '-') << "\n";
   }
 }
 
@@ -151,8 +178,12 @@ void StatsCollector::writeToCSV(int stepCount) {
       eventsStr += "]";
     }
 
-    for (const auto& pair : m_behaviorCounts) {
-      csvFile << stepCount << "," << pair.first << "," << pair.second << ","
+    for (const auto& pair : m_statsCounts) {
+      csvFile << stepCount << ","
+              << std::get<0>(pair.first) << ","
+              << std::get<1>(pair.first) << ","
+              << std::get<2>(pair.first) << ","
+              << pair.second << ","
               << eventsStr << "\n";
     }
     csvFile.close();

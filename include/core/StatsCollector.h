@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <tuple>
 #include <vector>
 
 #include "interfaces/IBestiole.h"
@@ -24,7 +25,9 @@ class StatsCollector {
   void writeToCSV(int stepCount);
 
  private:
-  std::map<std::string, int> m_behaviorCounts;
+  // Key: <Behavior, Accessories, Sensors>
+  std::map<std::tuple<std::string, std::string, std::string>, int>
+      m_statsCounts;
   std::vector<std::string> m_events;
   // Helper to clear terminal
   void clearTerminal();
