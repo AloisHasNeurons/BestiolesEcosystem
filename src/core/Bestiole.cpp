@@ -172,8 +172,8 @@ void Bestiole::initCoords(int xLimit, int yLimit) {
 void Bestiole::move(int xLimit, int yLimit) {
   double newX, newY;
   // Calculate movement components for x and y.
-  double dx = cos(m_orientation) * m_speed;
-  double dy = -sin(m_orientation) * m_speed;
+  double dx = cos(m_orientation) * m_speed * m_speedFactor;
+  double dy = -sin(m_orientation) * m_speed * m_speedFactor;
   int cumulativeXInt, cumulativeYInt;
 
   // Handle fractional movement using cumulative components.
@@ -309,25 +309,14 @@ bool operator==(const Bestiole &b1, const Bestiole &b2) {
 /**
  * @brief Checks if this bestiole can visually perceive another bestiole.
  *
- * Perception is based purely on the distance between the two bestioles,
- * constrained by the static VIEW_LIMIT.
+ * Perception is based on the sensors that the bestiole possesses and their capabilities.
  *
  * @param otherBestiole The other IBestiole to check visibility against (renamed
  * from 'b').
- * @return true if the other bestiole is within the kViewLimit, false otherwise.
+ * @return false, because perception is handled by sensors.
  */
 bool Bestiole::canSee(const IBestiole &otherBestiole) const {
-  // Dead bestioles cannot see.
-  if (m_lifeSpan < 0) {
-    return false;
-  }
-
-  double dist;
-  // Calculate Euclidean distance.
-  dist = std::sqrt((m_x - otherBestiole.getX()) * (m_x - otherBestiole.getX()) +
-                   (m_y - otherBestiole.getY()) * (m_y - otherBestiole.getY()));
-  // Check if distance is within the viewing limit.
-  return (dist <= kViewLimitPixels);
+  return false; // 
 }
 
 /**

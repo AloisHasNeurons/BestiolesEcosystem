@@ -69,7 +69,7 @@ bool Eyes::canSee(const IBestiole &b) const {
     return false;
 
   // 3) Camouflage check: γ must be greater than ψ to see the target
-  double psi = b.getOpacity(); // camouflage strength of the target
+  double psi = b.getCamouflage(); // camouflage strength of the target
   if (m_gamma <= psi)
     return false;
 
