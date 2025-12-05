@@ -10,7 +10,7 @@ public:
 
   ~IAccessory() override = default;
 
-  void action(Environment &env) override = 0;
+  void action(Environment &env, IBestiole *self = nullptr) override = 0;
 
   virtual void draw(UImg &img) override = 0;
 };

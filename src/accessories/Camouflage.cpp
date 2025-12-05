@@ -20,9 +20,9 @@ IBestiole *Camouflage::clone() {
   return new Camouflage(*this, m_bestiole->clone());
 }
 
-void Camouflage::action(Environment &env) {
+void Camouflage::action(Environment &env, IBestiole *self) {
   // Camouflage does not alter movement behavior; simply forward the action
-  m_bestiole->action(env);
+  m_bestiole->action(env, self ? self : this);
 }
 
 void Camouflage::draw(UImg &img) {

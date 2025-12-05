@@ -98,7 +98,7 @@ public:
 
   // --- IBestiole Interface Methods ---
 
-  void action(Environment &myEnvironment) override;
+  void action(Environment &myEnvironment, IBestiole *self = nullptr) override;
   void draw(UImg &support) override;
   void initCoords(int xLimit, int yLimit) override;
 

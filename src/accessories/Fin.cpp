@@ -26,8 +26,8 @@ IBestiole *Fin::clone() {
   return new Fin(*this, m_bestiole->clone());
 }
 
-void Fin::action(Environment& env) {
-  m_bestiole->action(env);
+void Fin::action(Environment& env, IBestiole *self) {
+  m_bestiole->action(env, self ? self : this);
 }
 
 void Fin::draw(UImg& img) {

@@ -36,7 +36,7 @@ Shell::Shell(const Shell &other, IBestiole *inner)
   m_bestiole->setArmorFactor(currentArmorFactor * m_omega);
 }
 
-void Shell::action(Environment &env) { m_bestiole->action(env); }
+void Shell::action(Environment &env, IBestiole *self) { m_bestiole->action(env, self ? self : this); }
 
 void Shell::draw(UImg &img) {
   Decorator::draw(img);
