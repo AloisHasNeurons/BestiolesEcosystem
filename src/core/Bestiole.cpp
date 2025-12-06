@@ -290,9 +290,9 @@ void Bestiole::draw(UImg &support) {
 
   // Draw the body (ellipse).
   support.draw_ellipse(m_x, m_y, kAffSizePixels, kAffSizePixels / 5.,
-                       -m_orientation / M_PI * 180., drawColor);
+                       -m_orientation / M_PI * 180., drawColor, this->getOpacity());
   // Draw the head (circle).
-  support.draw_circle(headX, headY, kAffSizePixels / 2., drawColor);
+  support.draw_circle(headX, headY, kAffSizePixels / 2., drawColor, this->getOpacity());
 }
 
 /**

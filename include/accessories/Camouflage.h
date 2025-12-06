@@ -22,6 +22,7 @@ public:
     return accessories;
   }
   double getCamouflage() const override;
+  double getOpacity() const override;
 
 private:
   double m_psi;
