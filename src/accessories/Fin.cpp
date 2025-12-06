@@ -1,6 +1,7 @@
 #include "accessories/Fin.h"
 #include <cmath>  // std::cos, std::sin
 #include <random>
+#include <utility> // std::pair
 #include "core/Aquarium.h"
 
 Fin::Fin(IBestiole* b)
@@ -37,34 +38,45 @@ void Fin::draw(UImg& img) {
   // Draw two small fins behind the body
   int cx = getX();
   int cy = getY();
-  double theta = getOrientation();
+  double orientation = getOrientation();
   double size = getSize();
-
-  // Direction behind the body (opposite orientation)
-  double backTheta = theta + M_PI;
-  double r = size * 0.6;
-
-  int baseX = static_cast<int>(cx + std::cos(backTheta) * r);
-  int baseY = static_cast<int>(cy - std::sin(backTheta) * r);
-
-  // Slight lateral offsets to form left and right fins
-  int finLX = baseX + 3;
-  int finLY = baseY;
-  int finRX = baseX - 3;
-  int finRY = baseY;
 
   // Fin color: blue
   T finColor[3] = {0, 0, 255};
 
-  // Left fin (triangle)
-  img.draw_triangle(baseX, baseY,
-                    finLX, finLY - 4,
-                    finLX, finLY + 4,
+  // Bestioles use: dx = cos(theta), dy = -sin(theta)
+  double cosTheta = std::cos(orientation);
+  double sinTheta = std::sin(orientation);
+
+  // Helper lambda: compute rotated coordinates relative to the Bestiole center.
+  // u : displacement forward/backward (along the heading)
+  // v : displacement sideways (left/right)
+  auto getRotatedPoint = [&](double u, double v) -> std::pair<int, int> {
+      // Transformation into world coordinates (screen Y grows downward)
+      int px = static_cast<int>(cx + u * cosTheta - v * sinTheta);
+      int py = static_cast<int>(cy - (u * sinTheta + v * cosTheta));
+      return {px, py};
+  };
+
+  // --- LEFT FIN ---
+  // A triangular fin extending backward and outward from the left side
+  auto p1 = getRotatedPoint(0, size * 0.5);          // Front attachment point
+  auto p2 = getRotatedPoint(-size * 0.8, size * 1.5); // Fin tip
+  auto p3 = getRotatedPoint(-size * 0.5, size * 0.5); // Rear attachment point
+
+  img.draw_triangle(p1.first, p1.second,
+                    p2.first, p2.second,
+                    p3.first, p3.second,
                     finColor);
 
-  // Right fin (triangle)
-  img.draw_triangle(baseX, baseY,
-                    finRX, finRY - 4,
-                    finRX, finRY + 4,
+  // --- RIGHT FIN ---
+  // Symmetric to the left fin (side offset is negated)
+  auto p4 = getRotatedPoint(0, -size * 0.5);
+  auto p5 = getRotatedPoint(-size * 0.8, -size * 1.5);
+  auto p6 = getRotatedPoint(-size * 0.5, -size * 0.5);
+
+  img.draw_triangle(p4.first, p4.second,
+                    p5.first, p5.second,
+                    p6.first, p6.second,
                     finColor);
 }
