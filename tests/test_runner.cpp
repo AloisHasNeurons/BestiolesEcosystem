@@ -16,7 +16,12 @@ int main() {
         {"Eyes: Distance Zero", run_test_eyes_distance_zero},
         {"Eyes: Detection Range Zero", run_test_eyes_detection_range_zero},
         {"Ears: Distance Zero", run_test_ears_distance_zero},
-        {"Ears: Capability Zero", run_test_ears_capability_zero}
+        {"Ears: Capability Zero", run_test_ears_capability_zero},
+        {"Gregarious Behavior Test", run_test_gregarious_behavior},
+        {"Fearful Behavior Test", run_test_fearful_behavior},
+        {"Kamikaze Behavior Test", run_test_kamikaze_behavior},
+        {"Anticipating Behavior Test", run_test_anticipating_behavior},
+        {"MultiPersonality Behavior Test", run_test_multipersonality_behavior}
     };
 
     while (true) {
@@ -24,6 +29,7 @@ int main() {
         for (size_t i = 0; i < tests.size(); ++i) {
             if (i == 0) std::cout << "\n--- Eyes ---\n";
             if (i == 3) std::cout << "\n--- Ears ---\n";
+            if (i == 5) std::cout << "\n--- Behaviors ---\n";
             std::cout << i + 1 << ". " << tests[i].name << "\n";
         }
         std::cout << "0. Exit\n";
