@@ -1,6 +1,7 @@
 #include "accessories/Fin.h"
 #include <cmath>  // std::cos, std::sin
 #include <random>
+#include <utility> // std::pair
 #include "core/Aquarium.h"
 
 Fin::Fin(IBestiole* b)
