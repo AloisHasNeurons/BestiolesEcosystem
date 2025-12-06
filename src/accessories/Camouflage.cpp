@@ -50,3 +50,8 @@ double Camouflage::getCamouflage() const {
   // Override IBestiole's default getCamouflage()
   return m_psi;
 }
+
+double Camouflage::getOpacity() const {
+  // Return a reduced opacity to simulate transparency
+  return 0.3;
+}
