@@ -41,23 +41,29 @@ void Shell::action(Environment &env, IBestiole *self) {
 }
 
 void Shell::draw(UImg &img) {
-  Decorator::draw(img);
-
-  // Draw an outer “shell” around the body
+  // Draw a black outline surrounding the body and head
   int cx = getX();
   int cy = getY();
   double theta = getOrientation();
   double size = getSize();
 
-  // The shell is slightly larger than the body
-  double a = size + 2.0;       // major axis
-  double b = size / 5.0 + 1.0; // minor axis
+  // Calculate head position (same logic as Bestiole but for outline)
+  double headX = cx + std::cos(theta) * size / 2.1;
+  double headY = cy - std::sin(theta) * size / 2.1;
+
   double angleDeg = -theta * 180.0 / M_PI;
 
-  // Shell color: dark gray
-  T shellColor[3] = {60, 60, 60};
+  // Outline color: black
+  T outlineColor[3] = {0, 0, 0};
 
-  img.draw_ellipse(cx, cy, a, b, angleDeg, shellColor, 1.0f);
+  // Draw slightly larger shapes to create the outline effect
+  // Body outline
+  img.draw_ellipse(cx, cy, size + 3.0, (size / 5.0) + 3.0, angleDeg,
+                   outlineColor);
+  // Head outline
+  img.draw_circle(headX, headY, (size / 2.0) + 3.0, outlineColor);
+
+  Decorator::draw(img);
 }
 
 Shell *Shell::clone() {
