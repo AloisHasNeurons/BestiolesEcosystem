@@ -62,7 +62,7 @@ bool Eyes::canSee(const IBestiole &b) const {
   double dy = y1 - y2; // screen coordinates: y increases downward
   double dist = std::sqrt(dx * dx + dy * dy);
 
-  if (dist < m_delta)
+  if (dist > m_delta)
     return false;
 
   // 2) Field-of-view check: target must lie inside forward sector

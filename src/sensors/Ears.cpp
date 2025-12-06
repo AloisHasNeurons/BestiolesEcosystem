@@ -67,7 +67,7 @@ bool Ears::canSee(const IBestiole &b) const {
       y1 - y2; // Screen coordinates: y increases downward, so use y1 - y2
 
   double dist = std::sqrt(dx * dx + dy * dy);
-  if (dist < m_delta)
+  if (dist > m_delta)
     return false;
 
   // ==== 2) Hearing is 360°, no field-of-view check ====
