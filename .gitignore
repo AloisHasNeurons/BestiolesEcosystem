@@ -37,6 +37,7 @@
 *.out
 *.app
 main
+test_runner
 
 # debug information files
 *.dwo
