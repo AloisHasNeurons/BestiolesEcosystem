@@ -55,6 +55,8 @@ public:
   virtual void setCamouflage(double psi) = 0; // affects detection probability
 
   // New methods for stats
+  virtual void setResistance(double r) = 0;
+
   virtual std::vector<std::string> getAccessories() const = 0;
   virtual std::vector<std::string> getSensors() const = 0;
 };

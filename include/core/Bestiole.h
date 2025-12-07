@@ -30,6 +30,8 @@ private:
   static const int
       kMaxLifeSpanSteps; // Maximum number of steps the bestiole can live
   static int kNextId;    // Counter for assigning unique identity
+  static double startCloneRate; // For testing: overrides random clone rate if >= 0
+  static double startResistance; // For testing: overrides random resistance if >= 0
 
 private:
   // --- Dynamic State (m_ prefix) ---
@@ -144,7 +146,11 @@ public:
 
   // --- Friend Operators ---
   friend bool operator==(const Bestiole &b1, const Bestiole &b2);
+  void setResistance(double r) override;
   void setSpeedFactor(double f) override; // affects movement speed
+
+  static void setStartCloneRate(double r); // For testing
+  static void setStartResistance(double r); // For testing
 
   void setArmorFactor(double omega) override; // affects mortality probability
 

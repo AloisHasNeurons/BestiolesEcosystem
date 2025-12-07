@@ -103,6 +103,8 @@ public:
     m_bestiole->setCloneRate(newCloneRate);
   }
 
+  void setResistance(double r) override { m_bestiole->setResistance(r); }
+
   void setOrientation(double o) override { m_bestiole->setOrientation(o); }
 
   std::vector<std::string> getAccessories() const override {
