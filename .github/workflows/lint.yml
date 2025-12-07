@@ -1,0 +1,21 @@
+name: Lint Code
+
+on:
+  push:
+    branches: [ "production" ]
+  pull_request:
+    branches: [ "production" ]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Cpplint
+        run: pip install cpplint
+
+      - name: Run Linter
+        run: make lint

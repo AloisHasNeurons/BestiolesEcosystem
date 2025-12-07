@@ -21,6 +21,13 @@ Ears::Ears(IBestiole *b) : ISensor(b) {
   m_delta = uniformDouble(cfg.deltaMin, cfg.deltaMax);
 }
 
+Ears::Ears(const Ears &other, IBestiole *inner)
+    : ISensor(inner), m_delta(other.m_delta), m_gamma(other.m_gamma) {}
+
+Ears *Ears::clone() {
+  return new Ears(*this, m_bestiole->clone());
+}
+
 void Ears::draw(UImg &img) {
   // First draw the underlying bestiole (and other decorators)
   m_bestiole->draw(img);
@@ -60,7 +67,7 @@ bool Ears::canHear(const IBestiole &b) const {
       y1 - y2; // Screen coordinates: y increases downward, so use y1 - y2
 
   double dist = std::sqrt(dx * dx + dy * dy);
-  if (dist < m_delta)
+  if (dist > m_delta)
     return false;
 
   // ==== 2) Hearing is 360°, no field-of-view check ====

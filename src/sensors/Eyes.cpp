@@ -26,6 +26,14 @@ Eyes::Eyes(IBestiole *b) : ISensor(b) {
   m_gamma = uniformDouble(cfg.gammaMin, cfg.gammaMax);
 }
 
+Eyes::Eyes(const Eyes &other, IBestiole *inner)
+    : ISensor(inner), m_delta(other.m_delta), m_alpha(other.m_alpha),
+      m_gamma(other.m_gamma) {}
+
+Eyes *Eyes::clone() {
+  return new Eyes(*this, m_bestiole->clone());
+}
+
 void Eyes::draw(UImg &img) {
   m_bestiole->draw(img);
 
@@ -54,7 +62,7 @@ bool Eyes::canSee(const IBestiole &b) const {
   double dy = y1 - y2; // screen coordinates: y increases downward
   double dist = std::sqrt(dx * dx + dy * dy);
 
-  if (dist < m_delta)
+  if (dist > m_delta)
     return false;
 
   // 2) Field-of-view check: target must lie inside forward sector

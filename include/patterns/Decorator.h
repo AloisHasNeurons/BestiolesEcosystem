@@ -25,7 +25,6 @@ public:
   // Default implementation: delegate to the decorated bestiole
 
   void action(Environment &environment, IBestiole *self = nullptr) override {
-
     m_bestiole->action(environment, self ? self : this);
   }
 
@@ -108,6 +107,8 @@ public:
   void setCloneRate(double newCloneRate) override {
     m_bestiole->setCloneRate(newCloneRate);
   }
+
+  void setResistance(double r) override { m_bestiole->setResistance(r); }
 
   void setOrientation(double o) override { m_bestiole->setOrientation(o); }
 

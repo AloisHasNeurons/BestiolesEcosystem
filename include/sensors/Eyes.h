@@ -15,8 +15,11 @@ private:
 
 public:
   explicit Eyes(IBestiole *b);
+  Eyes(const Eyes &other, IBestiole *inner);
 
   ~Eyes() override = default;
+
+  Eyes *clone() override;
 
   void draw(UImg &img) override;
   std::vector<std::string> getSensors() const override {
@@ -29,10 +32,6 @@ public:
   bool canHear(const IBestiole &b) const override;
 
   bool detect(IBestiole &b) override;
-
-  void setCloneRate(double newCloneRate) override {}
-
-  void setOrientation(double o) override {}
 };
 
 #endif // EYES_H

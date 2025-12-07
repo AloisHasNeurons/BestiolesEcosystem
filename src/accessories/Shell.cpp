@@ -8,10 +8,10 @@ Shell::Shell(IBestiole *b) : IAccessory(b) {
   // slower)
   double currentSpeedFactor = m_bestiole->getSpeedFactor();
   double r = static_cast<double>(std::rand()) / RAND_MAX;
-  double m_teta = Aquarium::getAccessoryConfig().tetaMin +
+  m_teta = Aquarium::getAccessoryConfig().tetaMin +
                 r * (Aquarium::getAccessoryConfig().tetaMax -
                      Aquarium::getAccessoryConfig().tetaMin);
-  double m_omega = Aquarium::getAccessoryConfig().omegaMin +
+  m_omega = Aquarium::getAccessoryConfig().omegaMin +
                  r * (Aquarium::getAccessoryConfig().omegaMax -
                       Aquarium::getAccessoryConfig().omegaMin);
   if (m_teta != 0.0) {
@@ -24,22 +24,48 @@ Shell::Shell(IBestiole *b) : IAccessory(b) {
   m_bestiole->setArmorFactor(currentArmorFactor * m_omega);
 }
 
-void Shell::draw(UImg &img) {
-  Decorator::draw(img);
+Shell::Shell(const Shell &other, IBestiole *inner)
+    : IAccessory(inner), m_omega(other.m_omega), m_teta(other.m_teta) {
+  // Apply the same modifications to the new inner bestiole
+  double currentSpeedFactor = m_bestiole->getSpeedFactor();
+  if (m_teta != 0.0) {
+    m_bestiole->setSpeedFactor(currentSpeedFactor / m_teta);
+  }
 
-  // Draw an outer “shell” around the body
+  double currentArmorFactor = m_bestiole->getArmorFactor();
+  m_bestiole->setArmorFactor(currentArmorFactor * m_omega);
+}
+
+void Shell::action(Environment &env, IBestiole *self) {
+  m_bestiole->action(env, self ? self : this);
+}
+
+void Shell::draw(UImg &img) {
+  // Draw a black outline surrounding the body and head
   int cx = getX();
   int cy = getY();
   double theta = getOrientation();
   double size = getSize();
 
-  // The shell is slightly larger than the body
-  double a = size + 2.0;       // major axis
-  double b = size / 5.0 + 1.0; // minor axis
+  // Calculate head position (same logic as Bestiole but for outline)
+  double headX = cx + std::cos(theta) * size / 2.1;
+  double headY = cy - std::sin(theta) * size / 2.1;
+
   double angleDeg = -theta * 180.0 / M_PI;
 
-  // Shell color: dark gray
-  T shellColor[3] = {60, 60, 60};
+  // Outline color: black
+  T outlineColor[3] = {0, 0, 0};
 
-  img.draw_ellipse(cx, cy, a, b, angleDeg, shellColor, 1.0f);
+  // Draw slightly larger shapes to create the outline effect
+  // Body outline
+  img.draw_ellipse(cx, cy, size + 3.0, (size / 5.0) + 3.0, angleDeg,
+                   outlineColor);
+  // Head outline
+  img.draw_circle(headX, headY, (size / 2.0) + 3.0, outlineColor);
+
+  Decorator::draw(img);
+}
+
+Shell *Shell::clone() {
+  return new Shell(*this, m_bestiole->clone());
 }

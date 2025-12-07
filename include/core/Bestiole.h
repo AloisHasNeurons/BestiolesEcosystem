@@ -30,6 +30,8 @@ private:
   static const int
       kMaxLifeSpanSteps; // Maximum number of steps the bestiole can live
   static int kNextId;    // Counter for assigning unique identity
+  static double startCloneRate;
+  static double startResistance;
 
 private:
   // --- Dynamic State (m_ prefix) ---
@@ -102,7 +104,7 @@ public:
   void draw(UImg &support) override;
   void initCoords(int xLimit, int yLimit) override;
 
-  IBestiole *clone() override;
+  Bestiole *clone() override;
   bool collision() override;
   void kill(int delay) override;
   void changeBehavior(std::unique_ptr<IBehavior> behavior) override;
@@ -152,7 +154,11 @@ public:
 
   // --- Friend Operators ---
   friend bool operator==(const Bestiole &b1, const Bestiole &b2);
+  void setResistance(double r) override;
   void setSpeedFactor(double f) override; // affects movement speed
+
+  static void setStartCloneRate(double r); // For testing
+  static void setStartResistance(double r); // For testing
 
   void setArmorFactor(double omega) override; // affects mortality probability
 

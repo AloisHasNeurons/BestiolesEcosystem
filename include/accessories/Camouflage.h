@@ -9,8 +9,12 @@
 class Camouflage : public IAccessory {
 public:
   explicit Camouflage(IBestiole *b);
+  Camouflage(const Camouflage &other, IBestiole *inner);
   ~Camouflage() override = default;
 
+  Camouflage *clone() override;
+
+  void action(Environment &env, IBestiole *self = nullptr) override;
   void draw(UImg &img) override;
   std::vector<std::string> getAccessories() const override {
     std::vector<std::string> accessories = m_bestiole->getAccessories();
@@ -18,6 +22,7 @@ public:
     return accessories;
   }
   double getCamouflage() const override;
+  double getOpacity() const override;
 
 private:
   double m_psi;
