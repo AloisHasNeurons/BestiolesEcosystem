@@ -19,11 +19,11 @@ int main() {
   SensorConfig eyeCfg;
   eyeCfg.deltaMin = 15.0;
   eyeCfg.deltaMax = 30.0;
-  eyeCfg.alphaMin = 350.0;  
-  eyeCfg.alphaMax = 360.0; 
+  eyeCfg.alphaMin = 350.0;
+  eyeCfg.alphaMax = 360.0;
   eyeCfg.gammaMin = 0.9;
   eyeCfg.gammaMax = 1.0;
-  Aquarium::setEyeConfig(eyeCfg); 
+  Aquarium::setEyeConfig(eyeCfg);
 
   SensorConfig earCfg;
   earCfg.deltaMin = 15.0;
