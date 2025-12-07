@@ -25,6 +25,8 @@ const int Bestiole::kMaxLifeSpanSteps = 1000;
 
 // Static counter to ensure each Bestiole has a unique identity.
 int Bestiole::kNextId = 0;
+double Bestiole::startCloneRate = -1.0;
+double Bestiole::startResistance = -1.0;
 
 /**
  * @brief Constructs a Bestiole with a specified behavior.
@@ -60,11 +62,19 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> behavior)
   m_lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX *
                                 kMaxLifeSpanSteps);
   // Random survival resistance factor between 0.0 and 1.0.
-  m_resistance = static_cast<double>(rand()) / RAND_MAX;
+  if (startResistance >= 0.0) {
+      m_resistance = startResistance;
+  } else {
+      m_resistance = static_cast<double>(rand()) / RAND_MAX;
+  }
   // Random opacity factor between 0.0 and 1.0.
   m_opacity = static_cast<double>(rand()) / RAND_MAX;
   // Random clone rate (probability of cloning per step).
-  m_cloneRate = (static_cast<double>(rand()) / RAND_MAX) / 1000.0;
+  if (startCloneRate >= 0.0) {
+      m_cloneRate = startCloneRate;
+  } else {
+      m_cloneRate = (static_cast<double>(rand()) / RAND_MAX) / 1000.0;
+  }
 
   m_color = new unsigned char[3];
   unsigned char *behaviorColor = m_behavior->getColor();
@@ -514,6 +524,20 @@ void Bestiole::setCamouflage(double psi) {
   } else {
     m_camouflagePsi = psi;
   }
+}
+
+void Bestiole::setResistance(double r) {
+    if (r > 1.0) m_resistance = 1.0;
+    else if (r < 0.0) m_resistance = 0.0;
+    else m_resistance = r;
+}
+
+void Bestiole::setStartCloneRate(double r) {
+    startCloneRate = r;
+}
+
+void Bestiole::setStartResistance(double r) {
+    startResistance = r;
 }
 
 std::vector<std::string> Bestiole::getAccessories() const {
