@@ -48,7 +48,7 @@ public:
     return m_bestiole->canSee(b);
   }
 
-  bool canHear(const IBestiole &b) const override{
+  bool canHear(const IBestiole &b) const override {
 
     return m_bestiole->canHear(b);
   }

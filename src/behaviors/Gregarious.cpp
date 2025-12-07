@@ -26,7 +26,8 @@ double Gregarious::steer(IBestiole* currentBestiole,
        it != otherBestioles.end(); ++it) {
     IBestiole* other = (*it);
     // Check if it's not the same bestiole and if it's visible.
-    if ((currentBestiole->canSee(*other) || currentBestiole->canHear(*other)) && (currentBestiole != other)) {
+    if ((currentBestiole->canSee(*other) || currentBestiole->canHear(*other)) 
+     && (currentBestiole != other)) {
       neighbor_orientations.push_back(other->getOrientation());
     }
   }

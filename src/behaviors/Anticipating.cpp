@@ -29,12 +29,13 @@ double Anticipating::steer(IBestiole* currentBestiole,
        it != otherBestioles.end(); ++it) {
     IBestiole* other = (*it);
     // Check if it's not the same bestiole and if it's visible.
-    if (currentBestiole != other && (currentBestiole->canSee(*other) || currentBestiole->canHear(*other))) {
+    if (currentBestiole != other && (currentBestiole->canSee(*other) 
+                                  || currentBestiole->canHear(*other))) {
       // Calculate the current distance.
       double distance = std::sqrt((currentBestiole->getX() - other->getX()) *
-                                      (currentBestiole->getX() - other->getX()) +
+                                  (currentBestiole->getX() - other->getX()) +
                                   (currentBestiole->getY() - other->getY()) *
-                                      (currentBestiole->getY() - other->getY()));
+                                  (currentBestiole->getY() - other->getY()));
 
       if (distance < closest_distance) {
         closest_distance = distance;
