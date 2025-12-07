@@ -22,4 +22,9 @@ void run_test_death_by_collision();
 // run_test_natural_death removed
 void run_test_natural_death_only_with_max_resistance();
 
+// test methods for Accessories
+void run_test_camouflage();
+void run_test_shell();
+void run_test_fin();
+
 #endif // TEST_UTILS_H
