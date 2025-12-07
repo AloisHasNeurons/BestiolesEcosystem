@@ -25,6 +25,8 @@ const int Bestiole::kMaxLifeSpanSteps = 1000;
 
 // Static counter to ensure each Bestiole has a unique identity.
 int Bestiole::kNextId = 0;
+double Bestiole::startCloneRate = -1.0;
+double Bestiole::startResistance = -1.0;
 
 /**
  * @brief Constructs a Bestiole with a specified behavior.
@@ -60,11 +62,19 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> behavior)
   m_lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX *
                                 kMaxLifeSpanSteps);
   // Random survival resistance factor between 0.0 and 1.0.
-  m_resistance = static_cast<double>(rand()) / RAND_MAX;
+  if (startResistance >= 0.0) {
+      m_resistance = startResistance;
+  } else {
+      m_resistance = static_cast<double>(rand()) / RAND_MAX;
+  }
   // Random opacity factor between 0.0 and 1.0.
   m_opacity = static_cast<double>(rand()) / RAND_MAX;
   // Random clone rate (probability of cloning per step).
-  m_cloneRate = (static_cast<double>(rand()) / RAND_MAX) / 1000.0;
+  if (startCloneRate >= 0.0) {
+      m_cloneRate = startCloneRate;
+  } else {
+      m_cloneRate = (static_cast<double>(rand()) / RAND_MAX) / 1000.0;
+  }
 
   m_color = new unsigned char[3];
   unsigned char *behaviorColor = m_behavior->getColor();
@@ -217,8 +227,7 @@ void Bestiole::move(int xLimit, int yLimit) {
  * @param myEnvironment The environment in which the bestiole exists.
  */
 void Bestiole::action(Environment &myEnvironment, IBestiole *self) {
-  IBestiole *me = self ? self : this;
-
+  IBestiole* me = self ? self : this;
   // Decrease lifespan and check if the bestiole should die of old age.
   if (m_lifeSpan > 0) {
     m_lifeSpan--;
@@ -250,8 +259,8 @@ void Bestiole::action(Environment &myEnvironment, IBestiole *self) {
     // Get the list of all bestioles (potential neighbors) from the environment.
     std::vector<IBestiole *> neighbors = myEnvironment.getBestiolesList();
     // Pass the list to the behavior to calculate new orientation and speed.
-    m_orientation = this->m_behavior->steer(*me, neighbors);
-    m_speed = this->m_behavior->speed(*me, neighbors);
+    m_orientation = this->m_behavior->steer(me, neighbors);
+    m_speed = this->m_behavior->speed(me, neighbors);
   }
 
   // Enforce speed limits.
@@ -320,6 +329,19 @@ bool operator==(const Bestiole &b1, const Bestiole &b2) {
  * @return false, because perception is handled by sensors.
  */
 bool Bestiole::canSee(const IBestiole &otherBestiole) const {
+  return false; //
+}
+
+/**
+ * @brief Checks if this bestiole can audibly perceive another bestiole.
+ *
+ * Perception is based on the sensors that the bestiole possesses and their capabilities.
+ *
+ * @param otherBestiole The other IBestiole to check hearing against (renamed
+ * from 'b').
+ * @return false, because perception is handled by sensors.
+ */
+bool Bestiole::canHear(const IBestiole &otherBestiole) const {
   return false; //
 }
 
@@ -514,6 +536,20 @@ void Bestiole::setCamouflage(double psi) {
   } else {
     m_camouflagePsi = psi;
   }
+}
+
+void Bestiole::setResistance(double r) {
+    if (r > 1.0) m_resistance = 1.0;
+    else if (r < 0.0) m_resistance = 0.0;
+    else m_resistance = r;
+}
+
+void Bestiole::setStartCloneRate(double r) {
+    startCloneRate = r;
+}
+
+void Bestiole::setStartResistance(double r) {
+    startResistance = r;
 }
 
 std::vector<std::string> Bestiole::getAccessories() const {

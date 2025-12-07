@@ -21,6 +21,7 @@ public:
   virtual IBestiole *clone() = 0;
   virtual bool collision() = 0;
   virtual bool canSee(const IBestiole &b) const = 0;
+  virtual bool canHear(const IBestiole &b) const = 0;
 
   virtual void kill(int delay) override = 0;
   virtual void changeBehavior(std::unique_ptr<IBehavior> behavior) = 0;
@@ -55,6 +56,8 @@ public:
   virtual void setCamouflage(double psi) = 0; // affects detection probability
 
   // New methods for stats
+  virtual void setResistance(double r) = 0;
+
   virtual std::vector<std::string> getAccessories() const = 0;
   virtual std::vector<std::string> getSensors() const = 0;
 };

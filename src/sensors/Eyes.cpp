@@ -84,4 +84,9 @@ bool Eyes::canSee(const IBestiole &b) const {
   return true;
 }
 
+bool Eyes::canHear(const IBestiole &b) const {
+  // Delegate to the decorated bestiole's canHear method
+  return m_bestiole->canHear(b);
+}
+
 bool Eyes::detect(IBestiole &b) { return canSee(b); }

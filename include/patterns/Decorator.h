@@ -48,6 +48,11 @@ public:
     return m_bestiole->canSee(b);
   }
 
+  bool canHear(const IBestiole &b) const override{
+
+    return m_bestiole->canHear(b);
+  }
+
   void changeBehavior(std::unique_ptr<IBehavior> behavior) override {
 
     m_bestiole->changeBehavior(std::move(behavior));
@@ -102,6 +107,8 @@ public:
   void setCloneRate(double newCloneRate) override {
     m_bestiole->setCloneRate(newCloneRate);
   }
+
+  void setResistance(double r) override { m_bestiole->setResistance(r); }
 
   void setOrientation(double o) override { m_bestiole->setOrientation(o); }
 

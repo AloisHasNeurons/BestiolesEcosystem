@@ -104,7 +104,7 @@ void Environment::step(void) {
   // 4. Iterate through all bestioles to update, draw, and check collisions.
   for (auto currentBestiole : m_bestiolesList) {
     // a. Executes the bestiole's action (movement/behavior).
-    currentBestiole->action(*this);
+    currentBestiole->action(*this, currentBestiole);
     // b. Draws the bestiole on the environment.
     currentBestiole->draw(*this);
 

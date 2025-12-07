@@ -28,6 +28,7 @@ public:
   }
 
   bool canSee(const IBestiole &b) const override;
+  bool canHear(const IBestiole &b) const override;
 
   bool detect(IBestiole &b) override;
 };

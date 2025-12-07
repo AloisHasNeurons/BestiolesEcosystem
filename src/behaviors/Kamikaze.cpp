@@ -18,7 +18,7 @@
  * (renamed from 'bestiolesList').
  * @return double The calculated steering adjustment (orientation in radians).
  */
-double Kamikaze::steer(IBestiole& currentBestiole,
+double Kamikaze::steer(IBestiole* currentBestiole,
                        std::vector<IBestiole*> otherBestioles) {
   double closest_distance = std::numeric_limits<double>::max();
   IBestiole* closest_bestiole = nullptr;
@@ -28,12 +28,12 @@ double Kamikaze::steer(IBestiole& currentBestiole,
        it != otherBestioles.end(); ++it) {
     IBestiole* other = (*it);
     // Check if it's not the same bestiole and if it's visible.
-    if (&currentBestiole != other && currentBestiole.canSee(*other)) {
+    if (currentBestiole != other && (currentBestiole->canSee(*other) || currentBestiole->canHear(*other))) {
       // Calculate the current distance.
-      double distance = std::sqrt((currentBestiole.getX() - other->getX()) *
-                                      (currentBestiole.getX() - other->getX()) +
-                                  (currentBestiole.getY() - other->getY()) *
-                                      (currentBestiole.getY() - other->getY()));
+      double distance = std::sqrt((currentBestiole->getX() - other->getX()) *
+                                      (currentBestiole->getX() - other->getX()) +
+                                  (currentBestiole->getY() - other->getY()) *
+                                      (currentBestiole->getY() - other->getY()));
       if (distance < closest_distance) {
         closest_distance = distance;
         closest_bestiole = other;
@@ -43,12 +43,12 @@ double Kamikaze::steer(IBestiole& currentBestiole,
 
   if (closest_bestiole) {
     double adjusted_orientation =
-        std::atan2(-(closest_bestiole->getY() - currentBestiole.getY()),
-                   closest_bestiole->getX() - currentBestiole.getX());
+        std::atan2(-(closest_bestiole->getY() - currentBestiole->getY()),
+                   closest_bestiole->getX() - currentBestiole->getX());
     return adjusted_orientation;
   } else {
     // If no visible bestiole is found, maintain the current orientation.
-    return currentBestiole.getOrientation();
+    return currentBestiole->getOrientation();
   }
 }
 
@@ -64,7 +64,7 @@ double Kamikaze::steer(IBestiole& currentBestiole,
  * (renamed from 'bestiolesList').
  * @return double The calculated speed value.
  */
-double Kamikaze::speed(IBestiole& currentBestiole,
+double Kamikaze::speed(IBestiole* currentBestiole,
                        std::vector<IBestiole*> otherBestioles) {
-  return currentBestiole.getSpeed();
+  return currentBestiole->getSpeed();
 }
