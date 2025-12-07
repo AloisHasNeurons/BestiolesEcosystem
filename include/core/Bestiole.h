@@ -30,8 +30,8 @@ private:
   static const int
       kMaxLifeSpanSteps; // Maximum number of steps the bestiole can live
   static int kNextId;    // Counter for assigning unique identity
-  static double startCloneRate; // For testing: overrides random clone rate if >= 0
-  static double startResistance; // For testing: overrides random resistance if >= 0
+  static double startCloneRate;
+  static double startResistance;
 
 private:
   // --- Dynamic State (m_ prefix) ---
