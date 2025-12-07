@@ -144,6 +144,14 @@ public:
    */
   bool canSee(const IBestiole &otherBestiole) const override;
 
+  /**
+   * @brief Checks if this bestiole can audibly perceive another bestiole.
+   * @param otherBestiole The other IBestiole to check hearing against
+   * (renamed from 'b').
+   * @return true if audible, false otherwise.
+   */
+  bool canHear(const IBestiole &otherBestiole) const override;
+
   // --- Friend Operators ---
   friend bool operator==(const Bestiole &b1, const Bestiole &b2);
   void setResistance(double r) override;

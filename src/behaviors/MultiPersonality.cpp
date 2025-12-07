@@ -55,7 +55,7 @@ MultiPersonality::MultiPersonality() {
  * (renamed from 'bestiolesList').
  * @return double The calculated steering adjustment (orientation in radians).
  */
-double MultiPersonality::steer(IBestiole& currentBestiole,
+double MultiPersonality::steer(IBestiole* currentBestiole,
                                std::vector<IBestiole*> otherBestioles) {
   changeBehavior();
   return m_currentBehavior->steer(currentBestiole, otherBestioles);
@@ -70,7 +70,7 @@ double MultiPersonality::steer(IBestiole& currentBestiole,
  * (renamed from 'bestiolesList').
  * @return double The calculated speed value.
  */
-double MultiPersonality::speed(IBestiole& currentBestiole,
+double MultiPersonality::speed(IBestiole* currentBestiole,
                                std::vector<IBestiole*> otherBestioles) {
   return m_currentBehavior->speed(currentBestiole, otherBestioles);
 }

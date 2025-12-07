@@ -9,8 +9,8 @@ class IBestiole;
 class IBehavior {
  public:
   virtual ~IBehavior() {}
-  virtual double steer(IBestiole& b, std::vector<IBestiole*> bestiolesList) = 0;
-  virtual double speed(IBestiole& b, std::vector<IBestiole*> bestiolesList) = 0;
+  virtual double steer(IBestiole* b, std::vector<IBestiole*> bestiolesList) = 0;
+  virtual double speed(IBestiole* b, std::vector<IBestiole*> bestiolesList) = 0;
   virtual IBehavior* clone() const = 0;
   virtual unsigned char* getColor() const { return nullptr; }
   virtual std::string getName() const = 0;

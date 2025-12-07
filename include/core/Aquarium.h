@@ -18,9 +18,9 @@ struct SensorConfig {
 
   double deltaMax; // maximum detection distance
 
-  double alphaMin; // minimum field-of-view angle
+  double alphaMin; // minimum field-of-view angle in degrees
 
-  double alphaMax; // maximum field-of-view angle
+  double alphaMax; // maximum field-of-view angle in degrees
 
   double gammaMin; // lower bound of detection capability γ
 

@@ -48,6 +48,11 @@ public:
     return m_bestiole->canSee(b);
   }
 
+  bool canHear(const IBestiole &b) const override{
+
+    return m_bestiole->canHear(b);
+  }
+
   void changeBehavior(std::unique_ptr<IBehavior> behavior) override {
 
     m_bestiole->changeBehavior(std::move(behavior));

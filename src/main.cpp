@@ -15,6 +15,23 @@
 int main() {
   Aquarium ecosystem(640, 480, 30);
 
+  // set the parameters for different sensors and accessories if needed
+  SensorConfig eyeCfg;
+  eyeCfg.deltaMin = 10.0;
+  eyeCfg.deltaMax = 15.0;
+  eyeCfg.alphaMin = 350.0;  
+  eyeCfg.alphaMax = 360.0; 
+  eyeCfg.gammaMin = 0.9;
+  eyeCfg.gammaMax = 1.0;
+  Aquarium::setEyeConfig(eyeCfg); 
+
+  SensorConfig earCfg;
+  earCfg.deltaMin = 10.0;
+  earCfg.deltaMax = 15.0;
+  earCfg.gammaMin = 0.9;
+  earCfg.gammaMax = 1.0;
+  Aquarium::setEarConfig(earCfg);
+
   // 1. Create 5 Gregarious Bestioles
   for (int i = 0; i < 5; ++i) {
     ecosystem.getEnvironment().addMember(

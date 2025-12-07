@@ -55,7 +55,7 @@ void Ears::draw(UImg &img) {
   img.draw_circle(earRX, earRY, 2, earColor);
 }
 
-bool Ears::canSee(const IBestiole &b) const {
+bool Ears::canHear(const IBestiole &b) const {
   // ==== 1) Distance check: must be within [deltaMin, deltaMax] ====
   double x1 = static_cast<double>(getX());
   double y1 = static_cast<double>(getY());
@@ -78,6 +78,11 @@ bool Ears::canSee(const IBestiole &b) const {
     return false;
 
   return true;
+}
+
+bool Ears::canSee(const IBestiole &b) const {
+  // Delegate to the decorated bestiole's canSee method
+  return m_bestiole->canSee(b);
 }
 
 bool Ears::detect(IBestiole &b) { return canSee(b); }

@@ -21,6 +21,7 @@ public:
   virtual IBestiole *clone() = 0;
   virtual bool collision() = 0;
   virtual bool canSee(const IBestiole &b) const = 0;
+  virtual bool canHear(const IBestiole &b) const = 0;
 
   virtual void kill(int delay) override = 0;
   virtual void changeBehavior(std::unique_ptr<IBehavior> behavior) = 0;
