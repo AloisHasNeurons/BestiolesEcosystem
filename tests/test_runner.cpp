@@ -36,7 +36,15 @@ int main() {
         // Accessory Tests
         {"Camouflage Effectiveness", run_test_camouflage},
         {"Fin Effectiveness", run_test_fin},
-        {"Shell Effectiveness", run_test_shell}
+        {"Shell Effectiveness", run_test_shell},
+      
+        // Behaviors Tests
+        {"Gregarious Behavior Test", run_test_gregarious_behavior},
+        {"Fearful Behavior Test", run_test_fearful_behavior},
+        {"Kamikaze Behavior Test", run_test_kamikaze_behavior},
+        {"Anticipating Behavior Test", run_test_anticipating_behavior},
+        {"MultiPersonality Behavior Test", run_test_multipersonality_behavior}
+         
     };
 
     while (true) {
@@ -49,6 +57,7 @@ int main() {
             if (i == 9) std::cout << "\n--- Collision ---\n";
             if (i == 11) std::cout << "\n--- Death ---\n";
             if (i == 12) std::cout << "\n--- Accessories ---\n";
+            if (i == 15) std::cout << "\n--- Behaviors ---\n";
             std::cout << i + 1 << ". " << tests[i].name << "\n";
         }
         std::cout << "0. Exit\n";

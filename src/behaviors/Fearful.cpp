@@ -64,7 +64,8 @@ double Fearful::speed(IBestiole* currentBestiole,
        it != otherBestioles.end(); ++it) {
     IBestiole* other = (*it);
     // Only count visible, distinct bestioles.
-    if ((currentBestiole->canSee(*other) || currentBestiole->canHear(*other)) && (currentBestiole != other)) {
+    if ((currentBestiole->canSee(*other) || currentBestiole->canHear(*other))
+    && (currentBestiole != other)) {
       visible_neighbor_count++;
     }
   }
