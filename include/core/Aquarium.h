@@ -33,15 +33,15 @@ struct AccessoryConfig {
 
   double camouflageMax; // maximum camouflage value
 
-  double nuMin; // minimum speed factor for Fin accessory
+  double nuMin = 1.0; // minimum speed factor for Fin accessory
 
   double nuMax; // maximum speed factor for Fin accessory
 
-  double tetaMin; // minimum speed reduction factor for Shell accessory
+  double tetaMin = 1.0; // minimum speed reduction factor for Shell accessory
 
   double tetaMax; // maximum speed reduction factor for Shell accessory
 
-  double omegaMin; // minimum armor enhancement factor for Shell accessory
+  double omegaMin = 1.0; // minimum armor enhancement factor for Shell accessory
 
   double omegaMax; // maximum armor enhancement factor for Shell accessory
 };

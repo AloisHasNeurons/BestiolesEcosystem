@@ -31,7 +31,12 @@ int main() {
         {"Collision: Death", run_test_death_by_collision},
         
         // Issue #22 Tests - Death
-        {"Natural Death (Max Resistance)", run_test_natural_death_only_with_max_resistance}
+        {"Natural Death (Max Resistance)", run_test_natural_death_only_with_max_resistance},
+
+        // Accessory Tests
+        {"Camouflage Effectiveness", run_test_camouflage},
+        {"Fin Effectiveness", run_test_fin},
+        {"Shell Effectiveness", run_test_shell}
     };
 
     while (true) {
@@ -43,6 +48,7 @@ int main() {
             if (i == 8) std::cout << "\n--- Cloning ---\n";
             if (i == 9) std::cout << "\n--- Collision ---\n";
             if (i == 11) std::cout << "\n--- Death ---\n";
+            if (i == 12) std::cout << "\n--- Accessories ---\n";
             std::cout << i + 1 << ". " << tests[i].name << "\n";
         }
         std::cout << "0. Exit\n";
