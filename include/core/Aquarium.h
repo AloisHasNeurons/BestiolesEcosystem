@@ -13,12 +13,12 @@ class Environment;
 class Factory;
 
 struct SensorConfig {
-  double deltaMin = 30.0; // minimum detection distance
+  double deltaMin = 30.0;  // minimum detection distance
   double deltaMax = 100.0; // maximum detection distance
-  double alphaMin = 90.0; // minimum field-of-view angle in degrees
+  double alphaMin = 90.0;  // minimum field-of-view angle in degrees
   double alphaMax = 270.0; // maximum field-of-view angle in degrees
-  double gammaMin = 0.5; // lower bound of detection capability γ
-  double gammaMax = 1.0; // upper bound of detection capability γ
+  double gammaMin = 0.5;   // lower bound of detection capability γ
+  double gammaMax = 1.0;   // upper bound of detection capability γ
 };
 
 struct AccessoryConfig {
