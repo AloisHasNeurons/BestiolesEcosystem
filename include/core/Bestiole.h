@@ -26,10 +26,15 @@ private:
   static const double
       kAffSizePixels; // Affichage size (radius/dimension for drawing)
   static const double kMaxSpeedPixels;  // Maximum movement speed
+  static const double kMinSpeedPixels;  // Minimum movement speed
   static const double kViewLimitPixels; // Maximum visual range (distance)
   static const int
       kMaxLifeSpanSteps; // Maximum number of steps the bestiole can live
   static int kNextId;    // Counter for assigning unique identity
+  static constexpr int kDirectionChangeDelay =
+      10; // Cooldown steps after direction change
+  static constexpr double kDirectionChangeThreshold =
+      0.5; // Threshold in radians to trigger cooldown
   static double startCloneRate;
   static double startResistance;
 
@@ -39,8 +44,9 @@ private:
   int m_x, m_y;   // Current integer coordinates
   double m_cumulativeX,
       m_cumulativeY; // Fractional coordinate accumulation for smooth movement
-  double m_orientation; // Direction of movement (angle in radians)
-  double m_speed;       // Current movement speed
+  double m_orientation;          // Direction of movement (angle in radians)
+  double m_speed;                // Current movement speed
+  int m_directionChangeCooldown; // Cooldown counter for direction changes
 
   unsigned char *m_color; // RGB color array for drawing
 

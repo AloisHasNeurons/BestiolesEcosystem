@@ -23,21 +23,21 @@ struct SensorConfig {
 
 struct AccessoryConfig {
 
-  double camouflageMin; // minimum camouflage value
+  double camouflageMin = 0.3; // minimum camouflage value
 
-  double camouflageMax; // maximum camouflage value
+  double camouflageMax = 0.7; // maximum camouflage value
 
   double nuMin = 1.0; // minimum speed factor for Fin accessory
 
-  double nuMax; // maximum speed factor for Fin accessory
+  double nuMax = 2.0; // maximum speed factor for Fin accessory
 
   double tetaMin = 1.0; // minimum speed reduction factor for Shell accessory
 
-  double tetaMax; // maximum speed reduction factor for Shell accessory
+  double tetaMax = 2.0; // maximum speed reduction factor for Shell accessory
 
   double omegaMin = 1.0; // minimum armor enhancement factor for Shell accessory
 
-  double omegaMax; // maximum armor enhancement factor for Shell accessory
+  double omegaMax = 2.0; // maximum armor enhancement factor for Shell accessory
 };
 
 /**
