@@ -157,7 +157,7 @@ public:
   void setResistance(double r) override;
   void setSpeedFactor(double f) override; // affects movement speed
 
-  static void setStartCloneRate(double r); // For testing
+  static void setStartCloneRate(double r);  // For testing
   static void setStartResistance(double r); // For testing
 
   void setArmorFactor(double omega) override; // affects mortality probability

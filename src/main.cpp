@@ -1,5 +1,5 @@
 #include <iostream>
-#include <memory>  // Required for std::unique_ptr
+#include <memory> // Required for std::unique_ptr
 
 #include "core/Aquarium.h"
 #include "core/Bestiole.h"

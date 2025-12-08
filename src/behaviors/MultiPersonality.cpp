@@ -20,23 +20,23 @@
 MultiPersonality::MultiPersonality() {
   int behaviorType = rand() % 4;
   switch (behaviorType) {
-    case 0:
-      // Randomly initialize Fearful with max_neighbors between 4 and 8
-      // (inclusive)
-      m_currentBehavior = new Fearful(rand() % 5 + 4);
-      break;
-    case 1:
-      m_currentBehavior = new Gregarious();
-      break;
-    case 2:
-      m_currentBehavior = new Kamikaze();
-      break;
-    case 3:
-      m_currentBehavior = new Anticipating();
-      break;
-    default:
-      m_currentBehavior = new Kamikaze();  // Safe fallback
-      break;
+  case 0:
+    // Randomly initialize Fearful with max_neighbors between 4 and 8
+    // (inclusive)
+    m_currentBehavior = new Fearful(rand() % 5 + 4);
+    break;
+  case 1:
+    m_currentBehavior = new Gregarious();
+    break;
+  case 2:
+    m_currentBehavior = new Kamikaze();
+    break;
+  case 3:
+    m_currentBehavior = new Anticipating();
+    break;
+  default:
+    m_currentBehavior = new Kamikaze(); // Safe fallback
+    break;
   }
   m_lastChange = std::chrono::steady_clock::now();
 }
@@ -55,8 +55,8 @@ MultiPersonality::MultiPersonality() {
  * (renamed from 'bestiolesList').
  * @return double The calculated steering adjustment (orientation in radians).
  */
-double MultiPersonality::steer(IBestiole* currentBestiole,
-                               std::vector<IBestiole*> otherBestioles) {
+double MultiPersonality::steer(IBestiole *currentBestiole,
+                               std::vector<IBestiole *> otherBestioles) {
   changeBehavior();
   return m_currentBehavior->steer(currentBestiole, otherBestioles);
 }
@@ -70,8 +70,8 @@ double MultiPersonality::steer(IBestiole* currentBestiole,
  * (renamed from 'bestiolesList').
  * @return double The calculated speed value.
  */
-double MultiPersonality::speed(IBestiole* currentBestiole,
-                               std::vector<IBestiole*> otherBestioles) {
+double MultiPersonality::speed(IBestiole *currentBestiole,
+                               std::vector<IBestiole *> otherBestioles) {
   return m_currentBehavior->speed(currentBestiole, otherBestioles);
 }
 
@@ -88,26 +88,26 @@ void MultiPersonality::changeBehavior() {
   if (now - m_lastChange > std::chrono::seconds(4)) {
     int behaviorType = rand() % 4;
 
-    delete m_currentBehavior;  // Free the memory of the old behavior object
+    delete m_currentBehavior; // Free the memory of the old behavior object
 
     // Allocate a new random behavior object.
     switch (behaviorType) {
-      case 0:
-        // Randomly initialize Fearful with max_neighbors between 4 and 8
-        // (inclusive)
-        m_currentBehavior = new Fearful(rand() % 5 + 4);
-        break;
-      case 1:
-        m_currentBehavior = new Gregarious();
-        break;
-      case 2:
-        m_currentBehavior = new Kamikaze();
-        break;
-      case 3:
-        m_currentBehavior = new Anticipating();
-        break;
-        // Default case is not needed here since rand() % 4 only returns 0, 1,
-        // 2, or 3.
+    case 0:
+      // Randomly initialize Fearful with max_neighbors between 4 and 8
+      // (inclusive)
+      m_currentBehavior = new Fearful(rand() % 5 + 4);
+      break;
+    case 1:
+      m_currentBehavior = new Gregarious();
+      break;
+    case 2:
+      m_currentBehavior = new Kamikaze();
+      break;
+    case 3:
+      m_currentBehavior = new Anticipating();
+      break;
+      // Default case is not needed here since rand() % 4 only returns 0, 1,
+      // 2, or 3.
     }
     m_lastChange = now;
   }

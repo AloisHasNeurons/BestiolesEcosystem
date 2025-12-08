@@ -15,12 +15,12 @@ class IBestiole;
  * maintenance of distance from other bestioles.
  */
 class Fearful : public IBehavior {
- private:
+private:
   // The maximum number of neighbors this bestiole tolerates before reacting.
   int m_maxNeighbors;
-  unsigned char* m_color = new unsigned char[3]{
-      0, 0, 255};  // Blue color (R:0, G:0, B:255) for Fearful behavior
- public:
+  unsigned char *m_color = new unsigned char[3]{
+      0, 0, 255}; // Blue color (R:0, G:0, B:255) for Fearful behavior
+public:
   /**
    * @brief Calculates the steering force/direction for the Fearful bestiole.
    *
@@ -31,8 +31,8 @@ class Fearful : public IBehavior {
    * @param otherBestioles A list of all other bestioles in the environment.
    * @return double The calculated steering adjustment (e.g., angle change).
    */
-  double steer(IBestiole* currentBestiole,
-               std::vector<IBestiole*> otherBestioles) override;
+  double steer(IBestiole *currentBestiole,
+               std::vector<IBestiole *> otherBestioles) override;
 
   /**
    * @brief Calculates the speed for the Fearful bestiole.
@@ -41,8 +41,8 @@ class Fearful : public IBehavior {
    * @param otherBestioles A list of all other bestioles in the environment.
    * @return double The calculated speed value.
    */
-  double speed(IBestiole* currentBestiole,
-               std::vector<IBestiole*> otherBestioles) override;
+  double speed(IBestiole *currentBestiole,
+               std::vector<IBestiole *> otherBestioles) override;
 
   /**
    * @brief Constructor.
@@ -59,7 +59,7 @@ class Fearful : public IBehavior {
    *
    * @param other The Fearful object to copy from.
    */
-  Fearful(const Fearful& other) {
+  Fearful(const Fearful &other) {
     m_maxNeighbors = other.m_maxNeighbors;
     m_color = other.m_color;
   }
@@ -68,7 +68,7 @@ class Fearful : public IBehavior {
    * @brief Creates a deep copy (clone) of the behavior object.
    * @return IBehavior* A pointer to the new Fearful object.
    */
-  IBehavior* clone() const override { return new Fearful(*this); }
+  IBehavior *clone() const override { return new Fearful(*this); }
 
   /**
    * @brief Gets the name of this behavior.
@@ -80,7 +80,7 @@ class Fearful : public IBehavior {
    * @brief Gets the color associated with this behavior.
    * @return unsigned char* A pointer to the RGB color array.
    */
-  unsigned char* getColor() const override { return m_color; }
+  unsigned char *getColor() const override { return m_color; }
 };
 
-#endif  // FEARFUL_H
+#endif // FEARFUL_H

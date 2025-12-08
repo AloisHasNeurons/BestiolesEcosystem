@@ -24,9 +24,7 @@ Ears::Ears(IBestiole *b) : ISensor(b) {
 Ears::Ears(const Ears &other, IBestiole *inner)
     : ISensor(inner), m_delta(other.m_delta), m_gamma(other.m_gamma) {}
 
-Ears *Ears::clone() {
-  return new Ears(*this, m_bestiole->clone());
-}
+Ears *Ears::clone() { return new Ears(*this, m_bestiole->clone()); }
 
 void Ears::draw(UImg &img) {
   // First draw the underlying bestiole (and other decorators)

@@ -201,47 +201,43 @@ public:
   void setBirthRateProbability(double rate) { kBirthRateProbability = rate; }
 
   // Setters for accessory distributions
-  void setEyesAccessoryDistribution(
-      const std::map<std::string, double>& dist) {
+  void setEyesAccessoryDistribution(const std::map<std::string, double> &dist) {
     eyesAccessoryDistribution = dist;
   }
-  void setEarsAccessoryDistribution(
-      const std::map<std::string, double>& dist) {
+  void setEarsAccessoryDistribution(const std::map<std::string, double> &dist) {
     earsAccessoryDistribution = dist;
   }
   void setCamouflageAccessoryDistribution(
-      const std::map<std::string, double>& dist) {
+      const std::map<std::string, double> &dist) {
     camouflageAccessoryDistribution = dist;
   }
-  void setFinsAccessoryDistribution(
-      const std::map<std::string, double>& dist) {
+  void setFinsAccessoryDistribution(const std::map<std::string, double> &dist) {
     finsAccessoryDistribution = dist;
   }
-  void setShellAccessoryDistribution(
-      const std::map<std::string, double>& dist) {
+  void
+  setShellAccessoryDistribution(const std::map<std::string, double> &dist) {
     shellAccessoryDistribution = dist;
   }
 
   // Method to reset/clear population
   void resetPopulation() {
-      for (IBestiole* b : m_bestiolesList) {
-          delete b;
-      }
-      m_bestiolesList.clear();
-      // Also clear pending inclusions
-      for (IBestiole* b : m_bestiolesToAdd) {
-          delete b;
-      }
-      m_bestiolesToAdd.clear();
+    for (IBestiole *b : m_bestiolesList) {
+      delete b;
+    }
+    m_bestiolesList.clear();
+    // Also clear pending inclusions
+    for (IBestiole *b : m_bestiolesToAdd) {
+      delete b;
+    }
+    m_bestiolesToAdd.clear();
   }
 
   // Method to spawn initial population again
   void spawnPopulation(int count) {
-      for (int i = 0; i < count; ++i) {
-          addMember(m_factory.createBestiole());
-      }
+    for (int i = 0; i < count; ++i) {
+      addMember(m_factory.createBestiole());
+    }
   }
-
 };
 
 #endif // ENVIRONMENT_H_

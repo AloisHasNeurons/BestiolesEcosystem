@@ -15,10 +15,10 @@ class IBestiole;
  * to other bestioles.
  */
 class Gregarious : public IBehavior {
- private:
-  unsigned char* m_color = new unsigned char[3]{
-      0, 255, 0};  // Green color (R:0, G:255, B:0) for Gregarious bestioles
- public:
+private:
+  unsigned char *m_color = new unsigned char[3]{
+      0, 255, 0}; // Green color (R:0, G:255, B:0) for Gregarious bestioles
+public:
   /**
    * @brief Calculates the steering force/direction for the Gregarious bestiole.
    *
@@ -28,8 +28,8 @@ class Gregarious : public IBehavior {
    * @param otherBestioles A list of all other bestioles in the environment.
    * @return double The calculated steering adjustment (e.g., angle change).
    */
-  double steer(IBestiole* currentBestiole,
-               std::vector<IBestiole*> otherBestioles) override;
+  double steer(IBestiole *currentBestiole,
+               std::vector<IBestiole *> otherBestioles) override;
 
   /**
    * @brief Calculates the speed for the Gregarious bestiole.
@@ -38,8 +38,8 @@ class Gregarious : public IBehavior {
    * @param otherBestioles A list of all other bestioles in the environment.
    * @return double The calculated speed value.
    */
-  double speed(IBestiole* currentBestiole,
-               std::vector<IBestiole*> otherBestioles) override;
+  double speed(IBestiole *currentBestiole,
+               std::vector<IBestiole *> otherBestioles) override;
 
   /**
    * @brief Default constructor.
@@ -53,13 +53,13 @@ class Gregarious : public IBehavior {
    *
    * @param other The Gregarious object to copy from.
    */
-  Gregarious(const Gregarious& other) { m_color = other.m_color; }
+  Gregarious(const Gregarious &other) { m_color = other.m_color; }
 
   /**
    * @brief Creates a deep copy (clone) of the behavior object.
    * @return IBehavior* A pointer to the new Gregarious object.
    */
-  IBehavior* clone() const override { return new Gregarious(*this); }
+  IBehavior *clone() const override { return new Gregarious(*this); }
 
   /**
    * @brief Gets the name of this behavior.
@@ -71,7 +71,7 @@ class Gregarious : public IBehavior {
    * @brief Gets the color associated with this behavior.
    * @return unsigned char* A pointer to the RGB color array.
    */
-  unsigned char* getColor() const override { return m_color; }
+  unsigned char *getColor() const override { return m_color; }
 };
 
-#endif  // GREGARIOUS_H
+#endif // GREGARIOUS_H

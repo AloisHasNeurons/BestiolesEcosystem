@@ -17,14 +17,14 @@
  * (renamed from 'bestiolesList').
  * @return double The calculated steering adjustment (orientation in radians).
  */
-double Fearful::steer(IBestiole* currentBestiole,
-                      std::vector<IBestiole*> otherBestioles) {
+double Fearful::steer(IBestiole *currentBestiole,
+                      std::vector<IBestiole *> otherBestioles) {
   int visible_neighbor_count = 0;
 
   // Count the number of visible neighbors.
-  for (std::vector<IBestiole*>::const_iterator it = otherBestioles.begin();
+  for (std::vector<IBestiole *>::const_iterator it = otherBestioles.begin();
        it != otherBestioles.end(); ++it) {
-    IBestiole* other = (*it);
+    IBestiole *other = (*it);
     // Only count visible, distinct bestioles.
     if (currentBestiole->canSee(*other) && currentBestiole != other) {
       visible_neighbor_count++;
@@ -55,17 +55,17 @@ double Fearful::steer(IBestiole* currentBestiole,
  * (renamed from 'bestiolesList').
  * @return double The calculated speed value.
  */
-double Fearful::speed(IBestiole* currentBestiole,
-                      std::vector<IBestiole*> otherBestioles) {
+double Fearful::speed(IBestiole *currentBestiole,
+                      std::vector<IBestiole *> otherBestioles) {
   int visible_neighbor_count = 0;
 
   // Count the number of visible neighbors.
-  for (std::vector<IBestiole*>::const_iterator it = otherBestioles.begin();
+  for (std::vector<IBestiole *>::const_iterator it = otherBestioles.begin();
        it != otherBestioles.end(); ++it) {
-    IBestiole* other = (*it);
+    IBestiole *other = (*it);
     // Only count visible, distinct bestioles.
-    if ((currentBestiole->canSee(*other) || currentBestiole->canHear(*other))
-    && (currentBestiole != other)) {
+    if ((currentBestiole->canSee(*other) || currentBestiole->canHear(*other)) &&
+        (currentBestiole != other)) {
       visible_neighbor_count++;
     }
   }

@@ -15,16 +15,16 @@ struct BestioleStats {
 };
 
 class StatsCollector {
- public:
+public:
   StatsCollector();
   ~StatsCollector();
 
-  void track(const std::vector<IBestiole*>& bestioles, int stepCount);
-  void addEvent(const std::string& event);
+  void track(const std::vector<IBestiole *> &bestioles, int stepCount);
+  void addEvent(const std::string &event);
   void printSummary(int stepCount);
   void writeToCSV(int stepCount);
 
- private:
+private:
   // Key: <Behavior, Accessories, Sensors>
   std::map<std::tuple<std::string, std::string, std::string>, int>
       m_statsCounts;
@@ -33,4 +33,4 @@ class StatsCollector {
   void clearTerminal();
 };
 
-#endif  // STATS_COLLECTOR_H
+#endif // STATS_COLLECTOR_H

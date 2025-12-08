@@ -30,9 +30,7 @@ Eyes::Eyes(const Eyes &other, IBestiole *inner)
     : ISensor(inner), m_delta(other.m_delta), m_alpha(other.m_alpha),
       m_gamma(other.m_gamma) {}
 
-Eyes *Eyes::clone() {
-  return new Eyes(*this, m_bestiole->clone());
-}
+Eyes *Eyes::clone() { return new Eyes(*this, m_bestiole->clone()); }
 
 void Eyes::draw(UImg &img) {
   m_bestiole->draw(img);

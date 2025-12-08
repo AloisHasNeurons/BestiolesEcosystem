@@ -17,13 +17,13 @@ class Bestiole;
  * in direct approach or aggressive pursuit of targets.
  */
 class Kamikaze : public IBehavior {
- private:
+private:
   // Use a more descriptive name for the private color array, including 'm_'
   // prefix
-  unsigned char* m_color = new unsigned char[3]{
-      255, 0, 0};  // Red color for Kamikaze bestioles (R:255, G:0, B:0)
+  unsigned char *m_color = new unsigned char[3]{
+      255, 0, 0}; // Red color for Kamikaze bestioles (R:255, G:0, B:0)
 
- public:
+public:
   /**
    * @brief Calculates the steering force/direction for the Kamikaze bestiole.
    *
@@ -35,8 +35,8 @@ class Kamikaze : public IBehavior {
    * @param otherBestioles A list of all other bestioles in the environment.
    * @return double The calculated steering adjustment (e.g., angle change).
    */
-  double steer(IBestiole* currentBestiole,
-               std::vector<IBestiole*> otherBestioles) override;
+  double steer(IBestiole *currentBestiole,
+               std::vector<IBestiole *> otherBestioles) override;
 
   /**
    * @brief Calculates the speed for the Kamikaze bestiole.
@@ -46,8 +46,8 @@ class Kamikaze : public IBehavior {
    * @param otherBestioles A list of all other bestioles in the environment.
    * @return double The calculated speed value.
    */
-  double speed(IBestiole* currentBestiole,
-               std::vector<IBestiole*> otherBestioles) override;
+  double speed(IBestiole *currentBestiole,
+               std::vector<IBestiole *> otherBestioles) override;
 
   /**
    * @brief Default constructor.
@@ -60,13 +60,13 @@ class Kamikaze : public IBehavior {
    * Shares the color pointer with the other Kamikaze object.
    * @param other The Kamikaze object to copy from.
    */
-  Kamikaze(const Kamikaze& other) { m_color = other.m_color; }
+  Kamikaze(const Kamikaze &other) { m_color = other.m_color; }
 
   /**
    * @brief Creates a deep copy (clone) of the behavior object.
    * @return IBehavior* A pointer to the new Kamikaze object.
    */
-  IBehavior* clone() const override { return new Kamikaze(*this); }
+  IBehavior *clone() const override { return new Kamikaze(*this); }
 
   /**
    * @brief Gets the name of this behavior.
@@ -78,7 +78,7 @@ class Kamikaze : public IBehavior {
    * @brief Gets the color associated with this behavior.
    * @return unsigned char* A pointer to the RGB color array.
    */
-  unsigned char* getColor() const override { return m_color; }
+  unsigned char *getColor() const override { return m_color; }
 };
 
-#endif  // KAMIKAZE_H
+#endif // KAMIKAZE_H
