@@ -20,6 +20,7 @@
 // Define static constants for the Bestiole class (using 'k' prefix).
 const double Bestiole::kAffSizePixels = 8.;
 const double Bestiole::kMaxSpeedPixels = 10.;
+const double Bestiole::kMinSpeedPixels = 2.;
 const double Bestiole::kViewLimitPixels = 30.;
 const int Bestiole::kMaxLifeSpanSteps = 1000;
 
@@ -55,8 +56,12 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> behavior)
   m_cumulativeX = m_cumulativeY = 0.;
   // Random orientation between 0 and $2\pi$.
   m_orientation = static_cast<double>(rand()) / RAND_MAX * 2. * M_PI;
-  // Random initial speed up to MAX_SPEED.
-  m_speed = static_cast<double>(rand()) / RAND_MAX * kMaxSpeedPixels;
+  // Random initial speed between kMinSpeedPixels and kMaxSpeedPixels.
+  double speedRange = kMaxSpeedPixels - kMinSpeedPixels;
+  m_speed =
+      kMinSpeedPixels + static_cast<double>(rand()) / RAND_MAX * speedRange;
+
+  m_directionChangeCooldown = 0;
 
   // Random lifespan up to MAX_LIFE_SPAN.
   m_lifeSpan = static_cast<int>(static_cast<double>(rand()) / RAND_MAX *
@@ -141,6 +146,7 @@ Bestiole::Bestiole(const Bestiole &otherBestiole) {
     m_behavior = nullptr;
     m_behaviorString = "Unknown";
   }
+  m_directionChangeCooldown = 0;
 }
 
 /**
@@ -182,8 +188,12 @@ void Bestiole::initCoords(int xLimit, int yLimit) {
 void Bestiole::move(int xLimit, int yLimit) {
   double newX, newY;
   // Calculate movement components for x and y.
-  double dx = cos(m_orientation) * m_speed * m_speedFactor;
-  double dy = -sin(m_orientation) * m_speed * m_speedFactor;
+  double effectiveSpeed = m_speed * m_speedFactor;
+  if (effectiveSpeed > kMaxSpeedPixels) {
+    effectiveSpeed = kMaxSpeedPixels;
+  }
+  double dx = cos(m_orientation) * effectiveSpeed;
+  double dy = -sin(m_orientation) * effectiveSpeed;
   int cumulativeXInt, cumulativeYInt;
 
   // Handle fractional movement using cumulative components.
@@ -256,18 +266,35 @@ void Bestiole::action(Environment &myEnvironment, IBestiole *self) {
 
   // Apply behavior-based steering and speed adjustments.
   if (m_behavior) {
-    // Get the list of all bestioles (potential neighbors) from the environment.
+    if (m_directionChangeCooldown > 0) {
+      m_directionChangeCooldown--;
+    } else {
+      std::vector<IBestiole *> neighbors = myEnvironment.getBestiolesList();
+      double oldOrientation = m_orientation;
+      m_orientation = this->m_behavior->steer(me, neighbors);
+
+      // Check for significant change to trigger cooldown
+      double diff = m_orientation - oldOrientation;
+      // Normalize diff to [-PI, PI]
+      while (diff <= -M_PI)
+        diff += 2 * M_PI;
+      while (diff > M_PI)
+        diff -= 2 * M_PI;
+
+      if (std::abs(diff) > kDirectionChangeThreshold) {
+        m_directionChangeCooldown = kDirectionChangeDelay;
+      }
+    }
+
     std::vector<IBestiole *> neighbors = myEnvironment.getBestiolesList();
-    // Pass the list to the behavior to calculate new orientation and speed.
-    m_orientation = this->m_behavior->steer(me, neighbors);
     m_speed = this->m_behavior->speed(me, neighbors);
   }
 
   // Enforce speed limits.
   if (m_speed > kMaxSpeedPixels) {
     m_speed = kMaxSpeedPixels;
-  } else if (m_speed < 0.) {
-    m_speed = 0.;
+  } else if (m_speed < kMinSpeedPixels) {
+    m_speed = kMinSpeedPixels;
   }
 
   // Move the bestiole within the environment bounds.
@@ -387,6 +414,7 @@ bool Bestiole::collision() {
   } else {
     m_orientation = m_orientation - M_PI;
   }
+  m_directionChangeCooldown = kDirectionChangeDelay;
 
   return false; // "I survived"
 }
