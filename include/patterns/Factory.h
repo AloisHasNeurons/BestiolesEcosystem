@@ -6,13 +6,13 @@
 class Environment;
 
 class Factory : public IFactory {
- private:
-  const Environment* env;
+private:
+  const Environment *env;
 
- public:
+public:
   Factory();
-  void setEnvironment(const Environment* env);
-  IBestiole* createBestiole() override;
+  void setEnvironment(const Environment *env);
+  IBestiole *createBestiole() override;
 };
 
 #endif

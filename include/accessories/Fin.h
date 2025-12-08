@@ -21,6 +21,7 @@ public:
     accessories.push_back("Fin");
     return accessories;
   }
+
 private:
   double m_nu;
 };

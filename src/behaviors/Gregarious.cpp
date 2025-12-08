@@ -17,17 +17,17 @@
  * (renamed from 'bestiolesList').
  * @return double The calculated steering adjustment (orientation in radians).
  */
-double Gregarious::steer(IBestiole* currentBestiole,
-                         std::vector<IBestiole*> otherBestioles) {
+double Gregarious::steer(IBestiole *currentBestiole,
+                         std::vector<IBestiole *> otherBestioles) {
   std::vector<double> neighbor_orientations;
 
   // Collect the orientations of all visible neighbors.
-  for (std::vector<IBestiole*>::const_iterator it = otherBestioles.begin();
+  for (std::vector<IBestiole *>::const_iterator it = otherBestioles.begin();
        it != otherBestioles.end(); ++it) {
-    IBestiole* other = (*it);
+    IBestiole *other = (*it);
     // Check if it's not the same bestiole and if it's visible.
-    if ((currentBestiole->canSee(*other) || currentBestiole->canHear(*other))
-     && (currentBestiole != other)) {
+    if ((currentBestiole->canSee(*other) || currentBestiole->canHear(*other)) &&
+        (currentBestiole != other)) {
       neighbor_orientations.push_back(other->getOrientation());
     }
   }
@@ -60,7 +60,7 @@ double Gregarious::steer(IBestiole* currentBestiole,
  * (renamed from 'bestiolesList').
  * @return double The calculated speed value.
  */
-double Gregarious::speed(IBestiole* currentBestiole,
-                         std::vector<IBestiole*> otherBestioles) {
+double Gregarious::speed(IBestiole *currentBestiole,
+                         std::vector<IBestiole *> otherBestioles) {
   return currentBestiole->getSpeed();
 }

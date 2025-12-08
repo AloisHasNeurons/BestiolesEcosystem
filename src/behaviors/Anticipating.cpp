@@ -1,7 +1,7 @@
 #include "behaviors/Anticipating.h"
 
 #include <cmath>
-#include <limits>  // Added for numeric_limits
+#include <limits> // Added for numeric_limits
 #include <vector>
 
 #include "interfaces/IBestiole.h"
@@ -19,23 +19,24 @@
  * (renamed from 'bestiolesList').
  * @return double The calculated steering adjustment (orientation in radians).
  */
-double Anticipating::steer(IBestiole* currentBestiole,
-                           std::vector<IBestiole*> otherBestioles) {
+double Anticipating::steer(IBestiole *currentBestiole,
+                           std::vector<IBestiole *> otherBestioles) {
   double closest_distance = std::numeric_limits<double>::max();
-  IBestiole* closest_bestiole = nullptr;
+  IBestiole *closest_bestiole = nullptr;
 
   // Search for the closest visible bestiole.
-  for (std::vector<IBestiole*>::const_iterator it = otherBestioles.begin();
+  for (std::vector<IBestiole *>::const_iterator it = otherBestioles.begin();
        it != otherBestioles.end(); ++it) {
-    IBestiole* other = (*it);
+    IBestiole *other = (*it);
     // Check if it's not the same bestiole and if it's visible.
-    if (currentBestiole != other && (currentBestiole->canSee(*other)
-                                  || currentBestiole->canHear(*other))) {
+    if (currentBestiole != other &&
+        (currentBestiole->canSee(*other) || currentBestiole->canHear(*other))) {
       // Calculate the current distance.
-      double distance = std::sqrt((currentBestiole->getX() - other->getX()) *
-                                  (currentBestiole->getX() - other->getX()) +
-                                  (currentBestiole->getY() - other->getY()) *
-                                  (currentBestiole->getY() - other->getY()));
+      double distance =
+          std::sqrt((currentBestiole->getX() - other->getX()) *
+                        (currentBestiole->getX() - other->getX()) +
+                    (currentBestiole->getY() - other->getY()) *
+                        (currentBestiole->getY() - other->getY()));
 
       if (distance < closest_distance) {
         closest_distance = distance;
@@ -101,7 +102,7 @@ double Anticipating::steer(IBestiole* currentBestiole,
  * (renamed from 'bestiolesList').
  * @return double The calculated speed value.
  */
-double Anticipating::speed(IBestiole* currentBestiole,
-                           std::vector<IBestiole*> otherBestioles) {
+double Anticipating::speed(IBestiole *currentBestiole,
+                           std::vector<IBestiole *> otherBestioles) {
   return currentBestiole->getSpeed();
 }

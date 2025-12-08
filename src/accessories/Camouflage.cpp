@@ -8,13 +8,12 @@ Camouflage::Camouflage(IBestiole *b) : IAccessory(b) {
   // chose random psi value based on environment configuration
   double r = static_cast<double>(std::rand()) / RAND_MAX;
   m_psi = Aquarium::getAccessoryConfig().camouflageMin +
-        r * (Aquarium::getAccessoryConfig().camouflageMax -
-             Aquarium::getAccessoryConfig().camouflageMin);
+          r * (Aquarium::getAccessoryConfig().camouflageMax -
+               Aquarium::getAccessoryConfig().camouflageMin);
 }
 
 Camouflage::Camouflage(const Camouflage &other, IBestiole *inner)
-    : IAccessory(inner), m_psi(other.m_psi) {
-}
+    : IAccessory(inner), m_psi(other.m_psi) {}
 
 Camouflage *Camouflage::clone() {
   return new Camouflage(*this, m_bestiole->clone());

@@ -31,7 +31,7 @@ StatsCollector::StatsCollector() {
 
 StatsCollector::~StatsCollector() {}
 
-void StatsCollector::addEvent(const std::string& event) {
+void StatsCollector::addEvent(const std::string &event) {
   m_events.push_back(event);
 }
 
@@ -39,20 +39,20 @@ void StatsCollector::addEvent(const std::string& event) {
 #include <numeric>   // for accumulate
 
 // Helper to join strings
-std::string join(const std::vector<std::string>& v,
-                 const std::string& delimiter) {
-  if (v.empty()) return "None";
-  return std::accumulate(std::next(v.begin()), v.end(), v[0],
-                         [&delimiter](std::string a, std::string b) {
-                           return a + delimiter + b;
-                         });
+std::string join(const std::vector<std::string> &v,
+                 const std::string &delimiter) {
+  if (v.empty())
+    return "None";
+  return std::accumulate(
+      std::next(v.begin()), v.end(), v[0],
+      [&delimiter](std::string a, std::string b) { return a + delimiter + b; });
 }
 
-void StatsCollector::track(const std::vector<IBestiole*>& bestioles,
+void StatsCollector::track(const std::vector<IBestiole *> &bestioles,
                            int stepCount) {
   m_statsCounts.clear();
 
-  for (const auto& bestiole : bestioles) {
+  for (const auto &bestiole : bestioles) {
     std::string behavior = bestiole->getBehaviorString();
 
     std::vector<std::string> accessories = bestiole->getAccessories();
@@ -74,58 +74,63 @@ void StatsCollector::printSummary(int stepCount) {
   // ANSI Color Codes
   const std::string RESET = "\033[0m";
   const std::string BOLD = "\033[1m";
-  const std::string RED = "\033[31m";      // Kamikaze
-  const std::string GREEN = "\033[32m";    // Fearful
-  const std::string YELLOW = "\033[33m";   // Gregarious
-  const std::string BLUE = "\033[34m";     // Anticipating
-  const std::string MAGENTA = "\033[35m";  // MultiPersonality
-  const std::string CYAN = "\033[36m";     // Default/Other
+  const std::string RED = "\033[31m";     // Kamikaze
+  const std::string GREEN = "\033[32m";   // Fearful
+  const std::string YELLOW = "\033[33m";  // Gregarious
+  const std::string BLUE = "\033[34m";    // Anticipating
+  const std::string MAGENTA = "\033[35m"; // MultiPersonality
+  const std::string CYAN = "\033[36m";    // Default/Other
 
-  std::cout << "\n" << BOLD << "--- Simulation Step: " << stepCount
-            << " ---" << RESET << "\n";
+  std::cout << "\n"
+            << BOLD << "--- Simulation Step: " << stepCount << " ---" << RESET
+            << "\n";
   std::cout << std::left << std::setw(20) << "Behavior"
             << "| " << std::setw(30) << "Accessories"
             << "| " << std::setw(20) << "Sensors"
             << "| " << std::setw(10) << "Count" << "\n";
   std::cout << std::string(85, '-') << "\n";
 
-  for (const auto& pair : m_statsCounts) {
+  for (const auto &pair : m_statsCounts) {
     std::string behavior = std::get<0>(pair.first);
     std::string accessories = std::get<1>(pair.first);
     std::string sensors = std::get<2>(pair.first);
     int count = pair.second;
 
     std::string color = RESET;
-    if (behavior == "Kamikaze") color = RED;
-    else if (behavior == "Fearful") color = BLUE;
-    else if (behavior == "Gregarious") color = GREEN;
-    else if (behavior == "Anticipating") color = MAGENTA;
-    else if (behavior == "MultiPersonality") color = CYAN;
-    else color = YELLOW;
+    if (behavior == "Kamikaze")
+      color = RED;
+    else if (behavior == "Fearful")
+      color = BLUE;
+    else if (behavior == "Gregarious")
+      color = GREEN;
+    else if (behavior == "Anticipating")
+      color = MAGENTA;
+    else if (behavior == "MultiPersonality")
+      color = CYAN;
+    else
+      color = YELLOW;
 
     if (behavior == "MultiPersonality") {
       std::cout << MAGENTA << "Mult" << GREEN << "iPer" << BLUE << "sona" << RED
                 << "lity" << RESET << std::left << std::setw(4) << "" << RESET
-                << "| " << std::setw(30) << accessories
-                << "| " << std::setw(20) << sensors
-                << "| " << std::setw(10) << count << "\n";
+                << "| " << std::setw(30) << accessories << "| " << std::setw(20)
+                << sensors << "| " << std::setw(10) << count << "\n";
     } else {
       std::cout << color << std::left << std::setw(20) << behavior << RESET
-                << "| " << std::setw(30) << accessories
-                << "| " << std::setw(20) << sensors
-                << "| " << std::setw(10) << count << "\n";
+                << "| " << std::setw(30) << accessories << "| " << std::setw(20)
+                << sensors << "| " << std::setw(10) << count << "\n";
     }
   }
   std::cout << std::string(85, '-') << "\n";
 
   if (!m_events.empty()) {
     std::cout << BOLD << "Events:" << RESET << "\n";
-    for (const auto& event : m_events) {
+    for (const auto &event : m_events) {
       std::string formattedEvent = event;
       // Bold keywords
       std::vector<std::string> keywords = {"Birth of", "Natural death of",
                                            "killed", "Clone of"};
-      for (const auto& kw : keywords) {
+      for (const auto &kw : keywords) {
         size_t pos = 0;
         while ((pos = formattedEvent.find(kw, pos)) != std::string::npos) {
           formattedEvent.replace(pos, kw.length(), BOLD + kw + RESET);
@@ -140,7 +145,7 @@ void StatsCollector::printSummary(int stepCount) {
           {"Gregarious", GREEN},
           {"Anticipating", MAGENTA}};
 
-      for (const auto& b : behaviorColors) {
+      for (const auto &b : behaviorColors) {
         size_t pos = 0;
         while ((pos = formattedEvent.find(b.first, pos)) != std::string::npos) {
           formattedEvent.replace(pos, b.first.length(),
@@ -173,18 +178,16 @@ void StatsCollector::writeToCSV(int stepCount) {
       eventsStr = "[";
       for (size_t i = 0; i < m_events.size(); ++i) {
         eventsStr += m_events[i];
-        if (i < m_events.size() - 1) eventsStr += "; ";
+        if (i < m_events.size() - 1)
+          eventsStr += "; ";
       }
       eventsStr += "]";
     }
 
-    for (const auto& pair : m_statsCounts) {
-      csvFile << stepCount << ","
-              << std::get<0>(pair.first) << ","
-              << std::get<1>(pair.first) << ","
-              << std::get<2>(pair.first) << ","
-              << pair.second << ","
-              << eventsStr << "\n";
+    for (const auto &pair : m_statsCounts) {
+      csvFile << stepCount << "," << std::get<0>(pair.first) << ","
+              << std::get<1>(pair.first) << "," << std::get<2>(pair.first)
+              << "," << pair.second << "," << eventsStr << "\n";
     }
     csvFile.close();
   }
@@ -192,7 +195,7 @@ void StatsCollector::writeToCSV(int stepCount) {
 }
 
 void StatsCollector::clearTerminal() {
-    // Optional: Clear screen command if needed, but scrolling might be better
-    // for history
-    // std::cout << "\033[2J\033[1;1H";
+  // Optional: Clear screen command if needed, but scrolling might be better
+  // for history
+  // std::cout << "\033[2J\033[1;1H";
 }

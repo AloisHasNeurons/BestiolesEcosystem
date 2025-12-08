@@ -63,17 +63,17 @@ Bestiole::Bestiole(std::unique_ptr<IBehavior> behavior)
                                 kMaxLifeSpanSteps);
   // Random survival resistance factor between 0.0 and 1.0.
   if (startResistance >= 0.0) {
-      m_resistance = startResistance;
+    m_resistance = startResistance;
   } else {
-      m_resistance = static_cast<double>(rand()) / RAND_MAX;
+    m_resistance = static_cast<double>(rand()) / RAND_MAX;
   }
   // Random opacity factor between 0.0 and 1.0.
   m_opacity = static_cast<double>(rand()) / RAND_MAX;
   // Random clone rate (probability of cloning per step).
   if (startCloneRate >= 0.0) {
-      m_cloneRate = startCloneRate;
+    m_cloneRate = startCloneRate;
   } else {
-      m_cloneRate = (static_cast<double>(rand()) / RAND_MAX) / 1000.0;
+    m_cloneRate = (static_cast<double>(rand()) / RAND_MAX) / 1000.0;
   }
 
   m_color = new unsigned char[3];
@@ -227,7 +227,7 @@ void Bestiole::move(int xLimit, int yLimit) {
  * @param myEnvironment The environment in which the bestiole exists.
  */
 void Bestiole::action(Environment &myEnvironment, IBestiole *self) {
-  IBestiole* me = self ? self : this;
+  IBestiole *me = self ? self : this;
   // Decrease lifespan and check if the bestiole should die of old age.
   if (m_lifeSpan > 0) {
     m_lifeSpan--;
@@ -322,7 +322,8 @@ bool operator==(const Bestiole &b1, const Bestiole &b2) {
 /**
  * @brief Checks if this bestiole can visually perceive another bestiole.
  *
- * Perception is based on the sensors that the bestiole possesses and their capabilities.
+ * Perception is based on the sensors that the bestiole possesses and their
+ * capabilities.
  *
  * @param otherBestiole The other IBestiole to check visibility against (renamed
  * from 'b').
@@ -335,7 +336,8 @@ bool Bestiole::canSee(const IBestiole &otherBestiole) const {
 /**
  * @brief Checks if this bestiole can audibly perceive another bestiole.
  *
- * Perception is based on the sensors that the bestiole possesses and their capabilities.
+ * Perception is based on the sensors that the bestiole possesses and their
+ * capabilities.
  *
  * @param otherBestiole The other IBestiole to check hearing against (renamed
  * from 'b').
@@ -539,23 +541,18 @@ void Bestiole::setCamouflage(double psi) {
 }
 
 void Bestiole::setResistance(double r) {
-    if (r > 1.0) m_resistance = 1.0;
-    else if (r < 0.0) m_resistance = 0.0;
-    else m_resistance = r;
+  if (r > 1.0)
+    m_resistance = 1.0;
+  else if (r < 0.0)
+    m_resistance = 0.0;
+  else
+    m_resistance = r;
 }
 
-void Bestiole::setStartCloneRate(double r) {
-    startCloneRate = r;
-}
+void Bestiole::setStartCloneRate(double r) { startCloneRate = r; }
 
-void Bestiole::setStartResistance(double r) {
-    startResistance = r;
-}
+void Bestiole::setStartResistance(double r) { startResistance = r; }
 
-std::vector<std::string> Bestiole::getAccessories() const {
-  return {};
-}
+std::vector<std::string> Bestiole::getAccessories() const { return {}; }
 
-std::vector<std::string> Bestiole::getSensors() const {
-  return {};
-}
+std::vector<std::string> Bestiole::getSensors() const { return {}; }

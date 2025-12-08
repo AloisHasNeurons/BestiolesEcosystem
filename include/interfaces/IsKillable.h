@@ -2,9 +2,9 @@
 #define ISKILLABLE_H
 
 class IsKillable {
- public:
+public:
   virtual ~IsKillable() {}
   virtual void kill(int delay) = 0;
 };
 
-#endif  // ISKILLABLE_H
+#endif // ISKILLABLE_H

@@ -91,8 +91,8 @@ IBestiole *Factory::createBestiole() {
   // Randomly add eyes based on environment settings
   auto eyesProbs =
       env->getEyesAccessoryDistribution(); // Assume this method exists
-  int eyesChoice = (static_cast<double>(rand()) / RAND_MAX <
-                    eyesProbs["WithEyes"]) ? 1 : 0;
+  int eyesChoice =
+      (static_cast<double>(rand()) / RAND_MAX < eyesProbs["WithEyes"]) ? 1 : 0;
 
   if (eyesChoice == 1) { // If the choice is to add eyes
     // wrap the existing Bestiole with an Eyes decorator without redeclaring the
@@ -103,8 +103,8 @@ IBestiole *Factory::createBestiole() {
   // Randomly add other accessories similarly...
   auto earsProbs =
       env->getEarsAccessoryDistribution(); // Assume this method exists
-  int earsChoice = (static_cast<double>(rand()) / RAND_MAX <
-                    earsProbs["WithEars"]) ? 1 : 0;
+  int earsChoice =
+      (static_cast<double>(rand()) / RAND_MAX < earsProbs["WithEars"]) ? 1 : 0;
 
   if (earsChoice == 1) { // If the choice is to add ears
     // wrap the existing Bestiole with an Ears decorator without redeclaring the
@@ -114,9 +114,10 @@ IBestiole *Factory::createBestiole() {
 
   auto camouflageProbs =
       env->getCamouflageAccessoryDistribution(); // Assume this method exists
-  int camoChoice =
-      (static_cast<double>(rand()) / RAND_MAX <
-       camouflageProbs["WithCamouflage"]) ? 1 : 0;
+  int camoChoice = (static_cast<double>(rand()) / RAND_MAX <
+                    camouflageProbs["WithCamouflage"])
+                       ? 1
+                       : 0;
 
   if (camoChoice == 1) { // If the choice is to add camouflage
     // wrap the existing Bestiole with a Camouflage decorator without
@@ -126,8 +127,8 @@ IBestiole *Factory::createBestiole() {
 
   auto finProbs =
       env->getFinsAccessoryDistribution(); // Assume this method exists
-  int finChoice = (static_cast<double>(rand()) / RAND_MAX <
-                   finProbs["WithFins"]) ? 1 : 0;
+  int finChoice =
+      (static_cast<double>(rand()) / RAND_MAX < finProbs["WithFins"]) ? 1 : 0;
 
   if (finChoice == 1) { // If the choice is to add fins
     // wrap the existing Bestiole with a Fins decorator without redeclaring the
@@ -138,8 +139,8 @@ IBestiole *Factory::createBestiole() {
   auto shellProbs =
       env->getShellAccessoryDistribution(); // Assume this method exists
   int shellChoice =
-      (static_cast<double>(rand()) / RAND_MAX <
-       shellProbs["WithShell"]) ? 1 : 0;
+      (static_cast<double>(rand()) / RAND_MAX < shellProbs["WithShell"]) ? 1
+                                                                         : 0;
 
   if (shellChoice == 1) { // If the choice is to add shell
     // wrap the existing Bestiole with a Shell decorator without redeclaring the

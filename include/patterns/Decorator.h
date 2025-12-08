@@ -7,8 +7,8 @@
 #include <utility>
 #include <vector>
 
-#include "../interfaces/IBestiole.h"
 #include "../interfaces/IBehavior.h"
+#include "../interfaces/IBestiole.h"
 
 // Base class for decorators
 

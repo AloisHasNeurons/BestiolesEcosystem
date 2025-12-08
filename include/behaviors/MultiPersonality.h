@@ -19,13 +19,13 @@ class IBestiole;
  * concrete behaviors (e.g., Gregarious, Fearful) over time.
  */
 class MultiPersonality : public IBehavior {
- private:
+private:
   // Pointer to the currently active concrete behavior.
-  IBehavior* m_currentBehavior;
+  IBehavior *m_currentBehavior;
   // Timestamp of the last time the behavior was changed.
   std::chrono::steady_clock::time_point m_lastChange;
 
- public:
+public:
   /**
    * @brief Default constructor.
    */
@@ -46,7 +46,7 @@ class MultiPersonality : public IBehavior {
    *
    * @param other The MultiPersonality object to copy from.
    */
-  MultiPersonality(const MultiPersonality& other) {
+  MultiPersonality(const MultiPersonality &other) {
     if (other.m_currentBehavior) {
       // Deep copy the underlying behavior
       m_currentBehavior = other.m_currentBehavior->clone();
@@ -60,7 +60,7 @@ class MultiPersonality : public IBehavior {
    * @brief Creates a deep copy (clone) of the behavior object.
    * @return IBehavior* A pointer to the new MultiPersonality object.
    */
-  IBehavior* clone() const override { return new MultiPersonality(*this); }
+  IBehavior *clone() const override { return new MultiPersonality(*this); }
 
   /**
    * @brief Calculates the steering force/direction based on the current active
@@ -70,8 +70,8 @@ class MultiPersonality : public IBehavior {
    * @param otherBestioles A list of all other bestioles in the environment.
    * @return double The calculated steering adjustment.
    */
-  double steer(IBestiole* currentBestiole,
-               std::vector<IBestiole*> otherBestioles) override;
+  double steer(IBestiole *currentBestiole,
+               std::vector<IBestiole *> otherBestioles) override;
 
   /**
    * @brief Calculates the speed based on the current active behavior.
@@ -80,8 +80,8 @@ class MultiPersonality : public IBehavior {
    * @param otherBestioles A list of all other bestioles in the environment.
    * @return double The calculated speed value.
    */
-  double speed(IBestiole* currentBestiole,
-               std::vector<IBestiole*> otherBestioles) override;
+  double speed(IBestiole *currentBestiole,
+               std::vector<IBestiole *> otherBestioles) override;
 
   /**
    * @brief Switches the current active behavior to a new random behavior.
@@ -103,9 +103,9 @@ class MultiPersonality : public IBehavior {
    * @return unsigned char* A pointer to the RGB color array of the active
    * behavior, or nullptr if no behavior is currently active.
    */
-  unsigned char* getColor() const override {
+  unsigned char *getColor() const override {
     return m_currentBehavior ? m_currentBehavior->getColor() : nullptr;
   }
 };
 
-#endif  // MULTIPERSONALITY_H
+#endif // MULTIPERSONALITY_H

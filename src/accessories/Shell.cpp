@@ -9,11 +9,11 @@ Shell::Shell(IBestiole *b) : IAccessory(b) {
   double currentSpeedFactor = m_bestiole->getSpeedFactor();
   double r = static_cast<double>(std::rand()) / RAND_MAX;
   m_teta = Aquarium::getAccessoryConfig().tetaMin +
-                r * (Aquarium::getAccessoryConfig().tetaMax -
-                     Aquarium::getAccessoryConfig().tetaMin);
+           r * (Aquarium::getAccessoryConfig().tetaMax -
+                Aquarium::getAccessoryConfig().tetaMin);
   m_omega = Aquarium::getAccessoryConfig().omegaMin +
-                 r * (Aquarium::getAccessoryConfig().omegaMax -
-                      Aquarium::getAccessoryConfig().omegaMin);
+            r * (Aquarium::getAccessoryConfig().omegaMax -
+                 Aquarium::getAccessoryConfig().omegaMin);
   if (m_teta != 0.0) {
     m_bestiole->setSpeedFactor(currentSpeedFactor / m_teta);
   }
@@ -66,6 +66,4 @@ void Shell::draw(UImg &img) {
   Decorator::draw(img);
 }
 
-Shell *Shell::clone() {
-  return new Shell(*this, m_bestiole->clone());
-}
+Shell *Shell::clone() { return new Shell(*this, m_bestiole->clone()); }
