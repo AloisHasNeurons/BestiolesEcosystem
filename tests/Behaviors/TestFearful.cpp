@@ -22,7 +22,7 @@ void run_test_fearful_behavior() {
       {{"NoEyes", 0.0}, {"WithEyes", 1.0}});
 
   ecosystem.getEnvironment().setEarsAccessoryDistribution(
-      {{"NoEars", 1.0}, {"WithEars", 0.0}});
+      {{"NoEars", 0.0}, {"WithEars", 1.0}});
 
   ecosystem.getEnvironment().setCamouflageAccessoryDistribution(
       {{"NoCamouflage", 1.0}, {"WithCamouflage", 0.0}});

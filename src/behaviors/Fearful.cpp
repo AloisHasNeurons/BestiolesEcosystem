@@ -25,8 +25,9 @@ double Fearful::steer(IBestiole *currentBestiole,
   for (std::vector<IBestiole *>::const_iterator it = otherBestioles.begin();
        it != otherBestioles.end(); ++it) {
     IBestiole *other = (*it);
-    // Only count visible, distinct bestioles.
-    if (currentBestiole->canSee(*other) && currentBestiole != other) {
+    // Only count visible/audible, distinct bestioles.
+    if ((currentBestiole->canSee(*other) || currentBestiole->canHear(*other)) &&
+        currentBestiole != other) {
       visible_neighbor_count++;
     }
   }
