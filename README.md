@@ -44,10 +44,17 @@ Before you begin, you will need:
     ```bash
     ./main
     ```
-4.  **Configure the simulation parameters using the interactive Menu**
-We created a `SimulationMenu` through which the user can change all the parameters involved like the birth rate, the spawn probabilities for the different types of creatures, the accessories and sensors params, etc. 
-You can choose to use this menu if you're looking to change some of the parameters only for one simulation and then go back to their default values. 
-But if you're interested in changing the default values for good, you can head directly to the `./include/menu/SimulationConfig.h` file where u can manually change these values so that they stay the same throughout multiple runtimes. And do not forget to rebuild the project using the make command afterwrds (We heavily recommand this method if your goal is to set your own initial configuration then change very few parameters at once or change them gradually one by one because using only the menu will not persist the values you input between different runtimes).
+4.  **Configure the simulation parameters using the interactive Menu:**
+    Once you run the main you will encounter the `SimulationMenu` through which the you can change all the parameters involved in the simulation like the birth rate, the spawn probabilities for the different types of creatures, the accessories and sensors params, etc. 
+    You can choose to use this menu if you're looking to change some of the parameters only for one simulation and then go back to their default values. 
+    But if you're interested in changing the default values for good, you can head directly to the `./include/menu/SimulationConfig.h` file where u can manually change these values so that they stay the same throughout multiple runtimes. And do not forget to rebuild the project using the make command afterwrds (We heavily recommand this method if your goal is to set your own initial configuration then change very few parameters at once or change them gradually one by one because using only the menu will not persist the values you input between different runtimes).
+
+5.  **Test the project:**
+    ```bash
+    ./test_runner
+    ```
+    We also created a `test_runner` in the form of an interactive CLI menu where you can run a multitude of test simulations each one corresponding to a specific test case that is supposed to show the effectiveness of a certain fonctionality. The setups of these test simulations can be found in the files of the `./test` folder grouped by fonctionality. 
+    You can create your own test scenario by adding a new method in `TestUtils.h`, writing its implementation in a test file and then adding the name of the scenario along with the new method to the `tests` vector in `test_runner.cpp`.
 
 ## Project Design
 

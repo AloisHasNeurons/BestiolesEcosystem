@@ -8,7 +8,7 @@
 
 void run_test_cloning_spontaneous() {
   std::cout << "Running Test Scenario: Cloning Spontaneous" << std::endl;
-  std::cout << "Observation: Exponential population growth (High cloning rate)."
+  std::cout << "Observation: Exponential population growth (High cloning rate) and then death at the same time."
             << std::endl;
 
   Aquarium ecosystem(800, 600, 30);
