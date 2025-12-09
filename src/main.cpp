@@ -1,5 +1,7 @@
+
 #include <iostream>
-#include <memory> // Required for std::unique_ptr
+#include <memory>
+#include <string>
 
 #include "core/Aquarium.h"
 #include "core/Bestiole.h"
@@ -12,59 +14,75 @@
 #include "behaviors/Kamikaze.h"
 #include "behaviors/MultiPersonality.h"
 
+#include "menu/SimulationMenu.h"
+
 int main() {
-  Aquarium ecosystem(640, 480, 30);
+    SimulationConfig config;
+    SimulationMenu menu;
 
-  // set the parameters for different sensors and accessories if needed
-  SensorConfig eyeCfg;
-  eyeCfg.deltaMin = 15.0;
-  eyeCfg.deltaMax = 30.0;
-  eyeCfg.alphaMin = 350.0;
-  eyeCfg.alphaMax = 360.0;
-  eyeCfg.gammaMin = 0.9;
-  eyeCfg.gammaMax = 1.0;
-  Aquarium::setEyeConfig(eyeCfg);
+    menu.run(config);
 
-  SensorConfig earCfg;
-  earCfg.deltaMin = 15.0;
-  earCfg.deltaMax = 30.0;
-  earCfg.gammaMin = 0.9;
-  earCfg.gammaMax = 1.0;
-  Aquarium::setEarConfig(earCfg);
+    // Apply Global Settings
+    Bestiole::setMaxSpeed(config.maxSpeed);
+    Bestiole::setMinSpeed(config.minSpeed);
 
-  // 1. Create 5 Gregarious Bestioles
-  for (int i = 0; i < 5; ++i) {
-    ecosystem.getEnvironment().addMember(
-        new Bestiole(std::unique_ptr<Gregarious>(new Gregarious())));
-  }
+    Aquarium ecosystem(config.width, config.height, config.delay);
 
-  // 2. Create 5 Fearful Bestioles (with specific sensitivity parameters if
-  // desired)
-  for (int i = 0; i < 5; ++i) {
-    // Fearful constructor takes an optional 'max_neighbors' argument
-    ecosystem.getEnvironment().addMember(
-        new Bestiole(std::unique_ptr<Fearful>(new Fearful(3))));
-  }
+    // Apply Environment Settings
+    ecosystem.getEnvironment().setBehaviorDistribution(
+        config.spawnProbabilities);
+    // Convert simplified accessory map to specific maps
+    ecosystem.getEnvironment().setEyesAccessoryDistribution(
+        {{"NoEyes", 1.0 - config.accessories["Eyes"]},
+         {"WithEyes", config.accessories["Eyes"]}});
+    ecosystem.getEnvironment().setEarsAccessoryDistribution(
+        {{"NoEars", 1.0 - config.accessories["Ears"]},
+         {"WithEars", config.accessories["Ears"]}});
+    ecosystem.getEnvironment().setFinsAccessoryDistribution(
+        {{"NoFins", 1.0 - config.accessories["Fins"]},
+         {"WithFins", config.accessories["Fins"]}});
+    ecosystem.getEnvironment().setShellAccessoryDistribution(
+        {{"NoShell", 1.0 - config.accessories["Shell"]},
+         {"WithShell", config.accessories["Shell"]}});
+    ecosystem.getEnvironment().setCamouflageAccessoryDistribution(
+        {{"NoCamouflage", 1.0 - config.accessories["Camouflage"]},
+         {"WithCamouflage", config.accessories["Camouflage"]}});
 
-  // 3. Create 5 Kamikaze Bestioles
-  for (int i = 0; i < 5; ++i) {
-    ecosystem.getEnvironment().addMember(
-        new Bestiole(std::unique_ptr<Kamikaze>(new Kamikaze())));
-  }
+    SensorConfig eyeCfg;
+    eyeCfg.deltaMin = 15.0; eyeCfg.deltaMax = 30.0;
+    eyeCfg.alphaMin = 350.0; eyeCfg.alphaMax = 360.0;
+    eyeCfg.gammaMin = 0.9; eyeCfg.gammaMax = 1.0;
+    Aquarium::setEyeConfig(eyeCfg);
 
-  // 4. Create 5 Anticipating Bestioles
-  for (int i = 0; i < 5; ++i) {
-    ecosystem.getEnvironment().addMember(
-        new Bestiole(std::unique_ptr<Anticipating>(new Anticipating())));
-  }
+    SensorConfig earCfg;
+    earCfg.deltaMin = 15.0; earCfg.deltaMax = 30.0;
+    earCfg.gammaMin = 0.9; earCfg.gammaMax = 1.0;
+    Aquarium::setEarConfig(earCfg);
 
-  // 5. Create 5 MultiPersonality Bestioles
-  for (int i = 0; i < 5; ++i) {
-    ecosystem.getEnvironment().addMember(new Bestiole(
-        std::unique_ptr<MultiPersonality>(new MultiPersonality())));
-  }
+    // Instantiate Initial Population
+    for (const auto& pair : config.initialPopulation) {
+        for (int i = 0; i < pair.second; ++i) {
+            if (pair.first == "Gregarious") {
+                ecosystem.getEnvironment().addMember(new Bestiole(
+                    std::unique_ptr<Gregarious>(new Gregarious())));
+            } else if (pair.first == "Fearful") {
+                ecosystem.getEnvironment().addMember(new Bestiole(
+                    std::unique_ptr<Fearful>(new Fearful(3))));
+            } else if (pair.first == "Kamikaze") {
+                ecosystem.getEnvironment().addMember(new Bestiole(
+                    std::unique_ptr<Kamikaze>(new Kamikaze())));
+            } else if (pair.first == "Anticipating") {
+                ecosystem.getEnvironment().addMember(new Bestiole(
+                    std::unique_ptr<Anticipating>(new Anticipating())));
+            } else if (pair.first == "MultiPersonality") {
+                ecosystem.getEnvironment().addMember(new Bestiole(
+                    std::unique_ptr<MultiPersonality>(
+                        new MultiPersonality())));
+            }
+        }
+    }
 
-  ecosystem.run();
+    ecosystem.run();
 
-  return 0;
+    return 0;
 }

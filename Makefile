@@ -64,7 +64,7 @@ clean:
 	rm -rf $(BUILD_DIR) $(TARGET_EXEC) $(TEST_EXEC)
 
 lint:
-	@cpplint --filter=-build/header_guard,-legal/copyright,-whitespace/ending_newline,-whitespace/indent,-whitespace/comments,-runtime/threadsafe_fn,-readability/inheritance,-whitespace/blank_line --recursive src/ include/accessories/ include/sensors/ include/behaviors/ include/core/ include/interfaces/ include/patterns/ tests/
+	@cpplint --filter=-build/header_guard,-legal/copyright,-whitespace/ending_newline,-whitespace/indent,-whitespace/comments,-runtime/threadsafe_fn,-readability/inheritance,-whitespace/blank_line --recursive src/ include/accessories/ include/sensors/ include/behaviors/ include/core/ include/interfaces/ include/patterns/ include/menu/ tests/
 
 actions: clean all lint
 	@echo "Actions completed successfully."
