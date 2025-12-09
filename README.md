@@ -40,10 +40,14 @@ Before you begin, you will need:
     make
     ```
 
-3.  **Run the simulation:**
+3.  **Run the project:**
     ```bash
     ./main
     ```
+4.  **Configure the simulation parameters using the interactive Menu**
+We created a `SimulationMenu` through which the user can change all the parameters involved like the birth rate, the spawn probabilities for the different types of creatures, the accessories and sensors params, etc. 
+You can choose to use this menu if you're looking to change some of the parameters only for one simulation and then go back to their default values. 
+But if you're interested in changing the default values for good, you can head directly to the `./include/menu/SimulationConfig.h` file where u can manually change these values so that they stay the same throughout multiple runtimes. And do not forget to rebuild the project using the make command afterwrds (We heavily recommand this method if your goal is to set your own initial configuration then change very few parameters at once or change them gradually one by one because using only the menu will not persist the values you input between different runtimes).
 
 ## Project Design
 
@@ -138,10 +142,10 @@ Each Bestiole component has a distinct visual representation:
 
 | Component | Visual |
 |-----------|--------|
-| **Eyes** | Two small dots |
-| **Ears** | Diamond shape |
-| **Fin** | Triangle |
-| **Camouflage** | Opacity (transparency) |
+| **Eyes** | Two small black dots |
+| **Ears** | White diamond shape in the center of the head |
+| **Fin** | Triangles on the sides |
+| **Camouflage** | Low Opacity (transparency) |
 | **Shell** | Large dot |
 | **Behavior** | Color-coded (each behavior = unique color) |
 
