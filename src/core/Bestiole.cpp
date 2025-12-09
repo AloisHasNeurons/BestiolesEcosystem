@@ -126,7 +126,7 @@ Bestiole::Bestiole(const Bestiole &otherBestiole) {
   m_y = otherBestiole.m_y;
   m_cumulativeX = m_cumulativeY =
       0.; // Reset cumulative movement for a new clone
-  m_orientation = otherBestiole.m_orientation;
+  m_orientation = otherBestiole.m_orientation + M_PI/4.; // Slight random offset
   m_speed = otherBestiole.m_speed;
   m_lifeSpan = otherBestiole.m_lifeSpan;
   m_resistance = otherBestiole.m_resistance;
