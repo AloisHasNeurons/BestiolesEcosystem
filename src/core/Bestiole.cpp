@@ -19,8 +19,8 @@
 
 // Define static constants for the Bestiole class (using 'k' prefix).
 const double Bestiole::kAffSizePixels = 8.;
-const double Bestiole::kMaxSpeedPixels = 10.;
-const double Bestiole::kMinSpeedPixels = 2.;
+double Bestiole::kMaxSpeedPixels = 10.;
+double Bestiole::kMinSpeedPixels = 2.;
 const double Bestiole::kViewLimitPixels = 30.;
 const int Bestiole::kMaxLifeSpanSteps = 1000;
 
@@ -580,6 +580,10 @@ void Bestiole::setResistance(double r) {
 void Bestiole::setStartCloneRate(double r) { startCloneRate = r; }
 
 void Bestiole::setStartResistance(double r) { startResistance = r; }
+
+void Bestiole::setMaxSpeed(double maxSpeed) { kMaxSpeedPixels = maxSpeed; }
+
+void Bestiole::setMinSpeed(double minSpeed) { kMinSpeedPixels = minSpeed; }
 
 std::vector<std::string> Bestiole::getAccessories() const { return {}; }
 

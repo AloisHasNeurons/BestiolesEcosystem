@@ -25,8 +25,8 @@ private:
   // --- Static Constants (k prefix) ---
   static const double
       kAffSizePixels; // Affichage size (radius/dimension for drawing)
-  static const double kMaxSpeedPixels;  // Maximum movement speed
-  static const double kMinSpeedPixels;  // Minimum movement speed
+  static double kMaxSpeedPixels;  // Maximum movement speed
+  static double kMinSpeedPixels;  // Minimum movement speed
   static const double kViewLimitPixels; // Maximum visual range (distance)
   static const int
       kMaxLifeSpanSteps; // Maximum number of steps the bestiole can live
@@ -165,6 +165,8 @@ public:
 
   static void setStartCloneRate(double r);  // For testing
   static void setStartResistance(double r); // For testing
+  static void setMaxSpeed(double maxSpeed);
+  static void setMinSpeed(double minSpeed);
 
   void setArmorFactor(double omega) override; // affects mortality probability
 
