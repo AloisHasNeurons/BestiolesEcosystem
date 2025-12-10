@@ -60,6 +60,8 @@ public:
 
   virtual std::vector<std::string> getAccessories() const = 0;
   virtual std::vector<std::string> getSensors() const = 0;
+
+  virtual unsigned char *getColor() const = 0;
 };
 
 #endif // IBESTIOLE_H

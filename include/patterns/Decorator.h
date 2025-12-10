@@ -119,6 +119,8 @@ public:
   std::vector<std::string> getSensors() const override {
     return m_bestiole->getSensors();
   }
+
+  unsigned char *getColor() const override { return m_bestiole->getColor(); }
 };
 
 #endif // DECORATOR_H
