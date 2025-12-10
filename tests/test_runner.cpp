@@ -150,16 +150,15 @@ int main() {
       tests[choice - 1].run();
 
       // === CLEANUP GLOBAL STATE ===
-      
+
       // Also reset Bestiole statics (which are public static methods)
       Bestiole::setStartCloneRate(-1.0);
       Bestiole::setStartResistance(-1.0);
-      // Bestiole::setStartCloneRate is static void setStartCloneRate(double r) { startCloneRate = r; }
-      
+
       Factory cleanupFactory;
       Environment cleanupEnv(cleanupFactory);
-      cleanupEnv.setBirthRateProbability(0.1); 
-      
+      cleanupEnv.setBirthRateProbability(0.1);
+
       std::cout << "\n" << BOLD << "Press Enter to return to menu..." << RESET;
       std::string dummy;
       std::getline(std::cin, dummy);

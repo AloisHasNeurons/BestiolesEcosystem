@@ -16,12 +16,12 @@
 
 #include "menu/SimulationMenu.h"
 
-// We invite you to check the Readme.md file for instructions about how to run this project.
+// Check Readme.md for instructions.
 int main() {
     SimulationConfig config;
     SimulationMenu menu;
 
-    menu.run(config); // This launches the menu to configure the simulation (go to Readme.md for more details)
+    menu.run(config); // Launches the configuration menu
 
     // Apply Global Settings
     Bestiole::setMaxSpeed(config.maxSpeed);
