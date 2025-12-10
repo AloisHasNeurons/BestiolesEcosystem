@@ -370,15 +370,15 @@ classDiagram
     ISensor <|-- Ears
     IFactory <|.. Factory
 
-    %% Composition/Association
-    Bestiole --> IBehavior : has
-    Decorator --> IBestiole : wraps
-    Environment --> IBestiole : manages
+    %% Composition/Aggregation/Association
+    Bestiole *-- IBehavior : owns (Strategy)
+    Decorator *-- IBestiole : wraps (Decorator)
+    Environment o-- IBestiole : manages
     Environment --> IFactory : uses
-    Aquarium --> Environment : contains
-    Aquarium --> Factory : owns
+    Aquarium *-- Environment : owns
+    Aquarium *-- Factory : owns
     Factory --> Environment : references
-    MultiPersonality --> IBehavior : delegates to
+    MultiPersonality *-- IBehavior : delegates to
 ```
 
 ### Key Interactions (Sequence Diagrams)
