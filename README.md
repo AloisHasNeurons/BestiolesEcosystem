@@ -430,9 +430,9 @@ sequenceDiagram
 ```
 
 **Additional UML diagrams** can be found in the [`docs/uml/`](docs/uml/) directory:
-- [Bestiole Creation with Factory](docs/uml/factory-creation.md) - Detailed factory pattern implementation
-- [Bestiole Collision](docs/uml/collision.md) - Collision detection and survival mechanics
-- [Bestiole Action and Sensor Interaction](docs/uml/action-method.md) - Action method with sensor-based perception
+- [Bestiole Creation with Factory](docs/uml/factory-creation.md) - Factory pattern implementation
+- [Bestiole Collision](docs/uml/collision.md) - Collision detection mechanics
+- [Steering Process with Sensors](docs/uml/action-method.md) - Sensor-based steering
 
 ## Project Structure
 ```

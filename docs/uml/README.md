@@ -5,25 +5,20 @@ This directory contains detailed UML sequence diagrams for the Bestioles Ecosyst
 ## Diagrams
 
 ### [Bestiole Creation with Factory](factory-creation.md)
-Illustrates the complete process of creating a new Bestiole using the Factory pattern, including:
-- Weighted random selection of behaviors based on environment distribution
-- Sequential application of decorators (Eyes, Ears, Camouflage, Fin, Shell)
-- Interaction between Factory and Environment for configuration
+Simplified diagram showing the Factory pattern implementation:
+- Weighted random behavior selection
+- Sequential decorator application
 
 ### [Bestiole Collision](collision.md)
-Shows the collision detection mechanism and survival determination:
-- Distance-based collision detection
-- Resistance and armor factor calculation
-- Survival probability based on random check
-- Collision outcome (death or bounce)
+Concise view of collision detection:
+- Distance-based detection
+- Survival probability calculation
 
-### [Bestiole Action and Sensor Interaction](action-method.md)
-Details the `action` method execution flow, focusing on sensor-based perception:
-- Lifespan management and cloning
-- Steering behavior with sensor integration
-- How `canSee` and `canHear` methods work with Eyes and Ears decorators
+### [Steering Process with Sensors](action-method.md)
+Focused diagram showing how behaviors use sensors for steering:
+- Sensor-based neighbor detection (canSee/canHear)
 - Distance, field-of-view, and camouflage checks
-- Speed calculation and movement
+- Orientation calculation
 
 ## Main Diagrams
 
