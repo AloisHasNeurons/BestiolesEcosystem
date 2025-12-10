@@ -38,8 +38,8 @@ void Fin::draw(UImg &img) {
   double orientation = getOrientation();
   double size = getSize();
 
-  // Fin color: blue
-  T finColor[3] = {0, 0, 255};
+  // Fin color: use Bestiole's color
+  unsigned char *finColor = m_bestiole->getColor();
 
   // Bestioles use: dx = cos(theta), dy = -sin(theta)
   double cosTheta = std::cos(orientation);
