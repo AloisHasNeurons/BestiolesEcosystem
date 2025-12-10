@@ -39,17 +39,18 @@ void run_test_death_by_collision() {
   dist["MultiPersonality"] = 0.0;
   env.setBehaviorDistribution(dist);
 
-  // No shell to obsorve death after collision
-  env.setShellAccessoryDistribution({{"WithShell", 0.0}, {"NoShell", 1.0}});
-  // Eyes needed for collision
-  env.setEyesAccessoryDistribution({{"WithEyes", 1.0}, {"NoEyes", 0.0}});
-  // No need for camouflage
+  env.setShellAccessoryDistribution(
+      {{"WithShell", 0.0}, {"NoShell", 1.0}}); // No shell to obsorve death
+  env.setEyesAccessoryDistribution(
+      {{"WithEyes", 1.0},
+       {"NoEyes", 0.0}}); // Eyes needed for collision
   env.setCamouflageAccessoryDistribution(
-      {{"WithCamouflage", 0.0}, {"NoCamouflage", 1.0}});
-  // No need for ears
-  env.setEarsAccessoryDistribution({{"WithEars", 0.0}, {"NoEars", 1.0}});
-  // No need for fins
-  env.setFinsAccessoryDistribution({{"WithFins", 0.0}, {"NoFins", 1.0}});
+      {{"WithCamouflage", 0.0},
+       {"NoCamouflage", 1.0}}); // No need for camouflage
+  env.setEarsAccessoryDistribution(
+      {{"WithEars", 0.0}, {"NoEars", 1.0}}); // No need for ears
+  env.setFinsAccessoryDistribution(
+      {{"WithFins", 0.0}, {"NoFins", 1.0}}); // No need for fins
 
   env.spawnPopulation(30);
 

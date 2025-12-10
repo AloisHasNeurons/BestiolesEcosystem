@@ -207,6 +207,96 @@ void SimulationMenu::configureAccessories(SimulationConfig &config) {
   }
 }
 
+void SimulationMenu::configureAccessoriesParams(SimulationConfig &config) {
+  while (true) {
+    clearScreen();
+    std::cout << BOLD << YELLOW
+              << "=== Accessory & Sensor Presence Probabilities (0.0 - 1.0) ==="
+              << RESET << "\n";
+    int i = 1;
+    std::vector<std::string> keys;
+    for (const auto &pair : config.accessoriesparams) {
+      std::cout << i++ << ". " << pair.first << ": " << pair.second << "\n";
+      keys.push_back(pair.first);
+    }
+    std::cout << "0. " << CYAN << "Back to Main Menu (Default)" << RESET
+              << "\n";
+    std::cout << "> ";
+
+    int choice = getIntInput("", 0);
+
+    if (choice == 0) return;
+
+    if (choice > 0 && choice <= static_cast<int>(keys.size())) {
+      std::string key = keys[choice - 1];
+      config.accessoriesparams[key] =
+          getDoubleInput("Enter new probability for " + key + ": ");
+    } else {
+      std::cout << RED << "Invalid selection." << RESET << "\n";
+    }
+  }
+}
+
+void SimulationMenu::configureEyesParams(SimulationConfig &config) {
+  while (true) {
+    clearScreen();
+    std::cout << BOLD << YELLOW
+              << "=== Eyes Parameters Configuration ==="
+              << RESET << "\n";
+    int i = 1;
+    std::vector<std::string> keys;
+    for (const auto &pair : config.eyesparams) {
+      std::cout << i++ << ". " << pair.first << ": " << pair.second << "\n";
+      keys.push_back(pair.first);
+    }
+    std::cout << "0. " << CYAN << "Back to Main Menu (Default)" << RESET
+              << "\n";
+    std::cout << "> ";
+
+    int choice = getIntInput("", 0);
+
+    if (choice == 0) return;
+
+    if (choice > 0 && choice <= static_cast<int>(keys.size())) {
+      std::string key = keys[choice - 1];
+      config.eyesparams[key] =
+          getDoubleInput("Enter new value for " + key + ": ");
+    } else {
+      std::cout << RED << "Invalid selection." << RESET << "\n";
+    }
+  }
+}
+
+void SimulationMenu::configureEarsParams(SimulationConfig &config) {
+  while (true) {
+    clearScreen();
+    std::cout << BOLD << YELLOW
+              << "=== Ears Parameters Configuration ==="
+              << RESET << "\n";
+    int i = 1;
+    std::vector<std::string> keys;
+    for (const auto &pair : config.earsparams) {
+      std::cout << i++ << ". " << pair.first << ": " << pair.second << "\n";
+      keys.push_back(pair.first);
+    }
+    std::cout << "0. " << CYAN << "Back to Main Menu (Default)" << RESET
+              << "\n";
+    std::cout << "> ";
+
+    int choice = getIntInput("", 0);
+
+    if (choice == 0) return;
+
+    if (choice > 0 && choice <= static_cast<int>(keys.size())) {
+      std::string key = keys[choice - 1];
+      config.earsparams[key] =
+          getDoubleInput("Enter new value for " + key + ": ");
+    } else {
+      std::cout << RED << "Invalid selection." << RESET << "\n";
+    }
+  }
+}
+
 void SimulationMenu::run(SimulationConfig &config) {
   while (true) {
     clearScreen();
@@ -216,21 +306,27 @@ void SimulationMenu::run(SimulationConfig &config) {
     std::cout << "2. Configure Birth Probabilities\n";
     std::cout << "3. Configure Accessories & Sensors\n";
     std::cout << "4. Configure Physics & World\n";
-    std::cout << "5. " << GREEN << "LAUNCH SIMULATION (Default)" << RESET
+    std::cout << "5. Configure Accessories Parameters\n";
+    std::cout << "6. Configure Eyes Parameters\n";
+    std::cout << "7. Configure Ears Parameters\n";
+    std::cout << "8. " << GREEN << "LAUNCH SIMULATION (Default)" << RESET
               << "\n";
     std::cout << "0. Exit\n";
     std::cout << "> ";
 
-    int choice = getIntInput("", 5);  // Default is Launch (5)
+    int choice = getIntInput("", 8);  // Default is Launch (8)
 
     if (choice == 0) exit(0);
-    if (choice == 5) break;
+    if (choice == 8) break;
 
     switch (choice) {
       case 1: configurePopulation(config); break;
       case 2: configureProbabilities(config); break;
       case 3: configureAccessories(config); break;
       case 4: configurePhysics(config); break;
+      case 5: configureAccessoriesParams(config); break;
+      case 6: configureEyesParams(config); break;
+      case 7: configureEarsParams(config); break;
       default: std::cout << RED << "Invalid selection." << RESET << "\n";
     }
   }

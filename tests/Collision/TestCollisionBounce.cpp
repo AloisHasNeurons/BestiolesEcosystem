@@ -11,8 +11,8 @@
 void run_test_collision_bounce_no_death() {
   std::cout << "Running Test Scenario: Collision Bounce (No Death)"
             << std::endl;
-  std::cout << "Observation: Kamikaze creatures bouncing off each other with "
-               "no death (Resistance=1.0)."
+  std::cout << "Observation: Kamikaze creatures bouncing off of each other "
+               "with no death (Resistance=1.0)."
             << std::endl;
 
   Aquarium ecosystem(800, 600, 30);
@@ -32,8 +32,8 @@ void run_test_collision_bounce_no_death() {
   env.setBehaviorDistribution(dist);
 
 
-  // Eyes needed for collision
-  env.setEyesAccessoryDistribution({{"WithEyes", 1.0}, {"NoEyes", 0.0}});
+  env.setEyesAccessoryDistribution(
+      {{"WithEyes", 1.0}, {"NoEyes", 0.0}}); // Eyes needed for collision
   env.setEarsAccessoryDistribution({{"WithEars", 0.0}, {"NoEars", 1.0}});
   env.setCamouflageAccessoryDistribution(
       {{"WithCamouflage", 0.0}, {"NoCamouflage", 1.0}});

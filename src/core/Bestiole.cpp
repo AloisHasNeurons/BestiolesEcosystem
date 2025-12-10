@@ -585,6 +585,14 @@ void Bestiole::setMaxSpeed(double maxSpeed) { kMaxSpeedPixels = maxSpeed; }
 
 void Bestiole::setMinSpeed(double minSpeed) { kMinSpeedPixels = minSpeed; }
 
+unsigned char *Bestiole::getColor() const {
+  if (m_behavior && m_behavior->getColor()) {
+    return m_behavior->getColor();
+  }
+  return m_color;
+}
+
+
 std::vector<std::string> Bestiole::getAccessories() const { return {}; }
 
 std::vector<std::string> Bestiole::getSensors() const { return {}; }

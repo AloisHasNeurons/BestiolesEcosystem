@@ -158,6 +158,8 @@ public:
    */
   bool canHear(const IBestiole &otherBestiole) const override;
 
+  unsigned char *getColor() const override;
+
   // --- Friend Operators ---
   friend bool operator==(const Bestiole &b1, const Bestiole &b2);
   void setResistance(double r) override;
