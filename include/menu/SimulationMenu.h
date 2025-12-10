@@ -20,6 +20,9 @@ class SimulationMenu {
   void configurePopulation(SimulationConfig &config);
   void configureProbabilities(SimulationConfig &config);
   void configureAccessories(SimulationConfig &config);
+  void configureAccessoriesParams(SimulationConfig &config);
+  void configureEyesParams(SimulationConfig &config);
+  void configureEarsParams(SimulationConfig &config);
 
   bool validateProbabilities(const std::map<std::string, double> &dist);
 };
