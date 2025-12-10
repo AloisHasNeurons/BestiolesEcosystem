@@ -72,14 +72,22 @@ int main() {
 
     // Set Accessory Configurations
     AccessoryConfig accessoryCfg;
-    accessoryCfg.nuMin = config.accessoriesparams["minimum speed factor for Fins"];
-    accessoryCfg.nuMax = config.accessoriesparams["maximum speed factor for Fins"];
-    accessoryCfg.tetaMin = config.accessoriesparams["minimum speed reduction factor for Shell"];
-    accessoryCfg.tetaMax = config.accessoriesparams["maximum speed reduction factor for Shell"];
-    accessoryCfg.omegaMin = config.accessoriesparams["minimum armor enhancement factor for Shell"];
-    accessoryCfg.omegaMax = config.accessoriesparams["maximum armor enhancement factor for Shell"];
-    accessoryCfg.camouflageMin = config.accessoriesparams["minimum camouflage value"];
-    accessoryCfg.camouflageMax = config.accessoriesparams["maximum camouflage value"];
+    accessoryCfg.nuMin =
+        config.accessoriesparams["minimum speed factor for Fins"];
+    accessoryCfg.nuMax =
+        config.accessoriesparams["maximum speed factor for Fins"];
+    accessoryCfg.tetaMin =
+        config.accessoriesparams["minimum speed reduction factor for Shell"];
+    accessoryCfg.tetaMax =
+        config.accessoriesparams["maximum speed reduction factor for Shell"];
+    accessoryCfg.omegaMin =
+        config.accessoriesparams["minimum armor enhancement factor for Shell"];
+    accessoryCfg.omegaMax =
+        config.accessoriesparams["maximum armor enhancement factor for Shell"];
+    accessoryCfg.camouflageMin =
+        config.accessoriesparams["minimum camouflage value"];
+    accessoryCfg.camouflageMax =
+        config.accessoriesparams["maximum camouflage value"];
     Aquarium::setAccessoryConfig(accessoryCfg);
 
     // Instantiate Initial Population
