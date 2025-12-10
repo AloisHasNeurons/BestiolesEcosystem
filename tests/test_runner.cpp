@@ -6,6 +6,10 @@
 #include <string>
 #include <vector>
 
+#include "core/Bestiole.h"
+#include "core/Environment.h"
+#include "patterns/Factory.h"
+
 // ANSI Color Codes
 const char RESET[] = "\033[0m";
 const char BOLD[] = "\033[1m";
@@ -145,6 +149,17 @@ int main() {
                 << tests[choice - 1].name << " ---\n" << RESET;
       tests[choice - 1].run();
 
+      // === CLEANUP GLOBAL STATE ===
+      
+      // Also reset Bestiole statics (which are public static methods)
+      Bestiole::setStartCloneRate(-1.0);
+      Bestiole::setStartResistance(-1.0);
+      // Bestiole::setStartCloneRate is static void setStartCloneRate(double r) { startCloneRate = r; }
+      
+      Factory cleanupFactory;
+      Environment cleanupEnv(cleanupFactory);
+      cleanupEnv.setBirthRateProbability(0.1); 
+      
       std::cout << "\n" << BOLD << "Press Enter to return to menu..." << RESET;
       std::string dummy;
       std::getline(std::cin, dummy);
