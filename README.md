@@ -375,70 +375,10 @@ sequenceDiagram
     end
 ```
 
-#### Bestiole Creation with Factory
-
-This diagram illustrates how the Factory creates a new Bestiole with a randomly selected behavior.
-
-```mermaid
-sequenceDiagram
-    participant E as Environment
-    participant F as Factory
-    participant D as discrete_distribution
-    participant B as Bestiole
-    participant Bh as Concrete Behavior
-
-    E->>F: createBestiole()
-    F->>E: getBehaviorDistribution()
-    E-->>F: [0.2, 0.1, 0.3, 0.25, 0.15]
-    
-    F->>D: Create distribution(probabilities)
-    F->>D: Generate random choice
-    D-->>F: choice index (e.g., 2 for Gregarious)
-    
-    F->>Bh: new ConcreteB behavior()
-    F->>B: new Bestiole(unique_ptr~IBehavior~)
-    B->>B: Initialize position, speed, etc.
-    F-->>E: Bestiole*
-```
-
-#### Bestiole Collision
-
-This diagram shows how collision detection works and how survival is determined based on the resistance attribute.
-
-```mermaid
-sequenceDiagram
-    participant E as Environment
-    participant B1 as Bestiole 1
-    participant B2 as Bestiole 2
-    participant RNG as Random Generator
-
-    E->>B1: action(environment)
-    B1->>B1: move()
-    B1->>B1: collision()
-    
-    Note over B1,B2: Check distance to other Bestioles
-    
-    alt Collision with B2 detected
-        B1->>B1: getResistance()
-        B1-->>B1: resistance value (0.0 to 1.0)
-        
-        B1->>RNG: Generate random [0, 1]
-        RNG-->>B1: random value
-        
-        alt random > resistance
-            Note over B1: Death - Bestiole does not survive
-            B1->>B1: kill(0)
-            B1-->>E: collision() returns true
-        else random <= resistance
-            Note over B1: Survival - Bestiole survives collision
-            B1-->>E: collision() returns false
-        end
-    else No collision
-        B1-->>E: collision() returns false
-    end
-    
-    E->>E: Remove dead Bestioles from list
-```
+**Additional UML diagrams** can be found in the [`docs/uml/`](docs/uml/) directory:
+- [Bestiole Creation with Factory](docs/uml/factory-creation.md) - Detailed factory pattern implementation
+- [Bestiole Collision](docs/uml/collision.md) - Collision detection and survival mechanics
+- [Bestiole Action and Sensor Interaction](docs/uml/action-method.md) - Action method with sensor-based perception
 
 ## Project Structure
 ```
@@ -447,7 +387,11 @@ sequenceDiagram
 ├── README.md             # Project documentation
 ├── docs/                 # Project documentation files
 │   ├── BE.pdf
-│   └── Grille_Evaluation_BE_bestioles.pdf
+│   ├── Grille_Evaluation_BE_bestioles.pdf
+│   └── uml/              # UML diagrams
+│       ├── factory-creation.md
+│       ├── collision.md
+│       └── action-method.md
 ├── include/
 │   ├── CImg.h            # CImg library header
 │   ├── UImg.h            # Custom image utility header
