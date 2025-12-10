@@ -27,4 +27,4 @@ Details the `action` method execution flow, focusing on sensor-based perception:
 
 ## Main Diagrams
 
-The main class diagram and simulation step sequence diagram can be found in the [README.md](../../README.md) file at the root of the repository.
+The main class diagram and simulation step sequence diagram can be found in the [Project Design section](../../README.md#project-design) of the README.md file at the root of the repository.
