@@ -170,38 +170,46 @@ classDiagram
 
     class IBestiole {
         <<interface>>
-        +action(environment: Environment&)*
+        +action(environment: Environment&, self: IBestiole*)*
         +draw(img: UImg&)*
         +initCoords(x: int, y: int)*
         +clone(): IBestiole*
         +collision(): bool*
         +canSee(b: IBestiole&): bool*
+        +canHear(b: IBestiole&): bool*
         +changeBehavior(behavior: unique_ptr~IBehavior~)*
+        +setCloneRate(double)*
+        +setOrientation(double)*
         +getX(): int*
         +getY(): int*
         +getOrientation(): double*
         +getSpeed(): double*
+        +getMaxSpeed(): double*
+        +getLifeSpan(): int*
+        +getResistance(): double*
+        +getOpacity(): double*
+        +getBehavior(): IBehavior*
+        +getBehaviorString(): string*
+        +getSize(): double*
+        +getCamouflage(): double*
+        +getSpeedFactor(): double*
+        +getArmorFactor(): double*
+        +setSpeedFactor(double)*
+        +setArmorFactor(double)*
+        +setCamouflage(double)*
+        +setResistance(double)*
+        +getAccessories(): vector~string~*
+        +getSensors(): vector~string~*
+        +getColor(): unsigned char**
     }
 
     class IBehavior {
         <<interface>>
-        +steer(b: IBestiole&, list: vector~IBestiole*~): double*
-        +speed(b: IBestiole&, list: vector~IBestiole*~): double*
+        +steer(b: IBestiole*, list: vector~IBestiole*~): double*
+        +speed(b: IBestiole*, list: vector~IBestiole*~): double*
         +clone(): IBehavior*
         +getName(): string*
         +getColor(): unsigned char*
-    }
-
-    class IAccessory {
-        <<interface>>
-        +updateParameters()*
-        +draw()*
-    }
-
-    class ISensor {
-        <<interface>>
-        +Detect(b: IBestiole&): bool*
-        +draw()*
     }
 
     class IFactory {
@@ -217,16 +225,41 @@ classDiagram
         -m_speed: double
         -m_behavior: unique_ptr~IBehavior~
         -m_lifeSpan: int
-        +action(environment: Environment&)
+        -m_resistance: double
+        -m_opacity: double
+        -m_cloneRate: double
+        -m_color: unsigned char*
+        -m_speedFactor: double
+        -m_armorFactor: double
+        -m_camouflagePsi: double
+        +action(environment: Environment&, self: IBestiole*)
         +draw(img: UImg&)
         +clone(): IBestiole*
+        +collision(): bool
+        +canSee(b: IBestiole&): bool
+        +canHear(b: IBestiole&): bool
     }
 
     class Decorator {
         #m_bestiole: IBestiole*
-        +action(environment: Environment&)
+        +action(environment: Environment&, self: IBestiole*)
         +draw(img: UImg&)
         +clone(): IBestiole*
+        +collision(): bool
+        +canSee(b: IBestiole&): bool
+        +canHear(b: IBestiole&): bool
+    }
+
+    class IAccessory {
+        <<abstract>>
+        +action(environment: Environment&, self: IBestiole*)*
+        +draw(img: UImg&)*
+    }
+
+    class ISensor {
+        <<abstract>>
+        +detect(b: IBestiole&): bool*
+        +draw(img: UImg&)*
     }
 
     class Environment {
@@ -236,6 +269,7 @@ classDiagram
         +step()
         +addMember(bestiole: IBestiole*)
         +getBehaviorDistribution(): vector~double~
+        +getBestiolesList(): vector~IBestiole*~
     }
 
     class Aquarium {
@@ -255,65 +289,85 @@ classDiagram
     %% Concrete Behaviors
     class Fearful {
         -m_maxNeighbors: int
-        +steer(): double
-        +speed(): double
+        +steer(b: IBestiole*, list: vector~IBestiole*~): double
+        +speed(b: IBestiole*, list: vector~IBestiole*~): double
+        +clone(): IBehavior*
     }
     class Gregarious {
-        +steer(): double
-        +speed(): double
+        +steer(b: IBestiole*, list: vector~IBestiole*~): double
+        +speed(b: IBestiole*, list: vector~IBestiole*~): double
+        +clone(): IBehavior*
     }
     class Kamikaze {
-        +steer(): double
-        +speed(): double
+        +steer(b: IBestiole*, list: vector~IBestiole*~): double
+        +speed(b: IBestiole*, list: vector~IBestiole*~): double
+        +clone(): IBehavior*
     }
     class Anticipating {
-        +steer(): double
-        +speed(): double
+        +steer(b: IBestiole*, list: vector~IBestiole*~): double
+        +speed(b: IBestiole*, list: vector~IBestiole*~): double
+        +clone(): IBehavior*
     }
     class MultiPersonality {
         -m_currentBehavior: IBehavior*
-        +steer(): double
-        +speed(): double
-        +changeBehavior()
+        +steer(b: IBestiole*, list: vector~IBestiole*~): double
+        +speed(b: IBestiole*, list: vector~IBestiole*~): double
+        +clone(): IBehavior*
     }
 
     %% Concrete Accessories
     class Fin {
-        -nu: double
+        -m_nu: double
+        +action(environment: Environment&, self: IBestiole*)
+        +draw(img: UImg&)
     }
     class Shell {
-        -omega: double
-        -teta: double
+        -m_omega: double
+        -m_teta: double
+        +action(environment: Environment&, self: IBestiole*)
+        +draw(img: UImg&)
     }
     class Camouflage {
-        -psi: double
+        -m_psi: double
+        +action(environment: Environment&, self: IBestiole*)
+        +draw(img: UImg&)
     }
 
     %% Concrete Sensors
     class Eyes {
-        -delta: double
-        -alpha: double
-        -gamma: double
+        -m_delta: double
+        -m_alpha: double
+        -m_gamma: double
+        +canSee(b: IBestiole&): bool
+        +canHear(b: IBestiole&): bool
+        +detect(b: IBestiole&): bool
+        +draw(img: UImg&)
     }
     class Ears {
-        -delta: double
-        -gamma: double
+        -m_delta: double
+        -m_gamma: double
+        +canSee(b: IBestiole&): bool
+        +canHear(b: IBestiole&): bool
+        +detect(b: IBestiole&): bool
+        +draw(img: UImg&)
     }
 
     %% Inheritance relationships
     IsKillable <|-- IBestiole
     IBestiole <|.. Bestiole
     IBestiole <|.. Decorator
+    Decorator <|-- IAccessory
+    Decorator <|-- ISensor
     IBehavior <|.. Fearful
     IBehavior <|.. Gregarious
     IBehavior <|.. Kamikaze
     IBehavior <|.. Anticipating
     IBehavior <|.. MultiPersonality
-    IAccessory <|.. Fin
-    IAccessory <|.. Shell
-    IAccessory <|.. Camouflage
-    ISensor <|.. Eyes
-    ISensor <|.. Ears
+    IAccessory <|-- Fin
+    IAccessory <|-- Shell
+    IAccessory <|-- Camouflage
+    ISensor <|-- Eyes
+    ISensor <|-- Ears
     IFactory <|.. Factory
 
     %% Composition/Association
